@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ProjectEuler.Problem1
+namespace ProjectEuler.Problem001
 {
     class Program
     {

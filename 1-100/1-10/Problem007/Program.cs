@@ -2,7 +2,7 @@
 using System.Linq;
 using static CommonProblems.NumberHelper;
 
-namespace Problem7
+namespace Problem007
 {
     class Program
     {
