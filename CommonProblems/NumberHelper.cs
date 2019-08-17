@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommonProblems
 {
@@ -52,6 +53,24 @@ namespace CommonProblems
                 if (bits[i])
                     yield return ToNumber(i);
             }
+        }
+
+        public static ICollection<int> Divisors(this int number)
+        {
+            int sqrt = (int)Math.Sqrt(number);
+            var beggining = new List<int>();
+            var end = new List<int>();
+
+            for (int i = 1; i <= sqrt; i++)
+            {
+                if (number % i == 0)
+                {
+                    beggining.Add(i);
+                    end.Add(number / i);
+                }
+            }
+            end.Reverse();
+            return beggining.Concat(end).Distinct().ToArray();
         }
     }
 }
