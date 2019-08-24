@@ -21,7 +21,29 @@ namespace Problem017
             Console.WriteLine(sum);
         }
 
-        static readonly IReadOnlyDictionary<int, string> numberNames = new ReadOnlyDictionary<int, string>(new Dictionary<int, string>
+        static string PrintNumber(int n)
+        {
+            var context = new Context(n);
+
+            var interpreters = new List<Interpreter>
+            {
+                new ThousandsIterpreter(),
+                new HundredsIterpreter(),
+                new TensInterpreter()
+            };
+
+            foreach (var interpreter in interpreters)
+            {
+                interpreter.Interpret(context);
+            }
+
+            return context.Name;
+        }
+    }
+
+    abstract class Interpreter
+    {
+        protected static readonly IReadOnlyDictionary<int, string> numberNames = new ReadOnlyDictionary<int, string>(new Dictionary<int, string>
         {
             { 1, "one" },
             { 2, "two" },
@@ -52,29 +74,74 @@ namespace Problem017
             { 90, "ninety" }
         });
 
-        static string PrintNumber(int n)
+        public virtual void Interpret(Context context)
         {
-            var terms = new List<string>();
-            var thousands = Math.DivRem(n, 1000, out n);
-            if (thousands > 0)
-                terms.Add($"{numberNames[thousands]} thousand");
-            var hundreds = Math.DivRem(n, 100, out n);
-            if (hundreds > 0)
-                terms.Add($"{numberNames[hundreds]} hundred");
+            int n = context.Number;
+            var quotient = Math.DivRem(n, Multiplier, out n);
+            if (quotient > 0)
+                context.AddTerm($"{numberNames[quotient]} {MultiplierName}");
+            context.Number = n;
+        }
+
+        protected abstract int Multiplier { get; }
+
+        protected abstract string MultiplierName { get; }
+    }
+
+    class ThousandsIterpreter : Interpreter
+    {
+        protected override int Multiplier => 1000;
+
+        protected override string MultiplierName => "thousand";
+    }
+
+    class HundredsIterpreter : Interpreter
+    {
+        protected override int Multiplier => 100;
+
+        protected override string MultiplierName => "hundred";
+    }
+
+    class TensInterpreter : Interpreter
+    {
+        protected override int Multiplier => 10;
+
+        protected override string MultiplierName => "";
+
+        public override void Interpret(Context context)
+        {
+            int n = context.Number;
             if (n == 0)
                 ; // do nothing
             else if (n <= 20)
-                terms.Add(numberNames[n]);
+                context.AddTerm(numberNames[n]);
             else
             {
-                var tens = Math.DivRem(n, 10, out n);
-                var tensName = numberNames[tens * 10];
+                var tens = Math.DivRem(n, Multiplier, out n);
+                var tensName = numberNames[tens * Multiplier];
                 if (n > 0)
                     tensName += $"-{numberNames[n]}";
-                terms.Add(tensName);
+                context.AddTerm(tensName);
             }
+        }
+    }
 
-            return string.Join(" and ", terms);
+    class Context
+    {
+        public int Number { get; set; }
+
+        private readonly List<string> terms = new List<string>();
+
+        public string Name => string.Join(" and ", terms);
+
+        public Context(int number)
+        {
+            Number = number;
+        }
+
+        public void AddTerm(string term)
+        {
+            terms.Add(term);
         }
     }
 }

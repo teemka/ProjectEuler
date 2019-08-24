@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace CommonProblems
 {
@@ -11,7 +12,7 @@ namespace CommonProblems
         /// Checks if number is prime by using 6k ± 1 optimization
         /// </summary>
         /// <param name="n">Number to be tested.</param>
-        public static bool IsPrime(int n)
+        public static bool IsPrime(this int n)
         {
             if (n < 3)
                 return n > 1;
@@ -71,6 +72,55 @@ namespace CommonProblems
             }
             end.Reverse();
             return beggining.Concat(end).Distinct().ToArray();
+        }
+
+        public static ICollection<int> ProperDivisors(this int number)
+        {
+            var divisors = number.Divisors();
+            return divisors.Take(divisors.Count - 1).ToArray();
+        }
+
+        public static IEnumerable<long> FibonacciSequence()
+        {
+            long prev = 1;
+            long current = 1;
+            long temp;
+            yield return prev;
+            yield return current;
+            while (true)
+            {
+                temp = current;
+                current += prev;
+                yield return current;
+                prev = temp;
+            }
+        }
+
+        public static IEnumerable<BigInteger> FibonacciSequenceBigInt()
+        {
+            BigInteger prev = 1;
+            BigInteger current = 1;
+            BigInteger temp;
+            yield return prev;
+            yield return current;
+            while (true)
+            {
+                temp = current;
+                current += prev;
+                yield return current;
+                prev = temp;
+            }
+        }
+
+        public static int DigitSum(int n)
+        {
+            int sum = 0;
+            while (n != 0)
+            {
+                sum += n % 10;
+                n /= 10;
+            }
+            return sum;
         }
     }
 }
