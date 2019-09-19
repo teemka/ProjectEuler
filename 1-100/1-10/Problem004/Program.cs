@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CommonProblems;
 
 namespace Problem004
 {
@@ -19,15 +20,10 @@ namespace Problem004
 
             var largestProduct = products
                 .OrderByDescending(x => x)
-                .Where(x => IsPalindrome(x.ToString()))
+                .Where(x => x.ToString().IsPalindrome())
                 .First();
 
             Console.WriteLine(largestProduct);
-        }
-
-        public static bool IsPalindrome(string value)
-        {
-            return value.SequenceEqual(value.Reverse());
         }
     }
 }
