@@ -112,7 +112,7 @@ namespace Problem017
         {
             int n = context.Number;
             if (n == 0)
-                ; // do nothing
+                return; // do nothing
             else if (n <= 20)
                 context.AddTerm(numberNames[n]);
             else
