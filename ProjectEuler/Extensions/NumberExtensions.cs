@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Extensions
+﻿using System.Collections.Generic;
+
+namespace ProjectEuler.Extensions
 {
     public static class NumberExtensions
     {
@@ -6,20 +8,29 @@
         /// Checks if number is prime by using 6k ± 1 optimization
         /// </summary>
         /// <param name="n">Number to be tested.</param>
-        public static bool IsPrime(this int n)
+        public static bool IsPrime(this long n)
         {
-            if (n < 3)
-                return n > 1;
-            else if (n % 2 == 0 || n % 3 == 0)
-                return false;
-            int i = 5;
-            while (i * i <= n)
-            {
-                if (n % i == 0 || n % (i + 2) == 0)
-                    return false;
-                i += 6;
-            }
-            return true;
+            return NumberHelper.IsPrime(n);
+        }
+
+        /// <summary>
+        /// Returns non distinc prime factors of a number. If number is a prime - returns itself.
+        /// </summary>
+        /// <param name="n">Number to be factorized</param>
+        /// <returns>Lazy executed prime factors</returns>
+        public static IEnumerable<long> PrimeFactors(this long n)
+        {
+            return NumberHelper.PrimeFactors(n);
+        }
+
+        public static ICollection<long> ProperDivisors(long number)
+        {
+            return NumberHelper.ProperDivisors(number);
+        }
+
+        public static ICollection<long> Divisors(this long number)
+        {
+            return NumberHelper.Divisors(number);
         }
     }
 }

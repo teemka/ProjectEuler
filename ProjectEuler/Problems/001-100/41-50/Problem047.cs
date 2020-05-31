@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ProjectEuler.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace ProjectEuler.Problems._001_100._41_50
             var numbers = Enumerable.Range(start, end - start + 1);
             foreach (var number in numbers)
             {
-                var factors = NumberHelper.PrimeFactors(number);
+                var factors = ((long)number).PrimeFactors();
                 if (factors.Distinct().Count() == primeFactorsCount)
                     output.Add(number);
                 else

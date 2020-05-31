@@ -36,11 +36,11 @@ namespace ProjectEuler
             }
         }
 
-        public static ICollection<int> Divisors(this int number)
+        public static ICollection<long> Divisors(long number)
         {
-            int sqrt = (int)Math.Sqrt(number);
-            var beginning = new List<int>();
-            var end = new List<int>();
+            long sqrt = (long)Math.Sqrt(number);
+            var beginning = new List<long>();
+            var end = new List<long>();
 
             for (int i = 1; i <= sqrt; i++)
             {
@@ -54,27 +54,10 @@ namespace ProjectEuler
             return beginning.Concat(end).Distinct().ToArray();
         }
 
-        public static ICollection<int> ProperDivisors(this int number)
+        public static ICollection<long> ProperDivisors(long number)
         {
-            var divisors = number.Divisors();
+            var divisors = Divisors(number);
             return divisors.Take(divisors.Count - 1).ToArray();
-        }
-
-        public static IEnumerable<int> PrimeFactors(this int number)
-        {
-            if (number < 2)
-                throw new ArgumentException("Number must be greater or equal 2");
-
-            foreach (var prime in Primes(number / 2))
-            {
-                while (number % prime == 0)
-                {
-                    number /= prime;
-                    yield return prime;
-                    if (number == 1)
-                        yield break; // all factors found
-                }
-            }
         }
 
         public static IEnumerable<long> FibonacciSequence()
@@ -137,6 +120,58 @@ namespace ProjectEuler
         {
             // We can safely assume the triangle number is an integer because one of n or n+1 is even
             return (long)(0.5 * n * (n + 1));
+        }
+
+        /// <summary>
+        /// Checks if number is prime by using 6k ± 1 optimization
+        /// </summary>
+        /// <param name="n">Number to be tested.</param>
+        public static bool IsPrime(long n)
+        {
+            if (n < 3)
+                return n > 1;
+            else if (n % 2 == 0 || n % 3 == 0)
+                return false;
+            long i = 5;
+            while (i * i <= n)
+            {
+                if (n % i == 0 || n % (i + 2) == 0)
+                    return false;
+                i += 6;
+            }
+            return true;
+        }
+
+
+        /// <summary>
+        /// Returns non distinc prime factors of a number. If number is a prime - returns itself.
+        /// </summary>
+        /// <param name="n">Number to be factorized</param>
+        /// <returns>Lazy executed prime factors</returns>
+        public static IEnumerable<long> PrimeFactors(long n)
+        {
+            while (n % 2 == 0)
+            {
+                yield return 2;
+                n /= 2;
+            }
+
+            // n must be odd at this point. So we can
+            // skip one element (Note i = i+2)
+            for (int i = 3; i <= Math.Sqrt(n); i += 2)
+            {
+                // While i divides n, return i and divide n
+                while (n % i == 0)
+                {
+                    yield return i;
+                    n /= i;
+                }
+            }
+
+            // This condition is to handle the case when
+            // n is a prime number greater than 2
+            if (n > 2)
+                yield return n;
         }
     }
 }
