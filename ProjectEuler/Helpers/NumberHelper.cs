@@ -173,5 +173,15 @@ namespace ProjectEuler
             if (n > 2)
                 yield return n;
         }
+
+        public static long BinomialCoefficient(long n, long k)
+        {
+            k = Math.Min(k, n - k);
+            double result = 1;
+            for (int i = 1; i < k + 1; i++)
+                result *= (n + 1 - i) / (double)i;
+
+            return (long)result;
+        }
     }
 }
