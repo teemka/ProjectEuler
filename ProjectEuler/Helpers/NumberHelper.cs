@@ -103,6 +103,17 @@ namespace ProjectEuler
             return sum;
         }
 
+        public static int DigitSum(BigInteger n)
+        {
+            BigInteger sum = 0;
+            while (n != 0)
+            {
+                sum += n % new BigInteger(10);
+                n /= 10;
+            }
+            return (int)sum;
+        }
+
         public static long GCD(long a, long b)
         {
             while (a != 0 && b != 0)
@@ -128,7 +139,7 @@ namespace ProjectEuler
         /// <param name="n">Number to be tested.</param>
         public static bool IsPrime(long n)
         {
-            if (n < 3)
+            if (n <= 3)
                 return n > 1;
             else if (n % 2 == 0 || n % 3 == 0)
                 return false;
