@@ -1,33 +1,31 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Problem018
+namespace ProjectEuler.Problems._001_100._11_20
 {
-    class Program
-    {
-        /// <summary>
-        /// By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
+    /// <summary>
+    /// By starting at the top of the triangle below and moving to adjacent numbers on the row below, the maximum total from top to bottom is 23.
 
-        ///    3
-        ///   7 4
-        ///  2 4 6
-        /// 8 5 9 3
-        /// 
-        /// That is, 3 + 7 + 4 + 9 = 23.
-        /// 
-        /// Find the maximum total from top to bottom of the triangle below:
-        /// 
-        ///    75
-        ///  95 64
-        /// 17 47 82........
-        /// </summary>
-        static void Main()
+    ///    3
+    ///   7 4
+    ///  2 4 6
+    /// 8 5 9 3
+    /// 
+    /// That is, 3 + 7 + 4 + 9 = 23.
+    /// 
+    /// Find the maximum total from top to bottom of the triangle below:
+    /// 
+    ///    75
+    ///  95 64
+    /// 17 47 82........
+    /// </summary>
+    public class Problem018 : IProblem
+    {
+        public async Task<string> CalculateAsync(string[] args)
         {
-            var lines = File.ReadAllLines("triangle67.txt");
+            var lines = await File.ReadAllLinesAsync("Problems/001-100/11-20/Problem018_triangle.txt");
             var root = new Vertex(int.Parse(lines[0]));
             var vertices = new Vertex[lines.Length][];
             vertices[0] = new Vertex[] { root };
@@ -48,12 +46,14 @@ namespace Problem018
             }
             var graph = vertices.SelectMany(x => x).ToArray();
             var (dist, prev) = Dijkstra(graph, root);
-            var lastRow = vertices[vertices.Length - 1];
+            var lastRow = vertices[^1];
             var lastRowValue = lastRow.Select(v => (v, dist[v])).ToArray();
             var vertexWithMaxValue = lastRow.OrderBy(v => dist[v]).ToArray()[0];
 
             var path = RecreatePath(prev, vertexWithMaxValue);
             var sum = path.Select(v => v.OriginalValue).Sum();
+
+            return sum.ToString();
         }
 
         static IEnumerable<Vertex> RecreatePath(Dictionary<Vertex, Vertex> prev, Vertex start)

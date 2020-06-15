@@ -9,7 +9,7 @@ namespace ProjectEuler.Problems._001_100._51_60
     {
         public async Task<string> CalculateAsync(string[] args)
         {
-            var textFile = await File.ReadAllTextAsync("Problems/001-100/51-60/p054_poker.txt");
+            var textFile = await File.ReadAllTextAsync("Problems/001-100/51-60/Problem054_poker.txt");
 
             int player1WinsCount = 0;
             int player2WinsCount = 0;
