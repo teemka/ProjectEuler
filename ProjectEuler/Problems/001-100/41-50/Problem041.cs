@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using CommonProblems;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
-namespace Problem041
+namespace ProjectEuler.Problems._001_100._41_50
 {
-    class Program
+    /// <summary>
+    /// We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once. For example, 2143 is a 4-digit pandigital and is also prime.
+    /// What is the largest n-digit pandigital prime that exists?
+    /// </summary>
+    public class Problem041 : IProblem
     {
-        /// <summary>
-        /// We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once. For example, 2143 is a 4-digit pandigital and is also prime.
-        /// 
-        /// What is the largest n-digit pandigital prime that exists?
-        /// </summary>
-        static void Main()
+        public Task<string> CalculateAsync(string[] args)
         {
             var primes = NumberHelper.Primes(999_999_999).ToArray();
             int max = 0;
@@ -20,7 +18,7 @@ namespace Problem041
                 if (prime.IsPandigital() && prime > max)
                     max = prime;
             }
-            Console.WriteLine(max);
+            return Task.FromResult(max.ToString());
         }
     }
 

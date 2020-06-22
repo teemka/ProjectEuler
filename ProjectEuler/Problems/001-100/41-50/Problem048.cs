@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Threading.Tasks;
 
-namespace Problem048
+namespace ProjectEuler.Problems._001_100._41_50
 {
-    class Program
-    {
-        /// <summary>
-        /// The series, 1^1 + 2^2 + 3^3 + ... + 10^10 = 10405071317.
+    /// <summary>
+    /// The series, 1^1 + 2^2 + 3^3 + ... + 10^10 = 10405071317.
 
-        /// Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.
-        /// </summary>
-        static void Main()
+    /// Find the last ten digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.
+    /// </summary>
+    public class Problem048 : IProblem
+    {
+        public Task<string> CalculateAsync(string[] args)
         {
             long result = 0;
             long modulo = 10000000000;
@@ -31,7 +30,7 @@ namespace Problem048
                 result %= modulo;
             }
 
-            Console.WriteLine(result);
+            return Task.FromResult(result.ToString());
         }
     }
 }

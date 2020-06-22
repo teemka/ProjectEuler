@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace ProjectEuler.Problems._001_100._41_50
@@ -12,7 +11,7 @@ namespace ProjectEuler.Problems._001_100._41_50
     {
         public async Task<string> CalculateAsync(string[] args)
         {
-            var textFile = await File.ReadAllTextAsync("Problems/001-100/41-50/p042_words.txt");
+            var textFile = await File.ReadAllTextAsync("Problems/001-100/41-50/Problem042_words.txt");
             var words = textFile.Split(',').Select(x => x[1..^1]);
 
             var triangleNumbers = Enumerable.Range(1, 100).Select(x => NumberHelper.TriangleNumber(x)).ToHashSet();

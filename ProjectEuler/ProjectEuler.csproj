@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Problems/001-100/41-50/p042_words.txt">
+    <None Update="Problems\001-100\41-50\Problem042_words.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Problems\001-100\11-20\Problem018_triangle.txt">

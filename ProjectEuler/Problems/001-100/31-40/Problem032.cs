@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Problem032
+namespace ProjectEuler.Problems._001_100._31_40
 {
-    class Program
+    /// <summary>
+    /// We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once; for example, the 5-digit number, 15234, is 1 through 5 pandigital.
+    /// 
+    /// The product 7254 is unusual, as the identity, 39 × 186 = 7254, containing multiplicand, multiplier, and product is 1 through 9 pandigital.
+    /// 
+    /// Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital.
+    /// 
+    /// HINT: Some products can be obtained in more than one way so be sure to only include it once in your sum.
+    /// </summary>
+    public class Problem032 : IProblem
     {
-        /// <summary>
-        /// We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once; for example, the 5-digit number, 15234, is 1 through 5 pandigital.
-        /// 
-        /// The product 7254 is unusual, as the identity, 39 × 186 = 7254, containing multiplicand, multiplier, and product is 1 through 9 pandigital.
-        /// 
-        /// Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital.
-        /// 
-        /// HINT: Some products can be obtained in more than one way so be sure to only include it once in your sum.
-        /// </summary>
-        static void Main()
+        public Task<string> CalculateAsync(string[] args)
         {
             const int limit = 100_000;
             var pandigitalNumbers = Enumerable.Range(2, limit - 2).Where(x => x.ToString().IsPandigital()).ToArray();
@@ -39,7 +39,8 @@ namespace Problem032
                 }
             }
             var products = results.Select(x => x.product).Distinct().OrderBy(x => x).ToArray();
-            Console.WriteLine(products.Sum());
+            var result = products.Sum();
+            return Task.FromResult(result.ToString());
         }
     }
 
