@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Problem030
+namespace ProjectEuler.Problems._001_100._21_30
 {
-    class Program
+    /// <summary>
+    /// https://projecteuler.net/problem=30
+    /// </summary>
+    public class Problem030 : IProblem
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        static void Main()
+        public Task<string> CalculateAsync(string[] args)
         {
             var numbers = SumOfPowers(5).ToArray();
-            Console.WriteLine(numbers.Sum());
+            return Task.FromResult(numbers.Sum().ToString());
         }
 
         static IEnumerable<int> SumOfPowers(int length)

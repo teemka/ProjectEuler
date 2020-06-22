@@ -1,16 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿using ProjectEuler.Extensions;
 using System.Linq;
-using CommonProblems;
+using System.Threading.Tasks;
 
-namespace Problem027
+namespace ProjectEuler.Problems._001_100._21_30
 {
-    class Program
+    /// <summary>
+    /// https://projecteuler.net/problem=27
+    /// </summary>
+    public class Problem027 : IProblem
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        static void Main()
+        public Task<string> CalculateAsync(string[] args)
         {
             var aCandidates = Enumerable.Range(-999, 1999);
             var bCandidates = Enumerable.Range(-1000, 2001);
@@ -21,12 +20,12 @@ namespace Problem027
                 .ToList();
 
             var max = result.First();
-            Console.WriteLine(max.a * max.b);
+            return Task.FromResult((max.a * max.b).ToString());
         }
 
-        static int MaximumNumberOfPrimes(int a, int b)
+        static int MaximumNumberOfPrimes(long a, long b)
         {
-            int Equation(int n) => n * n + a * n + b;
+            long Equation(long n) => (n * n) + (a * n) + b;
             int i = 0;
             while (Equation(i).IsPrime())
                 i++;

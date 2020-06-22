@@ -23,7 +23,7 @@ namespace ProjectEuler.Extensions
             return NumberHelper.PrimeFactors(n);
         }
 
-        public static ICollection<long> ProperDivisors(long number)
+        public static ICollection<long> ProperDivisors(this long number)
         {
             return NumberHelper.ProperDivisors(number);
         }
