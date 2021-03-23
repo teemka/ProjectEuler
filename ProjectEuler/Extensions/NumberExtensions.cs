@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ProjectEuler.Extensions
 {
@@ -31,6 +32,29 @@ namespace ProjectEuler.Extensions
         public static ICollection<long> Divisors(this long number)
         {
             return NumberHelper.Divisors(number);
+        }
+
+        public static IEnumerable<int> GetDigits(this int n)
+        {
+            while (n != 0)
+            {
+                n = Math.DivRem(n, 10, out var remainder);
+                yield return remainder;
+            }
+        }
+
+        /// <summary>
+        /// Reverse decimal number by its digits. 123 becomes 321. 200 becomes 2
+        /// </summary>
+        public static int Reverse(this int value)
+        {
+            int reversed = 0;
+            while (value > 0)
+            {
+                value = Math.DivRem(value, 10, out var remainder);
+                reversed = (reversed * 10) + remainder;
+            }
+            return reversed;
         }
     }
 }

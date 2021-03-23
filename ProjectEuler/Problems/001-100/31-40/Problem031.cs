@@ -30,7 +30,7 @@ namespace ProjectEuler.Problems._001_100._31_40
                 }
                 return res;
             }
-            var result = ways(amount, coins.Length);
+            var result = ways(amount, coins.Length - 1);
             return Task.FromResult(result.ToString());
         }
     }

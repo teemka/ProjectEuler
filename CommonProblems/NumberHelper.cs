@@ -33,7 +33,7 @@ namespace CommonProblems
             yield return 2;
             // Check odd numbers for primality
             const int offset = 3;
-            static int ToNumber(int index) => 2 * index + offset;
+            static int ToNumber(int index) => (2 * index) + offset;
             static int ToIndex(int number) => (number - offset) / 2;
             var bits = new BitArray(ToIndex(upperLimit) + 1, defaultValue: true);
             var upperSqrtIndex = ToIndex((int)Math.Sqrt(upperLimit));

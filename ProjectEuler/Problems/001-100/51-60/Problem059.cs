@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace ProjectEuler.Problems._001_100._51_60
 {
+    /// <summary>
+    /// XOR decryption
+    /// https://projecteuler.net/problem=59
+    /// Solution: 129448
+    /// </summary>
     public class Problem059 : IProblem
     {
         public async Task<string> CalculateAsync(string[] args)
@@ -23,6 +28,7 @@ namespace ProjectEuler.Problems._001_100._51_60
                 var passwordAsInts = possiblePassword.Select(x => (int)x).ToArray();
                 var output = Decrypt(codes, passwordAsInts).Select(x => (char)x);
                 var decrypted = output.Concat();
+                System.Console.WriteLine(decrypted);
                 if (Regex.IsMatch(decrypted, @"^[a-zA-Z\d\s\.\,\'\?\!\;\(\)\+\-\*\/""\:\[\]]*$"))
                 {
                     password = possiblePassword;
@@ -34,7 +40,7 @@ namespace ProjectEuler.Problems._001_100._51_60
             return text.Select(x => (int)x).Sum().ToString();
         }
 
-        public IEnumerable<string> PossiblePasswords()
+        public static IEnumerable<string> PossiblePasswords()
         {
             var alphabet = StringHelper.AlphabetLowercase;
             for (int i = 0; i < alphabet.Length; i++)
@@ -49,7 +55,7 @@ namespace ProjectEuler.Problems._001_100._51_60
             }
         }
 
-        public int[] Decrypt(int[] code, int[] password)
+        public static int[] Decrypt(int[] code, int[] password)
         {
             var output = new int[code.Length];
             var rest = code.Length % password.Length;

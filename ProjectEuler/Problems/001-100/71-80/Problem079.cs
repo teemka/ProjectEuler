@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjectEuler.Problems._001_100._71_80
 {
+    /// <summary>
+    /// Passcode derivation
+    /// https://projecteuler.net/problem=79
+    /// Solution: 73162890
+    /// </summary>
     public class Problem079 : IProblem
     {
         public async Task<string> CalculateAsync(string[] args)
@@ -31,7 +34,6 @@ namespace ProjectEuler.Problems._001_100._71_80
                         {
                             values[x] = values[y] - 1;
                         }
-
                     }
                     else
                     {
