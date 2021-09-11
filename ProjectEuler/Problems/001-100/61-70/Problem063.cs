@@ -24,7 +24,10 @@ namespace ProjectEuler.Problems._001_100._61_70
                         count++;
                     }
                     else if (resultDigitsCount < exp)
+                    {
                         break;
+                    }
+
                     exp++;
                 }
                 expBase++;

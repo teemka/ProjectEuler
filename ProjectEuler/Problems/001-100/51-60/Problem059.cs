@@ -1,7 +1,9 @@
-﻿using ProjectEuler.Helpers;
+﻿using Microsoft.Extensions.Logging;
+using ProjectEuler.Helpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -14,22 +16,29 @@ namespace ProjectEuler.Problems._001_100._51_60
     /// </summary>
     public class Problem059 : IProblem
     {
+        private readonly ILogger<Problem059> logger;
+
+        public Problem059(ILogger<Problem059> logger)
+        {
+            this.logger = logger;
+        }
+
         public async Task<string> CalculateAsync(string[] args)
         {
             var textFile = await File.ReadAllTextAsync("Problems/001-100/51-60/Problem059_cipher.txt");
-            var codes = textFile.Split(",").Select(x => int.Parse(x)).ToArray();
+            var encryptedText = string.Concat(textFile.Split(",").Select(x => (char)int.Parse(x)));
 
             var possiblePasswords = PossiblePasswords();
 
-            string password = "";
-            string text = "";
+            var password = "";
+            var text = "";
             foreach (var possiblePassword in possiblePasswords)
             {
-                var passwordAsInts = possiblePassword.Select(x => (int)x).ToArray();
-                var output = Decrypt(codes, passwordAsInts).Select(x => (char)x);
-                var decrypted = output.Concat();
-                System.Console.WriteLine(decrypted);
-                if (Regex.IsMatch(decrypted, @"^[a-zA-Z\d\s\.\,\'\?\!\;\(\)\+\-\*\/""\:\[\]]*$"))
+                var decrypted = Decrypt(encryptedText, possiblePassword);
+
+                logger.LogDebug(decrypted);
+
+                if (Regex.IsMatch(decrypted, @"^[\w\s\.\,\'\?\!\;\(\)\+\-\*\/""\:\[\]]*$"))
                 {
                     password = possiblePassword;
                     text = decrypted;
@@ -37,42 +46,42 @@ namespace ProjectEuler.Problems._001_100._51_60
                 }
             }
 
+            logger.LogInformation("The password is '{password}'", password);
+
             return text.Select(x => (int)x).Sum().ToString();
         }
 
         public static IEnumerable<string> PossiblePasswords()
         {
             var alphabet = StringHelper.AlphabetLowercase;
-            for (int i = 0; i < alphabet.Length; i++)
+            foreach (var i in alphabet)
             {
-                for (int j = 0; j < alphabet.Length; j++)
+                foreach (var j in alphabet)
                 {
-                    for (int k = 0; k < alphabet.Length; k++)
+                    foreach (var k in alphabet)
                     {
-                        yield return $"{alphabet[i]}{alphabet[j]}{alphabet[k]}";
+                        yield return $"{i}{j}{k}";
                     }
                 }
             }
         }
 
-        public static int[] Decrypt(int[] code, int[] password)
+        public static string Decrypt(string code, string password)
         {
-            var output = new int[code.Length];
-            var rest = code.Length % password.Length;
-            var length = code.Length - rest;
-            for (int i = 0; i < length; i += password.Length)
+            var sb = new StringBuilder();
+            var keyIndex = 0;
+
+            foreach (var c in code)
             {
-                for (int j = 0; j < password.Length; j++)
-                {
-                    var index = i + j;
-                    output[index] = code[index] ^ password[j];
-                }
+                var r = (char)(c ^ password[keyIndex]);
+                sb.Append(r);
+
+                keyIndex++;
+                if (keyIndex == password.Length)
+                    keyIndex = 0;
             }
-            for (int i = 0; i < rest; i++)
-            {
-                output[length + i] = code[length + i] ^ password[i];
-            }
-            return output;
+
+            return sb.ToString();
         }
     }
 }

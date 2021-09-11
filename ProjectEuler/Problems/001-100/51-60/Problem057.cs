@@ -21,7 +21,7 @@ namespace ProjectEuler.Problems._001_100._51_60
             return Task.FromResult(count.ToString());
         }
 
-        private Fraction SqaureRootOfTwoFractionApprox(int n)
+        private static Fraction SqaureRootOfTwoFractionApprox(int n)
         {
             var dn = new Fraction(1, 2);
             for (int i = 0; i < n - 1; i++)
@@ -55,14 +55,14 @@ namespace ProjectEuler.Problems._001_100._51_60
 
             public override string ToString() => $"{Nominator}/{Denominator}";
 
-            public Fraction Inverse => new Fraction(Denominator, Nominator);
+            public Fraction Inverse => new(Denominator, Nominator);
         }
 
-        public Fraction Sum(BigInteger left, Fraction right)
+        public static Fraction Sum(BigInteger left, Fraction right)
         {
             var nominator = (left * right.Denominator) + right.Nominator;
             var denominator = right.Denominator;
-            return new Fraction(nominator, denominator);
+            return new(nominator, denominator);
         }
     }
 }

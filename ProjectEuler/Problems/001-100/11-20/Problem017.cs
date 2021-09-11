@@ -17,7 +17,7 @@ namespace ProjectEuler.Problems._001_100._11_20
         public Task<string> CalculateAsync(string[] args)
         {
             var names = Enumerable.Range(1, 1000).Select(x => PrintNumber(x));
-            var sum = names.Select(x => x.Replace(" ", "").Replace("-", "").Count()).Sum();
+            var sum = names.Select(x => x.Replace(" ", "").Replace("-", "").Length).Sum();
             return Task.FromResult(sum.ToString());
         }
 
@@ -112,9 +112,13 @@ namespace ProjectEuler.Problems._001_100._11_20
         {
             int n = context.Number;
             if (n == 0)
+            {
                 return; // do nothing
+            }
             else if (n <= 20)
+            {
                 context.AddTerm(numberNames[n]);
+            }
             else
             {
                 var tens = Math.DivRem(n, Multiplier, out n);

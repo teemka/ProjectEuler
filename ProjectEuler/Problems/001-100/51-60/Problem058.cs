@@ -1,8 +1,4 @@
 ﻿using ProjectEuler.Problems._001_100._21_30;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjectEuler.Problems._001_100._51_60
@@ -10,6 +6,7 @@ namespace ProjectEuler.Problems._001_100._51_60
     /// <summary>
     /// Spiral primes
     /// https://projecteuler.net/problem=58
+    /// Solution: 8581146
     /// </summary>
     public class Problem058 : IProblem
     {

@@ -45,20 +45,20 @@ namespace ProjectEuler.Problems._001_100._41_50
             for (int i = 2; i < arr.Length; i++)
             {
                 if (arr[i] - arr[i - 1] != d)
+                {
                     return false;
+                }
             }
 
             return true;
         }
 
-        static IEnumerable<IEnumerable<T>> GetPerms<T>(IList<T> list, int count)
+        private static IEnumerable<IEnumerable<T>> GetPerms<T>(IList<T> list, int count)
         {
-            if (list is null)
-                throw new ArgumentNullException(nameof(list));
-            if (count > list.Count)
-                throw new ArgumentException("Requested elements exceed count of an array", nameof(count));
             if (count == 0)
+            {
                 yield return new T[0];
+            }
             else
             {
                 for (int i = 0; i < list.Count - count + 1; i++)

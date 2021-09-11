@@ -1,16 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ProjectEuler
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -20,26 +21,30 @@ namespace ProjectEuler
                 return;
             }
 
-            var problems = CreateProblems();
+            var sp = new ServiceCollection()
+                .AddLogging(x => x.AddSimpleConsole())
+                .AddProblems()
+                .AddTransient<ProblemExecutor>()
+                .BuildServiceProvider();
+
+            var problems = sp.GetProblemsByNumber();
 
             if (args[0] == "--all")
             {
-                await problems.ForEachAsync(24, async p => await CalculateProblem(args, p));
+                await problems.Values.ForEachAsync(24, async p => await CalculateProblem(args, p));
             }
             else if (int.TryParse(args[0], out var problemNumber))
             {
-                var problemName = $"Problem{problemNumber:000}";
-                IProblem? maybeProblem = problems.FirstOrDefault(s => s.GetType().Name == problemName);
-
-                if (maybeProblem is not IProblem problem)
+                if (!problems.TryGetValue(problemNumber, out var problem))
                 {
-                    Console.WriteLine($"{problemName} is not implemented. Implemented problems:");
+                    Console.WriteLine($"Problem{problemNumber:000} is not implemented. Implemented problems:");
                     foreach (var p in problems)
                         Console.WriteLine(p.GetType().Name);
                     return;
                 }
 
-                await CalculateProblem(args, problem);
+                await sp.GetRequiredService<ProblemExecutor>()
+                    .CalculateProblem(args.Skip(1).ToArray(), problem);
             }
             else
             {
@@ -56,19 +61,28 @@ namespace ProjectEuler
             Console.WriteLine($"{problem.GetType().Name} solved in {sw.Elapsed}. Solution: {solution}");
         }
 
-        private static IEnumerable<IProblem> CreateProblems()
+        private static IServiceCollection AddProblems(this IServiceCollection services)
         {
-            var sc = new ServiceCollection();
-
-            var problemTypes = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => typeof(IProblem).IsAssignableFrom(t) && !t.IsInterface);
+            var problemTypes = Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => typeof(IProblem).IsAssignableFrom(t)
+                    && !t.IsInterface
+                    && Regex.IsMatch(t.Name, @"^Problem\d{3}$"));
 
             foreach (var problemType in problemTypes)
-                sc.AddTransient(typeof(IProblem), problemType);
+                services.AddTransient(typeof(IProblem), problemType);
 
-            return sc.BuildServiceProvider()
+            return services;
+        }
+
+        private static IDictionary<int, IProblem> GetProblemsByNumber(this IServiceProvider sp)
+        {
+            return sp
                 .GetServices<IProblem>()
-                .OrderBy(p => p.GetType().Name);
+                .ToDictionary(
+                    x => int.Parse(x.GetType().Name.Substring(7, 3)),
+                    x => x);
         }
     }
 

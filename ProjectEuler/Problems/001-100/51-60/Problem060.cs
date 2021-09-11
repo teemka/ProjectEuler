@@ -10,7 +10,7 @@ namespace ProjectEuler.Problems._001_100._51_60
         {
 
             var primes = NumberHelper.Primes(1000000).ToHashSet();
-            int primesCount = primes.Count();
+            int primesCount = primes.Count;
 
             bool IsConcatenationPrime(int a, int b) => primes.Contains(int.Parse($"{a}{b}"));
             bool IsConcatenationPrimeArr(int[] arr) => IsConcatenationPrime(arr[0], arr[1]) && IsConcatenationPrime(arr[1], arr[0]);

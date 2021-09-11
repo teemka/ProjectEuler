@@ -12,11 +12,11 @@ namespace ProjectEuler.Problems._001_100._21_30
     {
         public Task<string> CalculateAsync(string[] args)
         {
-            var thousandDigits = NumberHelper.FibonacciSequenceBigInt()
+            var (digits, index) = NumberHelper.FibonacciSequenceBigInt()
                 .Select((x, i) => (digits: (int)Math.Floor(BigInteger.Log10(x) + 1), index: i + 1))
                 .SkipWhile(x => x.digits < 1000)
                 .First();
-            return Task.FromResult(thousandDigits.index.ToString());
+            return Task.FromResult(index.ToString());
         }
     }
 }

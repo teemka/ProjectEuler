@@ -21,13 +21,19 @@ namespace ProjectEuler.Problems._001_100._51_60
                 var player1Hand = new Hand(cards.Take(5).ToArray());
                 var player2Hand = new Hand(cards.Skip(5).ToArray());
                 if (player1Hand.Figure > player2Hand.Figure)
+                {
                     player1WinsCount++;
+                }
                 else if (player1Hand.Figure == player2Hand.Figure)
                 {
                     if (player1Hand.HighestValueInFigure > player2Hand.HighestValueInFigure)
+                    {
                         player1WinsCount++;
+                    }
                     else if (player1Hand.HighestValueInFigure < player2Hand.HighestValueInFigure)
+                    {
                         player2WinsCount++;
+                    }
                     else
                     {
                         for (int i = 0; i < 5; i++)
@@ -38,7 +44,9 @@ namespace ProjectEuler.Problems._001_100._51_60
                                 break;
                             }
                             else if (player1Hand.OrderedCards[i].Value == player2Hand.OrderedCards[i].Value)
+                            {
                                 continue;
+                            }
                             else
                             {
                                 player2WinsCount++;
