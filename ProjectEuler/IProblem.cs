@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace ProjectEuler;
 
-namespace ProjectEuler
+public interface IProblem
 {
-    public interface IProblem
-    {
-        Task<string> CalculateAsync(string[] args);
-    }
+    Task<string> CalculateAsync(string[] args);
 }

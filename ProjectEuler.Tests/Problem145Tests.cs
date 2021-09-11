@@ -1,18 +1,16 @@
 ﻿using ProjectEuler.Problems._101_200._141_150;
-using Xunit;
 
-namespace ProjectEuler.Tests
+namespace ProjectEuler.Tests;
+
+public class Problem145Tests
 {
-    public class Problem145Tests
+    [Fact]
+    public async void Should_CalculateExample()
     {
-        [Fact]
-        public async void Should_CalculateExample()
-        {
-            var problem = new Problem145();
+        var problem = new Problem145();
 
-            var result = await problem.CalculateAsync(new[] { "1000" });
+        var result = await problem.CalculateAsync(new[] { "1000" });
 
-            Assert.Equal("120", result);
-        }
+        Assert.Equal("120", result);
     }
 }

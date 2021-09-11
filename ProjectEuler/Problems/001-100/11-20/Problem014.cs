@@ -1,55 +1,50 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace ProjectEuler.Problems._001_100._11_20;
 
-namespace ProjectEuler.Problems._001_100._11_20
+/// <summary>
+/// The following iterative sequence is defined for the set of positive integers:
+/// 
+///     n → n/2 (n is even)
+///     n → 3n + 1 (n is odd)
+/// 
+/// Using the rule above and starting with 13, we generate the following sequence:
+///     13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+/// 
+/// It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+/// 
+/// Which starting number, under one million, produces the longest chain?
+/// 
+/// NOTE: Once the chain starts the terms are allowed to go above one million.
+/// </summary>
+public class Problem014 : IProblem
 {
-    /// <summary>
-    /// The following iterative sequence is defined for the set of positive integers:
-    /// 
-    ///     n → n/2 (n is even)
-    ///     n → 3n + 1 (n is odd)
-    /// 
-    /// Using the rule above and starting with 13, we generate the following sequence:
-    ///     13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
-    /// 
-    /// It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
-    /// 
-    /// Which starting number, under one million, produces the longest chain?
-    /// 
-    /// NOTE: Once the chain starts the terms are allowed to go above one million.
-    /// </summary>
-    public class Problem014 : IProblem
+    public Task<string> CalculateAsync(string[] args)
     {
-        public Task<string> CalculateAsync(string[] args)
+        int limit = 1_000_000;
+        var maxResult = (start: 0, count: 0);
+        var countsResults = Enumerable.Range(1, limit)
+            .AsParallel()
+            .Select(x => (n: x, count: CollatzSequence(x).Count()))
+            .ToArray();
+        for (int i = 1; i < limit; i++)
         {
-            int limit = 1_000_000;
-            var maxResult = (start: 0, count: 0);
-            var countsResults = Enumerable.Range(1, limit)
-                .AsParallel()
-                .Select(x => (n: x, count: CollatzSequence(x).Count()))
-                .ToArray();
-            for (int i = 1; i < limit; i++)
-            {
-                var countResult = countsResults[i];
-                if (countResult.count > maxResult.count)
-                    maxResult = countResult;
-            }
-
-            return Task.FromResult(maxResult.ToString());
+            var countResult = countsResults[i];
+            if (countResult.count > maxResult.count)
+                maxResult = countResult;
         }
 
-        public static IEnumerable<long> CollatzSequence(long n)
+        return Task.FromResult(maxResult.ToString());
+    }
+
+    public static IEnumerable<long> CollatzSequence(long n)
+    {
+        yield return n;
+        while (n != 1)
         {
+            if (n % 2 == 0)
+                n /= 2;
+            else
+                n = (3 * n) + 1;
             yield return n;
-            while (n != 1)
-            {
-                if (n % 2 == 0)
-                    n /= 2;
-                else
-                    n = (3 * n) + 1;
-                yield return n;
-            }
         }
     }
 }

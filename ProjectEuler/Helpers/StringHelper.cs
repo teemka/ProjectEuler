@@ -1,7 +1,6 @@
-﻿namespace ProjectEuler.Helpers
+﻿namespace ProjectEuler.Helpers;
+
+public static class StringHelper
 {
-    public static class StringHelper
-    {
-        public const string AlphabetLowercase = "abcdefghijklmnopqrstuvwxyz";
-    }
+    public const string AlphabetLowercase = "abcdefghijklmnopqrstuvwxyz";
 }
