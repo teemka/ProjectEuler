@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ProjectEuler
 {
@@ -31,7 +26,7 @@ namespace ProjectEuler
 
             if (args[0] == "--all")
             {
-                await problems.Values.ForEachAsync(24, async p => await CalculateProblem(args, p));
+                await Parallel.ForEachAsync(problems.Values, async (p, ct) => await CalculateProblem(args, p));
             }
             else if (int.TryParse(args[0], out var problemNumber))
             {
@@ -39,7 +34,7 @@ namespace ProjectEuler
                 {
                     Console.WriteLine($"Problem{problemNumber:000} is not implemented. Implemented problems:");
                     foreach (var p in problems)
-                        Console.WriteLine(p.GetType().Name);
+                        Console.WriteLine(p.Value.GetType().Name);
                     return;
                 }
 
@@ -68,7 +63,8 @@ namespace ProjectEuler
                 .GetTypes()
                 .Where(t => typeof(IProblem).IsAssignableFrom(t)
                     && !t.IsInterface
-                    && Regex.IsMatch(t.Name, @"^Problem\d{3}$"));
+                    && Regex.IsMatch(t.Name, @"^Problem\d{3}$"))
+                .OrderBy(x => x.Name);
 
             foreach (var problemType in problemTypes)
                 services.AddTransient(typeof(IProblem), problemType);
@@ -83,23 +79,6 @@ namespace ProjectEuler
                 .ToDictionary(
                     x => int.Parse(x.GetType().Name.Substring(7, 3)),
                     x => x);
-        }
-    }
-
-    public static class XDFD
-    {
-        public static Task ForEachAsync<T>(this IEnumerable<T> source, int dop, Func<T, Task> body)
-        {
-            return Task.WhenAll(
-                from partition in Partitioner.Create(source).GetPartitions(dop)
-                select Task.Run(async delegate
-                {
-                    using (partition)
-                    {
-                        while (partition.MoveNext())
-                            await body(partition.Current);
-                    }
-                }));
         }
     }
 }
