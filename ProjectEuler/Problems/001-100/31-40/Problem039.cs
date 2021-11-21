@@ -2,7 +2,7 @@
 
 /// <summary>
 /// https://projecteuler.net/problem=39
-/// Answer:
+/// Answer: 840
 /// </summary>
 public class Problem039 : IProblem
 {
@@ -12,7 +12,7 @@ public class Problem039 : IProblem
 
         for (int i = 1; i <= 1000; i++)
         {
-            for (int j = 1; j <= 1000; j++)
+            for (int j = i; j <= 1000; j++)
             {
                 if (i + j > 1000)
                     break;

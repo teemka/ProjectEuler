@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "ProjectEuler": {
-      "commandName": "Project",
-      "commandLineArgs": "45"
-    }
-  }
-}
