@@ -16,10 +16,16 @@ public class Problem052 : IProblem
             {
                 long temp = i * number;
                 if (NumberWithSortedDigits(temp) != numberSorted)
+                {
                     break;
+                }
+
                 if (i == 6)
+                {
                     return Task.FromResult(number.ToString());
+                }
             }
+
             number++;
         }
     }

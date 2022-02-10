@@ -1,32 +1,48 @@
-﻿namespace ProjectEuler.Helpers
+﻿namespace ProjectEuler.Helpers;
+
+public static class Sequences
 {
-    public static class Sequences
+    public static IEnumerable<int> SpiralDiagonal()
     {
-        public static IEnumerable<long> TriangleNumbers(long n = 1)
+        int current = 1;
+        int diff = 2;
+        yield return current;
+        while (true)
         {
-            while (true)
+            for (int i = 0; i < 4; i++)
             {
-                yield return n * (n + 1) / 2;
-                n++;
+                current += diff;
+                yield return current;
             }
-        }
 
-        public static IEnumerable<long> PentagonalNumbers(long n = 1)
-        {
-            while (true)
-            {
-                yield return n * ((3 * n) - 1) / 2;
-                n++;
-            }
+            diff += 2;
         }
+    }
 
-        public static IEnumerable<long> HexagonalNumbers(long n = 1)
+    public static IEnumerable<long> TriangleNumbers(long n = 1)
+    {
+        while (true)
         {
-            while (true)
-            {
-                yield return n * ((2 * n) - 1);
-                n++;
-            }
+            yield return n * (n + 1) / 2;
+            n++;
+        }
+    }
+
+    public static IEnumerable<long> PentagonalNumbers(long n = 1)
+    {
+        while (true)
+        {
+            yield return n * ((3 * n) - 1) / 2;
+            n++;
+        }
+    }
+
+    public static IEnumerable<long> HexagonalNumbers(long n = 1)
+    {
+        while (true)
+        {
+            yield return n * ((2 * n) - 1);
+            n++;
         }
     }
 }

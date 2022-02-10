@@ -11,7 +11,7 @@ public class Problem030 : IProblem
         return Task.FromResult(numbers.Sum().ToString());
     }
 
-    static IEnumerable<int> SumOfPowers(int length)
+    private static IEnumerable<int> SumOfPowers(int length)
     {
         int start = 2;
         int end = (int)Math.Pow(10, length + 1);
@@ -24,8 +24,11 @@ public class Problem030 : IProblem
                 var digit = int.Parse(digitChar.ToString());
                 sum += (int)Math.Pow(digit, length);
             }
+
             if (sum == number)
+            {
                 yield return number;
+            }
         }
     }
 }

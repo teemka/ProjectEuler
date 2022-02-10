@@ -1,11 +1,11 @@
 ﻿namespace ProjectEuler.Problems._001_100._91_100;
 
+/// <summary>
+/// https://projecteuler.net/problem=97
+/// Solution: 8739992577
+/// </summary>
 public class Problem097 : IProblem
 {
-    /// <summary>
-    /// https://projecteuler.net/problem=97
-    /// Solution: 8739992577
-    /// </summary>
     public Task<string> CalculateAsync(string[] args)
     {
         long x = 1;

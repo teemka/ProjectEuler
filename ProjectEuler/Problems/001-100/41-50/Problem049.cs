@@ -24,7 +24,9 @@ public class Problem049 : IProblem
             foreach (var perm in perms)
             {
                 if (IsArithmeticProgression(perm))
+                {
                     output.Add(perm.ToList());
+                }
             }
         }
 
@@ -33,7 +35,7 @@ public class Problem049 : IProblem
         return Task.FromResult(result);
     }
 
-    static bool IsArithmeticProgression(IEnumerable<int> sequence)
+    private static bool IsArithmeticProgression(IEnumerable<int> sequence)
     {
         var arr = sequence.ToArray();
         int d = arr[1] - arr[0];

@@ -25,24 +25,34 @@ public class Problem057 : IProblem
         {
             dn = Sum(2, dn).Inverse;
         }
+
         return Sum(1, dn);
     }
 
-    public class Fraction
+    private static Fraction Sum(BigInteger left, Fraction right)
+    {
+        var nominator = (left * right.Denominator) + right.Nominator;
+        var denominator = right.Denominator;
+        return new(nominator, denominator);
+    }
+
+    private class Fraction
     {
         public Fraction(BigInteger nominator, BigInteger denominator)
         {
-            Nominator = nominator;
-            Denominator = denominator;
+            this.Nominator = nominator;
+            this.Denominator = denominator;
 
             while (true)
             {
-                var gcd = BigInteger.GreatestCommonDivisor(Nominator, Denominator);
+                var gcd = BigInteger.GreatestCommonDivisor(this.Nominator, this.Denominator);
                 if (gcd == 1)
+                {
                     break;
+                }
 
-                Nominator /= gcd;
-                Denominator /= gcd;
+                this.Nominator /= gcd;
+                this.Denominator /= gcd;
             }
         }
 
@@ -50,15 +60,8 @@ public class Problem057 : IProblem
 
         public BigInteger Denominator { get; }
 
-        public override string ToString() => $"{Nominator}/{Denominator}";
+        public Fraction Inverse => new(this.Denominator, this.Nominator);
 
-        public Fraction Inverse => new(Denominator, Nominator);
-    }
-
-    public static Fraction Sum(BigInteger left, Fraction right)
-    {
-        var nominator = (left * right.Denominator) + right.Nominator;
-        var denominator = right.Denominator;
-        return new(nominator, denominator);
+        public override string ToString() => $"{this.Nominator}/{this.Denominator}";
     }
 }

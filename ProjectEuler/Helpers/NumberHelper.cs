@@ -9,6 +9,7 @@ public static class NumberHelper
     public static IEnumerable<int> Primes(int upperLimit = int.MaxValue)
     {
         yield return 2;
+
         // Check odd numbers for primality
         const int offset = 3;
         static int ToNumber(int index) => (2 * index) + offset;
@@ -17,20 +18,31 @@ public static class NumberHelper
         var upperSqrtIndex = ToIndex((int)Math.Sqrt(upperLimit));
         for (var i = 0; i <= upperSqrtIndex; i++)
         {
-            // If this bit has already been turned off, then its associated number is composite. 
-            if (!bits[i]) continue;
+            // If this bit has already been turned off, then its associated number is composite.
+            if (!bits[i])
+            {
+                continue;
+            }
+
             var number = ToNumber(i);
+
             // The instant we have a known prime, immediately yield its value.
             yield return number;
+
             // Any multiples of number are composite and their respective bits should be turned off.
             for (var j = ToIndex(number * number); j > i && j < bits.Length; j += number)
+            {
                 bits[j] = false;
+            }
         }
+
         // Output remaining primes once bit array is fully resolved:
         for (var i = upperSqrtIndex + 1; i < bits.Length; i++)
         {
             if (bits[i])
+            {
                 yield return ToNumber(i);
+            }
         }
     }
 
@@ -48,6 +60,7 @@ public static class NumberHelper
                 end.Add(number / i);
             }
         }
+
         end.Reverse();
         return beginning.Concat(end).Distinct().ToArray();
     }
@@ -98,6 +111,7 @@ public static class NumberHelper
             sum += n % 10;
             n /= 10;
         }
+
         return sum;
     }
 
@@ -109,6 +123,7 @@ public static class NumberHelper
             sum += n % new BigInteger(10);
             n /= 10;
         }
+
         return (int)sum;
     }
 
@@ -117,9 +132,13 @@ public static class NumberHelper
         while (a != 0 && b != 0)
         {
             if (a > b)
+            {
                 a %= b;
+            }
             else
+            {
                 b %= a;
+            }
         }
 
         return a == 0 ? b : a;
@@ -132,25 +151,34 @@ public static class NumberHelper
     }
 
     /// <summary>
-    /// Checks if number is prime by using 6k ± 1 optimization
+    /// Checks if number is prime by using 6k ± 1 optimization.
     /// </summary>
     /// <param name="n">Number to be tested.</param>
+    /// <returns>Value indicating if a number is prime.</returns>
     public static bool IsPrime(long n)
     {
         if (n <= 3)
+        {
             return n > 1;
+        }
         else if (n % 2 == 0 || n % 3 == 0)
+        {
             return false;
+        }
+
         long i = 5;
         while (i * i <= n)
         {
             if (n % i == 0 || n % (i + 2) == 0)
+            {
                 return false;
+            }
+
             i += 6;
         }
+
         return true;
     }
-
 
     /// <summary>
     /// Returns non distinc prime factors of a number. If number is a prime - returns itself.
@@ -180,7 +208,9 @@ public static class NumberHelper
         // This condition is to handle the case when
         // n is a prime number greater than 2
         if (n > 2)
+        {
             yield return n;
+        }
     }
 
     public static long BinomialCoefficient(long n, long k)
@@ -188,7 +218,9 @@ public static class NumberHelper
         k = Math.Min(k, n - k);
         double result = 1;
         for (int i = 1; i < k + 1; i++)
+        {
             result *= (n + 1 - i) / (double)i;
+        }
 
         return (long)result;
     }
@@ -201,7 +233,9 @@ public static class NumberHelper
         for (int i = 0; i < arr.Length; i++)
         {
             for (int j = arr[i]; j <= n; j++)
+            {
                 table[j] += table[j - arr[i]];
+            }
         }
 
         return table[n];

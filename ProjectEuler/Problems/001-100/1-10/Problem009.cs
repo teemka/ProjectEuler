@@ -18,10 +18,13 @@ public class Problem009 : IProblem
                 for (int c = 1; c <= 1000; c++)
                 {
                     if (a < b && b < c && (a * a) + (b * b) == c * c && a + b + c == 1000)
+                    {
                         return Task.FromResult($"({a}, {b}, {c})");
+                    }
                 }
             }
         }
+
         return Task.FromResult("Not calculated");
     }
 }

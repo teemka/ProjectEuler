@@ -2,6 +2,20 @@
 
 public class Problem054 : IProblem
 {
+    private enum Figure
+    {
+        HighCard,
+        OnePair,
+        TwoPairs,
+        ThreeOfAKind,
+        Straight,
+        Flush,
+        FullHouse,
+        FourOfAKind,
+        StraightFlush,
+        RoyalFlush,
+    }
+
     public async Task<string> CalculateAsync(string[] args)
     {
         var textFile = await File.ReadAllTextAsync("Problems/001-100/51-60/Problem054_poker.txt");
@@ -51,71 +65,93 @@ public class Problem054 : IProblem
                 }
             }
             else
+            {
                 player2WinsCount++;
+            }
         }
 
         return player1WinsCount.ToString();
     }
 
-    public class Hand
+    private class Hand
     {
         public Hand(Card[] cards)
         {
-            Cards = cards;
-            OrderedCards = cards.OrderByDescending(x => x.Value).ToArray();
-            Figure = CalculateValue(out var hc, out var hvif);
-            HighestCard = hc;
-            HighestValueInFigure = hvif;
+            this.Cards = cards;
+            this.OrderedCards = cards.OrderByDescending(x => x.Value).ToArray();
+            this.Figure = this.CalculateValue(out var hc, out var hvif);
+            this.HighestCard = hc;
+            this.HighestValueInFigure = hvif;
         }
 
         public Card[] Cards { get; }
+
         public Card[] OrderedCards { get; }
+
         public Figure Figure { get; }
+
         public int HighestValueInFigure { get; }
+
         public Card HighestCard { get; }
 
         public Figure CalculateValue(out Card highestCard, out int highestValueInFigure)
         {
-            bool isSameSuit = Cards.All(x => x.Color == Cards[0].Color);
+            bool isSameSuit = this.Cards.All(x => x.Color == this.Cards[0].Color);
 
-            var isStraight = OrderedCards
-                .Zip(OrderedCards.Skip(1), (x, y) => (x, y))
+            var isStraight = this.OrderedCards
+                .Zip(this.OrderedCards.Skip(1), (x, y) => (x, y))
                 .All(pair => pair.x.Value - 1 == pair.y.Value);
 
-            highestCard = OrderedCards.First();
+            highestCard = this.OrderedCards.First();
             highestValueInFigure = highestCard.Value;
 
-            var groupsByValue = Cards.GroupBy(x => x.Value);
+            var groupsByValue = this.Cards.GroupBy(x => x.Value);
             if (isSameSuit && isStraight)
             {
                 if (highestCard.Value == 14)
+                {
                     return Figure.RoyalFlush;
+                }
+
                 return Figure.StraightFlush;
             }
-            var groups = Cards.GroupBy(x => x.Value).OrderByDescending(x => x.Count());
+
+            var groups = this.Cards.GroupBy(x => x.Value).OrderByDescending(x => x.Count());
             var highestGroupCount = groups.Select(x => x.Count()).First();
             if (highestGroupCount == 4)
             {
                 highestValueInFigure = groups.Take(1).SelectMany(x => x).First().Value;
                 return Figure.FourOfAKind;
             }
+
             var secondHighestGroupCount = groups.Select(x => x.Count()).Skip(1).First();
             if (highestGroupCount == 3 && secondHighestGroupCount == 2)
+            {
                 return Figure.FullHouse;
+            }
+
             if (isSameSuit)
+            {
                 return Figure.Flush;
+            }
+
             if (isStraight)
+            {
                 return Figure.Straight;
+            }
+
             if (highestGroupCount == 3)
             {
                 highestValueInFigure = groups.Take(1).SelectMany(x => x).First().Value;
                 return Figure.ThreeOfAKind;
             }
+
             if (highestGroupCount == 2 && secondHighestGroupCount == 2)
             {
                 highestValueInFigure = groups.Take(2).SelectMany(x => x).OrderByDescending(x => x.Value).First().Value;
                 return Figure.TwoPairs;
             }
+
             if (highestGroupCount == 2)
             {
                 highestValueInFigure = groups.Take(1).SelectMany(x => x).First().Value;
@@ -126,37 +162,24 @@ public class Problem054 : IProblem
         }
     }
 
-    public class Card
+    private class Card
     {
         public Card(char value, char color)
         {
-            Value = value switch
+            this.Value = value switch
             {
                 'T' => 10,
                 'J' => 11,
                 'Q' => 12,
                 'K' => 13,
                 'A' => 14,
-                _ => int.Parse(value.ToString())
+                _ => int.Parse(value.ToString()),
             };
-            Color = color;
+            this.Color = color;
         }
 
         public int Value { get; }
-        public char Color { get; }
-    }
 
-    public enum Figure
-    {
-        HighCard,
-        OnePair,
-        TwoPairs,
-        ThreeOfAKind,
-        Straight,
-        Flush,
-        FullHouse,
-        FourOfAKind,
-        StraightFlush,
-        RoyalFlush
+        public char Color { get; }
     }
 }

@@ -19,13 +19,13 @@ public class Problem006 : IProblem
         return Task.FromResult(difference.ToString());
     }
 
-    public static int ArithmeticSeries(int start, int commonDifference, int count)
+    private static int ArithmeticSeries(int start, int commonDifference, int count)
     {
         int end = start + ((count - 1) * commonDifference);
         return count * (start + end) / 2;
     }
 
-    public static int SumOfSquares(int n)
+    private static int SumOfSquares(int n)
     {
         return n * (n + 1) * ((2 * n) + 1) / 6;
     }

@@ -20,19 +20,21 @@ public class Problem023 : IProblem
         return Task.FromResult(arr.Sum().ToString());
     }
 
-    static IEnumerable<int> NonSummable()
+    private static IEnumerable<int> NonSummable()
     {
         int limit = 28123;
         var abundantNumbers = Enumerable.Range(1, limit).Where(x => IsAbundant(x)).ToArray();
-        var sums = abundantNumbers.CartesianProduct(abundantNumbers).Select(x => x.a + x.b).ToHashSet();
+        var sums = abundantNumbers.CartesianProduct(abundantNumbers).Select(x => x.A + x.B).ToHashSet();
         for (int i = 1; i < limit; i++)
         {
             if (!sums.Contains(i))
+            {
                 yield return i;
+            }
         }
     }
 
-    static bool IsAbundant(long n)
+    private static bool IsAbundant(long n)
     {
         return n.ProperDivisors().Sum() > n;
     }

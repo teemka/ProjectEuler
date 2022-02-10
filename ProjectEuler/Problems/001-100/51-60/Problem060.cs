@@ -1,10 +1,18 @@
-﻿namespace ProjectEuler.Problems._001_100._51_60;
+﻿using Microsoft.Extensions.Logging;
+
+namespace ProjectEuler.Problems._001_100._51_60;
 
 public class Problem060 : IProblem
 {
+    private readonly ILogger<Problem060> logger;
+
+    public Problem060(ILogger<Problem060> logger)
+    {
+        this.logger = logger;
+    }
+
     public Task<string> CalculateAsync(string[] args)
     {
-
         var primes = NumberHelper.Primes(1000000).ToHashSet();
         int primesCount = primes.Count;
 
@@ -17,11 +25,11 @@ public class Problem060 : IProblem
             .Combinations(4)
             .First(x => x.Combinations(2).All(x => IsConcatenationPrimeArr(x)));
 
-        //foreach(var permutation in output.Combinations(2))
-        //{
-        //    Console.WriteLine($"{permutation[0]}{permutation[1]}");
-        //    Console.WriteLine($"{permutation[1]}{permutation[0]}");
-        //}
+        foreach (var permutation in output.Combinations(2))
+        {
+            this.logger.LogDebug("{perm0}{perm1}", permutation[0], permutation[1]);
+            this.logger.LogDebug("{perm1}{perm0}", permutation[1], permutation[0]);
+        }
 
         return Task.FromResult(output.Sum().ToString());
     }

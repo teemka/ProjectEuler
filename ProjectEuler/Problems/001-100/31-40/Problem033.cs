@@ -23,9 +23,9 @@ public class Problem033 : IProblem
             }
         }
 
-        var product = fractions.Aggregate((first, second) => (first.Numerator * second.Numerator, first.Denominator * second.Denominator));
+        var (productNumerator, productDenominator) = fractions.Aggregate((first, second) => (first.Numerator * second.Numerator, first.Denominator * second.Denominator));
 
-        var lowestDenominator = product.Denominator / product.Numerator;
+        var lowestDenominator = productDenominator / productNumerator;
 
         return Task.FromResult(lowestDenominator.ToString());
     }

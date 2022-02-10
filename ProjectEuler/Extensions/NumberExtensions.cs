@@ -2,10 +2,18 @@
 
 public static class NumberExtensions
 {
+    public static bool IsPandigital(this int number)
+    {
+        var num = number.ToString();
+        int n = num.Length;
+        return num.Distinct().Count() == n && num.All(x => x >= '1' && x <= '9');
+    }
+
     /// <summary>
-    /// Checks if number is prime by using 6k ± 1 optimization
+    /// Checks if number is prime by using 6k ± 1 optimization.
     /// </summary>
     /// <param name="n">Number to be tested.</param>
+    /// <returns>value indicating if the number is prime.</returns>
     public static bool IsPrime(this long n)
     {
         return NumberHelper.IsPrime(n);
@@ -41,8 +49,10 @@ public static class NumberExtensions
     }
 
     /// <summary>
-    /// Reverse decimal number by its digits. 123 becomes 321. 200 becomes 2
+    /// Reverse decimal number by its digits. 123 becomes 321. 200 becomes 2.
     /// </summary>
+    /// <param name="value">value to reverse.</param>
+    /// <returns>reversed value.</returns>
     public static int Reverse(this int value)
     {
         int reversed = 0;
@@ -51,6 +61,7 @@ public static class NumberExtensions
             value = Math.DivRem(value, 10, out var remainder);
             reversed = (reversed * 10) + remainder;
         }
+
         return reversed;
     }
 }

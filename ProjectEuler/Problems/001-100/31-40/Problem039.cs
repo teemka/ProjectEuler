@@ -15,15 +15,21 @@ public class Problem039 : IProblem
             for (int j = i; j <= 1000; j++)
             {
                 if (i + j > 1000)
+                {
                     break;
+                }
 
                 var hypotenuse = Math.Sqrt(Math.Pow(i, 2) + Math.Pow(j, 2));
 
                 if ((int)hypotenuse != hypotenuse)
+                {
                     continue;
+                }
 
                 if (hypotenuse + i + j > 1000)
+                {
                     break;
+                }
 
                 var rightTriangle = new RightTriangle(i, j, (int)hypotenuse);
                 rightTriangles.Add(rightTriangle);
@@ -39,20 +45,20 @@ public class Problem039 : IProblem
 
     private readonly struct RightTriangle
     {
-        public readonly int a;
-        public readonly int b;
-        public readonly int c;
+        public readonly int A;
+        public readonly int B;
+        public readonly int C;
 
         public RightTriangle(int a, int b, int c)
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            Perimeter = a + b + c;
+            this.A = a;
+            this.B = b;
+            this.C = c;
+            this.Perimeter = a + b + c;
         }
 
         public int Perimeter { get; }
 
-        public override string ToString() => $"{a}, {b}, {c}";
+        public override string ToString() => $"{this.A}, {this.B}, {this.C}";
     }
 }

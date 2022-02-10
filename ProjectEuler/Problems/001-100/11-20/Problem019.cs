@@ -13,9 +13,13 @@ public class Problem019 : IProblem
         while (date < end)
         {
             if (date.DayOfWeek == DayOfWeek.Sunday)
+            {
                 sundayCount++;
+            }
+
             date = date.AddMonths(1);
         }
+
         return Task.FromResult(sundayCount.ToString());
     }
 }

@@ -13,7 +13,7 @@ public class Problem058 : IProblem
     {
         int count = 1;
         int primesTotal = 0;
-        var sequence = Problem028.Sequence().GetEnumerator();
+        var sequence = Sequences.SpiralDiagonal().GetEnumerator();
         sequence.MoveNext();
         while (true)
         {
@@ -23,12 +23,18 @@ public class Problem058 : IProblem
                 sequence.MoveNext();
                 var number = sequence.Current;
                 if (NumberHelper.IsPrime(number))
+                {
                     primesTotal++;
+                }
             }
+
             var ratio = primesTotal / (double)count;
             if (ratio < 0.1)
+            {
                 break;
+            }
         }
+
         int sideLength = ((count - 1) / 2) + 1;
 
         return Task.FromResult(sideLength.ToString());

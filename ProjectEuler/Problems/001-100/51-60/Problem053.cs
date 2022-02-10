@@ -13,6 +13,7 @@ public class Problem053 : IProblem
             for (int r = 1; r < n / 2; r++)
             {
                 var result = NumberHelper.BinomialCoefficient(n, r);
+
                 // binomial coefficient is symmetric
                 if (result > 1_000_000)
                 {

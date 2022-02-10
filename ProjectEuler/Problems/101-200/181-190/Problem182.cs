@@ -29,18 +29,21 @@ public class Problem182 : IProblem
                 if (IsConcealed(m, e, n))
                 {
                     if (count == 7)
+                    {
                         return;
+                    }
+
                     count++;
                 }
             }
+
             results.Add((e, count));
         });
 
-        return Task.FromResult("");
-        //return result.ToString();
+        return Task.FromResult(string.Empty);
     }
 
-    public static bool IsConcealed(int message, int e, int n)
+    private static bool IsConcealed(int message, int e, int n)
     {
         var m = new BigInteger(message);
         return BigInteger.Pow(m, e) % n == m;

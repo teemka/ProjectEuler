@@ -11,7 +11,9 @@ public class Problem063 : IProblem
     {
         int expBase = 1;
         int count = 0;
-        while (expBase < 10) // only take numbers under 10 into account
+
+        // only take numbers under 10 into account
+        while (expBase < 10)
         {
             int exp = 1;
             while (true)
@@ -29,6 +31,7 @@ public class Problem063 : IProblem
 
                 exp++;
             }
+
             expBase++;
         }
 

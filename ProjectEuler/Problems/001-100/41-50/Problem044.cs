@@ -27,6 +27,7 @@ public class Problem044 : IProblem
                         }
                     }
                 }
+
                 discovered.Add(p);
             }
 

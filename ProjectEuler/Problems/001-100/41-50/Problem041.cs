@@ -13,18 +13,11 @@ public class Problem041 : IProblem
         foreach (var prime in primes)
         {
             if (prime.IsPandigital() && prime > max)
+            {
                 max = prime;
+            }
         }
-        return Task.FromResult(max.ToString());
-    }
-}
 
-public static class Extensions
-{
-    public static bool IsPandigital(this int number)
-    {
-        var num = number.ToString();
-        int n = num.Length;
-        return num.Distinct().Count() == num.Length && num.All(x => x >= '1' && x <= (n + '0'));
+        return Task.FromResult(max.ToString());
     }
 }

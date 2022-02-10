@@ -10,13 +10,17 @@ public class Problem145 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         if (!int.TryParse(args.FirstOrDefault(), out int limit))
+        {
             limit = 1_000_000_000;
+        }
 
         int count = 0;
         for (int i = 1; i < limit; i++)
         {
             if (IsReversibleIfReverseIsGreater(i))
+            {
                 count++;
+            }
         }
 
         count *= 2;
@@ -28,7 +32,10 @@ public class Problem145 : IProblem
     {
         var reverse = value.Reverse();
         if (reverse < value)
+        {
             return false;
+        }
+
         var sum = reverse + value;
         return AllDigitsOdd(sum);
     }
@@ -41,6 +48,7 @@ public class Problem145 : IProblem
             n = Math.DivRem(n, 10, out var remainder);
             allOdd &= remainder % 2 == 1;
         }
+
         return allOdd;
     }
 }

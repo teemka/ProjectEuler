@@ -10,33 +10,38 @@ public class Problem038 : IProblem
     {
         var pandigitals = "123456789".GetPermutations().Select(x => string.Concat(x)).ToArray();
 
-        var output = new List<((long number, int n) input, string pandigital)>();
+        var output = new List<((long Number, int N) Input, string Pandigital)>();
         foreach (var pandigital in pandigitals)
         {
             var pandigitalNumber = long.Parse(pandigital);
             for (int length = 1; length < 9; length++)
             {
-                var number = long.Parse(pandigital.Substring(0, length));
+                var number = long.Parse(pandigital[..length]);
                 int n = 2;
                 while (true)
                 {
                     var multiple = CreateMultiple(number, n);
                     var s = multiple.ToString();
                     if (s == pandigital)
+                    {
                         output.Add(((number, n), s));
+                    }
                     else if (multiple > pandigitalNumber)
+                    {
                         break;
+                    }
+
                     n++;
                 }
             }
         }
 
-        var result = output.OrderByDescending(x => x.pandigital).First();
+        var (_, maxPandigital) = output.MaxBy(x => x.Pandigital);
 
-        return Task.FromResult(result.pandigital);
+        return Task.FromResult(maxPandigital);
     }
 
-    public static long CreateMultiple(long number, int n)
+    private static long CreateMultiple(long number, int n)
     {
         var multiples = Enumerable.Range(1, n)
             .Select(x => number * x);

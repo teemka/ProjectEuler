@@ -11,7 +11,7 @@ public class Problem015 : IProblem
         return Task.FromResult(BinomialCoefficient(40, 20).ToString());
     }
 
-    static decimal BinomialCoefficient(int n, int k)
+    private static decimal BinomialCoefficient(int n, int k)
     {
         decimal result = 1;
         for (int i = 1; i <= k; i++)
@@ -19,6 +19,7 @@ public class Problem015 : IProblem
             result *= n - (k - i);
             result /= i;
         }
+
         return result;
     }
 }

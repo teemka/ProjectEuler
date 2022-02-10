@@ -19,6 +19,7 @@ public class Problem092 : IProblem
                     number = Math.DivRem(number, 10, out var digit);
                     next += digit * digit;
                 }
+
                 number = next;
 
                 if (number == 1)

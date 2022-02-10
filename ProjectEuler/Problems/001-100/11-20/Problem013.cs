@@ -110,11 +110,11 @@ public class Problem013 : IProblem
 53503534226472524250874054075591789781264330331690";
         var numbers = input.Split(Environment.NewLine);
         var sumOfFirstTenDigits = numbers
-            .Select(x => x.Substring(0, 11))
+            .Select(x => x[..11])
             .Select(long.Parse)
             .Sum();
 
-        var firstTenDigits = sumOfFirstTenDigits.ToString().Substring(0, 10);
+        var firstTenDigits = sumOfFirstTenDigits.ToString()[..10];
         return Task.FromResult(firstTenDigits);
     }
 }

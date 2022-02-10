@@ -13,7 +13,7 @@ public class Problem047 : IProblem
         return Task.FromResult(result.First().ToString());
     }
 
-    public static int[] ConsecutiveNumbersToHaveDistinctPrimeFactors(int start, int end, int consecutiveCount, int primeFactorsCount)
+    private static int[] ConsecutiveNumbersToHaveDistinctPrimeFactors(int start, int end, int consecutiveCount, int primeFactorsCount)
     {
         var output = new List<int>(consecutiveCount);
 
@@ -22,13 +22,20 @@ public class Problem047 : IProblem
         {
             var factors = ((long)number).PrimeFactors();
             if (factors.Distinct().Count() == primeFactorsCount)
+            {
                 output.Add(number);
+            }
             else
+            {
                 output.Clear();
+            }
 
             if (output.Count == consecutiveCount)
+            {
                 return output.ToArray();
+            }
         }
+
         return Array.Empty<int>();
     }
 }

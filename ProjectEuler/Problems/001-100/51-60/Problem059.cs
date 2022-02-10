@@ -25,13 +25,13 @@ public class Problem059 : IProblem
 
         var possiblePasswords = PossiblePasswords();
 
-        var password = "";
-        var text = "";
+        var password = string.Empty;
+        var text = string.Empty;
         foreach (var possiblePassword in possiblePasswords)
         {
             var decrypted = Decrypt(encryptedText, possiblePassword);
 
-            logger.LogDebug("{decrypted}", decrypted);
+            this.logger.LogDebug("{decrypted}", decrypted);
 
             if (Regex.IsMatch(decrypted, @"^[\w\s\.\,\'\?\!\;\(\)\+\-\*\/""\:\[\]]*$"))
             {
@@ -41,12 +41,12 @@ public class Problem059 : IProblem
             }
         }
 
-        logger.LogInformation("The password is '{password}'", password);
+        this.logger.LogInformation("The password is '{password}'", password);
 
         return text.Select(x => (int)x).Sum().ToString();
     }
 
-    public static IEnumerable<string> PossiblePasswords()
+    private static IEnumerable<string> PossiblePasswords()
     {
         var alphabet = StringHelper.AlphabetLowercase;
         foreach (var i in alphabet)
@@ -61,7 +61,7 @@ public class Problem059 : IProblem
         }
     }
 
-    public static string Decrypt(string code, string password)
+    private static string Decrypt(string code, string password)
     {
         var sb = new StringBuilder();
         var keyIndex = 0;
@@ -73,7 +73,9 @@ public class Problem059 : IProblem
 
             keyIndex++;
             if (keyIndex == password.Length)
+            {
                 keyIndex = 0;
+            }
         }
 
         return sb.ToString();

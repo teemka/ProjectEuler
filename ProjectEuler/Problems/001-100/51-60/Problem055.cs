@@ -14,14 +14,18 @@ public class Problem055 : IProblem
         return Task.FromResult(result.ToString());
     }
 
-    public static bool IsLychrelNumber(BigInteger number, int iterations = 50)
+    private static bool IsLychrelNumber(BigInteger number, int iterations = 50)
     {
         for (int i = 0; i < iterations; i++)
         {
             number += BigInteger.Parse(number.ToString().Reverse().Concat());
+
             if (number.ToString().IsPalindrome())
+            {
                 return false;
+            }
         }
+
         return true;
     }
 }

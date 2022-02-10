@@ -34,7 +34,10 @@ public static class Program
             {
                 Console.WriteLine($"Problem{problemNumber:000} is not implemented. Implemented problems:");
                 foreach (var p in problems)
+                {
                     Console.WriteLine(p.Value.GetType().Name);
+                }
+
                 return;
             }
 
@@ -67,7 +70,9 @@ public static class Program
             .OrderBy(x => x.Name);
 
         foreach (var problemType in problemTypes)
+        {
             services.AddTransient(typeof(IProblem), problemType);
+        }
 
         return services;
     }

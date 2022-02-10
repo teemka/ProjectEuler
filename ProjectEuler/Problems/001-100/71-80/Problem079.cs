@@ -43,6 +43,7 @@ public class Problem079 : IProblem
                 }
             }
         }
+
         var result = values.OrderBy(x => x.Value).Select(x => x.Key).Concat();
         return result;
     }

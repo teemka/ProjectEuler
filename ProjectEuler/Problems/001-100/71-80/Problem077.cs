@@ -10,24 +10,30 @@ public class Problem077 : IProblem
         // TODO: Adapt https://projecteuler.net/overview=031
         var coins = NumberHelper.Primes(1_000_000).ToArray();
 
-        int ways(int target, int avc)
+        int Ways(int target, int avc)
         {
             if (avc <= 2)
+            {
                 return 1;
+            }
+
             int res = 0;
             while (target >= 0)
             {
-                res += ways(target, avc - 1);
+                res += Ways(target, avc - 1);
                 target -= coins[avc];
             }
+
             return res;
         }
 
-        var test = ways(10, 3);
+        var test = Ways(10, 3);
 
         var result = 11; // 10 is provided in example
-        while (ways(result, result / 2) < 5001)
+        while (Ways(result, result / 2) < 5001)
+        {
             result++;
+        }
 
         return Task.FromResult(result.ToString());
     }

@@ -11,9 +11,11 @@ public class Problem686 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         if (args.Length != 2)
+        {
             args = new[] { "123", "678910" };
+        }
 
-        var L = int.Parse(args[0]);
+        var l = int.Parse(args[0]);
         var n = int.Parse(args[1]);
 
         int i = 1;
@@ -22,14 +24,18 @@ public class Problem686 : IProblem
         while (true)
         {
             current *= 2;
-            if (current.ToString().StartsWith(L.ToString()))
+            if (current.ToString().StartsWith(l.ToString()))
             {
                 currentN++;
                 if (currentN == n)
+                {
                     break;
+                }
             }
+
             i++;
         }
+
         return Task.FromResult(i.ToString());
     }
 }

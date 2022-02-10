@@ -13,12 +13,14 @@ public class Problem005 : IProblem
 
         int value = 20;
         while (!IsEvenlyDivisible(value, divisors))
+        {
             value++;
+        }
 
         return Task.FromResult(value.ToString());
     }
 
-    public static bool IsEvenlyDivisible(int value, int[] divisors)
+    private static bool IsEvenlyDivisible(int value, int[] divisors)
     {
         return divisors.All(divisor => value % divisor == 0);
     }

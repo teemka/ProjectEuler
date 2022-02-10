@@ -17,7 +17,7 @@ public class Problem042 : IProblem
         return count.ToString();
     }
 
-    public static int CalculateAlphabeticalSumUppercase(string word)
+    private static int CalculateAlphabeticalSumUppercase(string word)
     {
         return word.Select(c => c.ToAlphabeticalPositionUppercase()).Sum();
     }
