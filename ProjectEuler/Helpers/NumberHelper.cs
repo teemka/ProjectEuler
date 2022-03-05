@@ -1,12 +1,11 @@
-﻿using ProjectEuler;
-using System.Collections;
+﻿using System.Collections;
 using System.Numerics;
 
 namespace ProjectEuler.Helpers;
 
 public static class NumberHelper
 {
-    public static IEnumerable<int> Primes(int upperLimit = int.MaxValue)
+    public static IEnumerable<int> Primes(int upperLimit)
     {
         yield return 2;
 
@@ -43,6 +42,38 @@ public static class NumberHelper
             {
                 yield return ToNumber(i);
             }
+        }
+    }
+
+    public static IEnumerable<long> Primes()
+    {
+        var primeCache = new List<long>();
+        long curentNumber = 2;
+        while (true)
+        {
+            var isPrime = true;
+            var currentRoot = Math.Sqrt(curentNumber);
+            foreach (var cachedPrime in primeCache)
+            {
+                if (curentNumber % cachedPrime == 0)
+                {
+                    isPrime = false;
+                    break;
+                }
+
+                if (cachedPrime > currentRoot)
+                {
+                    break;
+                }
+            }
+
+            if (isPrime)
+            {
+                primeCache.Add(curentNumber);
+                yield return curentNumber;
+            }
+
+            curentNumber++;
         }
     }
 

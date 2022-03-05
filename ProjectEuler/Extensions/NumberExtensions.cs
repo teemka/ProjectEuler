@@ -64,4 +64,9 @@ public static class NumberExtensions
 
         return reversed;
     }
+
+    public static bool IsInteger(this double value)
+    {
+        return Math.Floor(value) == value;
+    }
 }

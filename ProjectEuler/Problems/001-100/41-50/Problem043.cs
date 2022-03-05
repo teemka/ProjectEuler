@@ -30,23 +30,6 @@ public class Problem043 : IProblem
         return Task.FromResult(sum.ToString());
     }
 
-    private static bool HasThisProperty(ReadOnlySpan<char> number)
-    {
-        return IsSubspanDivisible(number, 1, 4, 2) &&
-               IsSubspanDivisible(number, 2, 5, 3) &&
-               IsSubspanDivisible(number, 3, 6, 5) &&
-               IsSubspanDivisible(number, 4, 7, 7) &&
-               IsSubspanDivisible(number, 5, 8, 11) &&
-               IsSubspanDivisible(number, 6, 9, 13) &&
-               IsSubspanDivisible(number, 7, 10, 17);
-
-        static bool IsSubspanDivisible(ReadOnlySpan<char> number, Index start, Index end, int modulo)
-        {
-            var d1 = number[start..end];
-            return int.Parse(d1.ToString()) % modulo == 0;
-        }
-    }
-
     private static bool HasThisProperty(string number)
     {
         return IsSubspanDivisible(number, 1, 4, 2) &&

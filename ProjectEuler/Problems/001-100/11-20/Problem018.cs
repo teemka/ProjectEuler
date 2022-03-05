@@ -15,20 +15,23 @@
 ///    75
 ///  95 64
 /// 17 47 82........
+/// Answer: 1074
+/// Path: 75, 64, 82, 87, 82, 75, 73, 28, 83, 32, 91, 78, 58, 73, 93
 /// </summary>
 public class Problem018 : IProblem
 {
     public async Task<string> CalculateAsync(string[] args)
     {
-        var lines = await File.ReadAllLinesAsync("Problems/001-100/11-20/Problem018_triangle.txt");
-        var root = new Vertex(int.Parse(lines[0]));
-        var vertices = new Vertex[lines.Length][];
-        vertices[0] = new Vertex[] { root };
+        var lines = args.FirstOrDefault()?.Split("\n") ?? await File.ReadAllLinesAsync("Problems/001-100/11-20/Problem018_triangle.txt");
+
+        var root = new Dijkstra.Vertex(100 - int.Parse(lines[0]));
+        var vertices = new Dijkstra.Vertex[lines.Length][];
+        vertices[0] = new Dijkstra.Vertex[] { root };
         var edges = vertices.Take(lines.Length - 1).Zip(lines.Skip(1), (v, l) => (vertices: v, line: l)).ToArray();
         for (int i = 0; i < edges.Length; i++)
         {
             var edge = edges[i];
-            var parsed = edge.line.Split(" ").Select(int.Parse).Select(x => new Vertex(x)).ToArray();
+            var parsed = edge.line.Split(" ").Select(int.Parse).Select(x => new Dijkstra.Vertex(100 - x)).ToArray();
 
             for (int j = 0; j < edge.vertices.Length; j++)
             {
@@ -45,70 +48,13 @@ public class Problem018 : IProblem
         }
 
         var graph = vertices.SelectMany(x => x).ToArray();
-        var (dist, prev) = Dijkstra(graph, root);
-        var lastRow = vertices[^1];
-        var lastRowValue = lastRow.Select(v => (v, dist[v])).ToArray();
-        var vertexWithMaxValue = lastRow.OrderBy(v => dist[v]).ToArray()[0];
+        var (dist, prev) = Dijkstra.Calculate(graph, root);
+        var target = vertices[^1].MinBy(x => dist[x])!;
+        var maxDistance = dist[target];
 
-        var path = RecreatePath(prev, vertexWithMaxValue);
-        var sum = path.Select(v => v.OriginalValue).Sum();
+        var path = Dijkstra.RecreatePath(prev, target).Reverse();
+        var distance = path.Select(x => 100 - x.Value).Sum();
 
-        return sum.ToString();
-    }
-
-    private static IEnumerable<Vertex> RecreatePath(Dictionary<Vertex, Vertex> prev, Vertex start)
-    {
-        yield return start;
-        var next = start;
-        while (prev.ContainsKey(next))
-        {
-            next = prev[next];
-            yield return next;
-        }
-    }
-
-    private static (Dictionary<Vertex, int> Dist, Dictionary<Vertex, Vertex> Prev) Dijkstra(Vertex[] graph, Vertex source)
-    {
-        var queue = new List<Vertex>(graph);
-        var dist = graph.ToDictionary(x => x, v => int.MaxValue - 100);
-        var prev = new Dictionary<Vertex, Vertex>();
-        dist[source] = 0;
-
-        while (queue.Any())
-        {
-            queue = queue.OrderBy(v => dist[v]).ToList();
-            var u = queue[0];
-            queue = queue.Skip(1).ToList();
-            foreach (var v in u.Neighbours)
-            {
-                if (!queue.Contains(v))
-                {
-                    continue;
-                }
-
-                var alt = dist[u] + v.Value;
-                if (alt < dist[v])
-                {
-                    dist[v] = alt;
-                    prev[v] = u;
-                }
-            }
-        }
-
-        return (dist, prev);
-    }
-
-    private class Vertex
-    {
-        public Vertex(int value)
-        {
-            this.OriginalValue = value;
-        }
-
-        public int OriginalValue { get; }
-
-        public int Value => 100 - this.OriginalValue;
-
-        public List<Vertex> Neighbours { get; } = new List<Vertex>();
+        return distance.ToString();
     }
 }
