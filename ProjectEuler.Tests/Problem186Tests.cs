@@ -10,8 +10,12 @@ public class Problem186Tests
     [InlineData(3, 600863, 701497)]
     public void Should_GenerateExample(int recNr, int caller, int called)
     {
-        Problem186.GetCallerNo(recNr).Should().Be(caller);
-        Problem186.GetCalledNo(recNr).Should().Be(called);
+        var lfg = new Problem186.LaggedFibonacciGenerator();
+        var numbers = lfg.Skip(2 * (recNr - 1)).Take(2).ToArray();
+
+        numbers.Should().HaveCount(2);
+        numbers[0].Should().Be(caller);
+        numbers[1].Should().Be(called);
     }
 
     [Fact]

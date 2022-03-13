@@ -7,7 +7,12 @@ public static class Kruskal
 {
     public static HashSet<Edge> CalculateMst(IEnumerable<Vertex> graph)
     {
-        var trees = graph.ToDictionary(v => v, v => new HashSet<Vertex> { v });
+        var trees = new DisjointSet<Vertex>();
+
+        foreach (var vertex in graph)
+        {
+            trees.MakeSet(vertex);
+        }
 
         var output = new HashSet<Edge>();
 
@@ -19,20 +24,10 @@ public static class Kruskal
 
         foreach (var edge in edges)
         {
-            if (trees[edge.V1] != trees[edge.V2])
+            if (trees.FindParent(edge.V1) != trees.FindParent(edge.V2))
             {
                 output.Add(edge);
-
-                // Merge trees
-                foreach (var vertex in trees[edge.V2])
-                {
-                    trees[edge.V1].Add(vertex);
-                }
-
-                foreach (var vertex in trees[edge.V1])
-                {
-                    trees[vertex] = trees[edge.V1];
-                }
+                trees.Union(trees.FindParent(edge.V1), trees.FindParent(edge.V2));
             }
         }
 
