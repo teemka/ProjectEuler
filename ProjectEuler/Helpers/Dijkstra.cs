@@ -1,6 +1,6 @@
 ﻿namespace ProjectEuler.Helpers;
 
-public class Dijkstra
+public static class Dijkstra
 {
     public static (Dictionary<Vertex, long> Dist, Dictionary<Vertex, Vertex?> Prev) Calculate(IEnumerable<Vertex> graph, Vertex root)
     {

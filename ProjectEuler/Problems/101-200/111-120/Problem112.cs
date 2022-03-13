@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
-namespace ProjectEuler.Problems._101_200._101_110;
+namespace ProjectEuler.Problems._101_200._111_120;
 
 /// <summary>
 /// https://projecteuler.net/problem=112

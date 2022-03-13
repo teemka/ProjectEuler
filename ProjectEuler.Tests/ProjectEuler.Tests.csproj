@@ -18,4 +18,10 @@
     <ProjectReference Include="..\ProjectEuler\ProjectEuler.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
