@@ -2,31 +2,40 @@
 
 namespace ProjectEuler.Helpers;
 
-public class DisjointSet<T> : IEnumerable<T>
+/// <summary>
+/// https://en.wikipedia.org/wiki/Disjoint-set_data_structure
+/// </summary>
+/// <typeparam name="T">Type of the item in the set.</typeparam>
+public class DisjointSet<T> : IReadOnlyCollection<T>
     where T : notnull
 {
-    private readonly Dictionary<T, Element> elements = new();
+    private readonly Dictionary<T, T> parents = new();
+    private readonly Dictionary<T, int> sizes = new();
 
-    public void MakeSet(T x)
+    public int Count => this.sizes.Count;
+
+    /// <summary>
+    /// Make singleton set from an item.
+    /// </summary>
+    /// <param name="item">Item to create set from</param>
+    /// <exception cref="ArgumentException">Set for this item already exists.</exception>
+    public void Add(T item)
     {
-        this.elements.Add(x, new Element(x, 1));
+        this.parents.Add(item, item);
+        this.sizes.Add(item, 1);
     }
-
-    public void Add(T item) => this.MakeSet(item);
 
     public T FindParent(T x)
     {
-        var element = this.elements[x];
-
-        if (element.Parent.Equals(x))
+        if (this.parents[x].Equals(x))
         {
             return x;
         }
 
-        return element.Parent = this.FindParent(element.Parent);
+        return this.parents[x] = this.FindParent(this.parents[x]);
     }
 
-    public int GetSize(T item) => this.elements[this.FindParent(item)].Size;
+    public int GetSize(T item) => this.sizes[this.FindParent(item)];
 
     public void Union(T x, T y)
     {
@@ -42,27 +51,25 @@ public class DisjointSet<T> : IEnumerable<T>
 
         // If necessary, rename variables to ensure that
         // x has at least as many descendants as y
-        if (this.elements[x].Size < this.elements[y].Size)
+        if (this.sizes[x] < this.sizes[y])
         {
             (x, y) = (y, x);
         }
 
         // Make x the new root
-        var yElem = this.elements[y];
-        yElem.Parent = x;
+        this.parents[y] = x;
 
         // Update the size of x
-        var xElem = this.elements[x];
-        xElem.Size += yElem.Size;
+        this.sizes[x] += this.sizes[y];
     }
 
-    public bool Contains(T item) => this.elements.ContainsKey(item);
+    public bool Contains(T item) => this.sizes.ContainsKey(item);
 
-    public IEnumerator<T> GetEnumerator() => this.elements.Keys.GetEnumerator();
+    public IEnumerator<T> GetEnumerator() => this.sizes.Keys.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => this.elements.Keys.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => this.sizes.Keys.GetEnumerator();
 
-    private class Element
+    private struct Element
     {
         public Element(T parent, int size)
         {

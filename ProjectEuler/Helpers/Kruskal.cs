@@ -11,7 +11,7 @@ public static class Kruskal
 
         foreach (var vertex in graph)
         {
-            trees.MakeSet(vertex);
+            trees.Add(vertex);
         }
 
         var output = new HashSet<Edge>();
