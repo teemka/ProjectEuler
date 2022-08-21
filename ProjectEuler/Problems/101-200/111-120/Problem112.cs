@@ -10,6 +10,11 @@ public class Problem112 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
+        if (!double.TryParse(args.FirstOrDefault(), out var target))
+        {
+            target = 0.99;
+        }
+
         var bouncyCount = 0;
         var i = 1;
         while (true)
@@ -22,7 +27,7 @@ public class Problem112 : IProblem
 
             var percentage = bouncyCount / (double)i;
 
-            if (percentage >= 0.99)
+            if (percentage >= target)
             {
                 break;
             }
@@ -33,14 +38,31 @@ public class Problem112 : IProblem
         return Task.FromResult(i.ToString());
     }
 
-    private static bool IsBouncy(int number)
+    internal static bool IsBouncy(int number)
     {
         var n = number.ToString(CultureInfo.InvariantCulture);
 
-        var isInc = string.Join(string.Empty, n.OrderBy(x => x)) == n;
-        var isDec = string.Join(string.Empty, n.OrderByDescending(x => x)) == n;
+        var isIncreasing = true;
+        var isDecreasing = true;
+        var pairs = n.Zip(n.Skip(1));
+        foreach (var (first, second) in pairs)
+        {
+            if (isIncreasing && first > second)
+            {
+                isIncreasing = false;
+            }
 
-        var result = !isInc && !isDec;
-        return result;
+            if (isDecreasing && first < second)
+            {
+                isDecreasing = false;
+            }
+
+            if (!isIncreasing && !isDecreasing)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
