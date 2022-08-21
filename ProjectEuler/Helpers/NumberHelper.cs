@@ -158,7 +158,13 @@ public static class NumberHelper
         return (int)sum;
     }
 
-    public static long GCD(long a, long b)
+    /// <summary>
+    /// Greatest common divisor. Aka highest common factor (HCF)
+    /// </summary>
+    /// <param name="a">First value.</param>
+    /// <param name="b">Second value.</param>
+    /// <returns>The GCD</returns>
+    public static int GCD(int a, int b)
     {
         while (a != 0 && b != 0)
         {
