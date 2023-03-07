@@ -26,12 +26,12 @@ public class Problem034 : IProblem
 
     private static int Factorial(int n)
     {
-        if (Factorials.ContainsKey(n))
+        if (Factorials.TryGetValue(n, out var value))
         {
-            return Factorials[n];
+            return value;
         }
 
-        var value = n * Factorial(n - 1);
+        value = n * Factorial(n - 1);
         Factorials[n] = value;
         return value;
     }

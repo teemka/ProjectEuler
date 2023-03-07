@@ -9,7 +9,7 @@ namespace ProjectEuler.Problems._001_100._51_60;
 /// https://projecteuler.net/problem=59
 /// Solution: 129448
 /// </summary>
-public class Problem059 : IProblem
+public partial class Problem059 : IProblem
 {
     private readonly ILogger<Problem059> logger;
 
@@ -33,7 +33,7 @@ public class Problem059 : IProblem
 
             this.logger.LogDebug("{decrypted}", decrypted);
 
-            if (Regex.IsMatch(decrypted, @"^[\w\s\.\,\'\?\!\;\(\)\+\-\*\/""\:\[\]]*$"))
+            if (WordsRegex().IsMatch(decrypted))
             {
                 password = possiblePassword;
                 text = decrypted;
@@ -80,4 +80,7 @@ public class Problem059 : IProblem
 
         return sb.ToString();
     }
+
+    [GeneratedRegex(@"^[\w\s\.\,\'\?\!\;\(\)\+\-\*\/""\:\[\]]*$")]
+    private static partial Regex WordsRegex();
 }

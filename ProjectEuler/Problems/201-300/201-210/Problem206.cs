@@ -2,7 +2,7 @@
 
 namespace ProjectEuler.Problems._201_300._201_210;
 
-public class Problem206 : IProblem
+public partial class Problem206 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
@@ -22,7 +22,7 @@ public class Problem206 : IProblem
                 }
 
                 var str = pow.ToString("0000000000000000000");
-                if (Regex.IsMatch(str, "^1.2.3.4.5.6.7.8.9.0$"))
+                if (Regex().IsMatch(str))
                 {
                     return pow;
                 }
@@ -33,4 +33,7 @@ public class Problem206 : IProblem
 
         return Task.FromResult($"{Result()}");
     }
+
+    [GeneratedRegex("^1.2.3.4.5.6.7.8.9.0$")]
+    private static partial Regex Regex();
 }
