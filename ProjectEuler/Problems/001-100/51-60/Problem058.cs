@@ -1,6 +1,4 @@
-﻿using ProjectEuler.Problems._001_100._21_30;
-
-namespace ProjectEuler.Problems._001_100._51_60;
+﻿namespace ProjectEuler.Problems._001_100._51_60;
 
 /// <summary>
 /// Spiral primes

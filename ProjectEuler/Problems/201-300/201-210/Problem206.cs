@@ -2,6 +2,9 @@
 
 namespace ProjectEuler.Problems._201_300._201_210;
 
+/// <summary>
+/// https://projecteuler.net/problem=206
+/// </summary>
 public partial class Problem206 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)

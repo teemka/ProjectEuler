@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace ProjectEuler.Extensions;
 
+/// <summary>
+/// Dependency injection helpers.
+/// </summary>
 internal static partial class DependencyInjection
 {
     internal static IServiceCollection AddProblems(this IServiceCollection services)
