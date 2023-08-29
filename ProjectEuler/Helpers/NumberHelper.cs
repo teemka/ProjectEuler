@@ -47,8 +47,9 @@ public static class NumberHelper
 
     public static IEnumerable<long> Primes()
     {
-        var primeCache = new List<long>();
-        long curentNumber = 2;
+        yield return 2;
+        var primeCache = new List<long> { 3 };
+        long curentNumber = 3;
         while (true)
         {
             var isPrime = true;
@@ -73,7 +74,7 @@ public static class NumberHelper
                 yield return curentNumber;
             }
 
-            curentNumber++;
+            curentNumber += 2;
         }
     }
 

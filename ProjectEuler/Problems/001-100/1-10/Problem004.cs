@@ -17,7 +17,7 @@ public class Problem004 : IProblem
 
         var largestProduct = products
             .OrderByDescending(x => x)
-            .Where(x => x.ToString().IsPalindrome())
+            .Where(x => x.IsPalindrome())
             .First();
 
         return Task.FromResult(largestProduct.ToString());
