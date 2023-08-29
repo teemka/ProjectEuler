@@ -2,8 +2,12 @@
 
 namespace ProjectEuler.Tests;
 
-public class Problem186Tests
+public class Problem186Tests : ProblemTestBase
 {
+    public override IProblem Problem => new Problem186();
+
+    public override string Answer => "2325629";
+
     [Theory]
     [InlineData(1, 200007, 100053)]
     [InlineData(2, 600183, 500439)]
@@ -16,12 +20,5 @@ public class Problem186Tests
         numbers.Should().HaveCount(2);
         numbers[0].Should().Be(caller);
         numbers[1].Should().Be(called);
-    }
-
-    [Fact]
-    public async Task Should_CalculateAnswer()
-    {
-        var answer = await new Problem186().CalculateAsync(Array.Empty<string>());
-        answer.Should().Be("2325629");
     }
 }

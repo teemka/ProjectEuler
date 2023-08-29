@@ -2,6 +2,28 @@
 
 public static class NumberExtensions
 {
+    /// <summary>
+    /// Is the number a palindrome in decimal representation.
+    /// </summary>
+    /// <param name="value">The number to check.</param>
+    /// <returns>A value indicating if a nubmer is a palindrome.</returns>
+    public static bool IsPalindrome(this int value)
+    {
+        var reversed = value.Reverse();
+        return reversed == value;
+    }
+
+    /// <summary>
+    /// Is the number a palindrome in decimal representation.
+    /// </summary>
+    /// <param name="value">The number to check.</param>
+    /// <returns>A value indicating if a nubmer is a palindrome.</returns>
+    public static bool IsPalindrome(this long value)
+    {
+        var reversed = value.Reverse();
+        return reversed == value;
+    }
+
     public static bool IsPandigital(this int number)
     {
         var num = number.ToString();
@@ -65,8 +87,20 @@ public static class NumberExtensions
         return reversed;
     }
 
-    public static bool IsInteger(this double value)
+    /// <summary>
+    /// Reverse decimal number by its digits. 123 becomes 321. 200 becomes 2.
+    /// </summary>
+    /// <param name="value">value to reverse.</param>
+    /// <returns>reversed value.</returns>
+    public static long Reverse(this long value)
     {
-        return Math.Floor(value) == value;
+        long reversed = 0;
+        while (value > 0)
+        {
+            value = Math.DivRem(value, 10, out var remainder);
+            reversed = (reversed * 10) + remainder;
+        }
+
+        return reversed;
     }
 }

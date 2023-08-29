@@ -13,7 +13,7 @@ public class Problem060 : IProblem
 
     public Task<string> CalculateAsync(string[] args)
     {
-        var primes = NumberHelper.Primes(1000000).ToHashSet();
+        var primes = NumberHelper.Primes(1_000_000).ToHashSet();
         int primesCount = primes.Count;
 
         bool IsConcatenationPrime(int a, int b) => primes.Contains(int.Parse($"{a}{b}"));

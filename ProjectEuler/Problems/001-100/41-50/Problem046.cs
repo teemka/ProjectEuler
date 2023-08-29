@@ -2,7 +2,6 @@
 
 /// <summary>
 /// https://projecteuler.net/problem=46
-/// Answer:
 /// </summary>
 public class Problem046 : IProblem
 {
@@ -56,7 +55,7 @@ public class Problem046 : IProblem
             var prime = Primes[i];
             var rest = curentNumber - prime;
 
-            if (Math.Sqrt(rest / 2).IsInteger())
+            if (double.IsInteger(Math.Sqrt(rest / 2)))
             {
                 return true;
             }
