@@ -8,10 +8,16 @@ namespace ProjectEuler.Problems._801_900._801_810;
 internal sealed class Problem808 : IProblem
 {
     private readonly HashSet<long> reversiblePrimeSquares = new();
+    private readonly IPrimes primes;
+
+    public Problem808(IPrimes primes)
+    {
+        this.primes = primes;
+    }
 
     public Task<string> CalculateAsync(string[] args)
     {
-        foreach (var prime in NumberHelper.Primes())
+        foreach (var prime in this.primes)
         {
             var square = (long)Math.Pow(prime, 2);
 
@@ -31,7 +37,7 @@ internal sealed class Problem808 : IProblem
 
             var candidateInteger = (long)secondPrimeCandidate;
 
-            if (!NumberHelper.IsPrime(candidateInteger))
+            if (!this.primes.IsPrime(candidateInteger))
             {
                 continue;
             }

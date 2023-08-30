@@ -48,6 +48,7 @@ public static class NumberHelper
     public static IEnumerable<long> Primes()
     {
         yield return 2;
+        yield return 3;
         var primeCache = new List<long> { 3 };
         long curentNumber = 3;
         while (true)
