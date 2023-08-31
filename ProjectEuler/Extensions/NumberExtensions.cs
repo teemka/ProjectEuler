@@ -26,9 +26,10 @@ public static class NumberExtensions
 
     public static bool IsPandigital(this int number)
     {
-        var num = number.ToString();
-        int n = num.Length;
-        return num.Distinct().Count() == n && num.All(x => x >= '1' && x <= '9');
+        var digits = number.GetDigits().ToArray();
+
+        return digits.Distinct().Count() == digits.Length &&
+            digits.All(x => x > 0 && x <= digits.Length);
     }
 
     /// <summary>
