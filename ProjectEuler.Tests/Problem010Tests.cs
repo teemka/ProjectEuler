@@ -1,0 +1,10 @@
+﻿using ProjectEuler.Problems._001_100._1_10;
+
+namespace ProjectEuler.Tests;
+
+public class Problem010Tests : ProblemTestBase
+{
+    public override IProblem Problem => new Problem010();
+
+    public override string Answer => "142913828922";
+}

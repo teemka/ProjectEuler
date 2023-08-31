@@ -13,7 +13,21 @@ internal class SieveOfErasthotenes : IPrimes
     public SieveOfErasthotenes(long upperLimit = 1_000_000)
     {
         this.sieve = new bool[ToIndex(upperLimit) + 1];
-        this.Populate(upperLimit);
+        var upperSqrtIndex = ToIndex((int)Math.Sqrt(upperLimit));
+        for (var i = 0; i <= upperSqrtIndex; i++)
+        {
+            if (this.sieve[i])
+            {
+                continue;
+            }
+
+            var prime = ToNumber(i);
+            var squareIndex = ToIndex(prime * prime);
+            for (var j = squareIndex; j < this.sieve.LongLength; j += prime)
+            {
+                this.sieve[j] = true;
+            }
+        }
     }
 
     public IEnumerator<long> GetEnumerator()
@@ -27,8 +41,7 @@ internal class SieveOfErasthotenes : IPrimes
             {
                 if (!this.sieve[j])
                 {
-                    var prime = ToNumber(j);
-                    yield return prime;
+                    yield return ToNumber(j);
                 }
             }
 
@@ -58,35 +71,52 @@ internal class SieveOfErasthotenes : IPrimes
 
     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
+    public IEnumerable<long> GetEnumerated()
+    {
+        yield return 2;
+
+        for (var i = 0; i < this.sieve.Length; i++)
+        {
+            if (!this.sieve[i])
+            {
+                yield return ToNumber(i);
+            }
+        }
+    }
+
     private static long ToIndex(long number) => (number - Offset) / 2;
 
     private static long ToNumber(long index) => (2 * index) + Offset;
 
     private void Grow(long newSize)
     {
-        Debug.Assert(newSize > this.sieve.LongLength, "New size is smaller than the previous");
+        var newSizeInt = (int)newSize;
+        Debug.Assert(newSizeInt > this.sieve.LongLength, "New size is smaller than the previous");
 
-        Array.Resize(ref this.sieve, (int)newSize);
+        var oldSize = this.sieve.LongLength;
+        Array.Resize(ref this.sieve, newSizeInt);
 
+        var lowerLimit = ToNumber(oldSize);
         var upperLimit = ToNumber(newSize);
-        this.Populate(upperLimit);
-    }
 
-    private void Populate(long upperLimit)
-    {
         var upperSqrtIndex = ToIndex((int)Math.Sqrt(upperLimit));
         for (var i = 0; i <= upperSqrtIndex; i++)
         {
-            // If this bit has already been turned off, then its associated number is composite.
             if (this.sieve[i])
             {
                 continue;
             }
 
-            var number = ToNumber(i);
+            var prime = ToNumber(i);
 
-            // Any multiples of number are composite and their respective bits should be turned off.
-            for (var j = ToIndex(number * number); j > i && j < this.sieve.LongLength; j += number)
+            // start from the first odd multiple of the prime below the limit
+            var start = lowerLimit - (lowerLimit % prime);
+            if (start % 2 == 0)
+            {
+                start += prime;
+            }
+
+            for (var j = ToIndex(start); j < this.sieve.LongLength; j += prime)
             {
                 this.sieve[j] = true;
             }

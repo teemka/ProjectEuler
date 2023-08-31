@@ -8,15 +8,18 @@
 /// </summary>
 public class Problem032 : IProblem
 {
+    private const int Limit = 100_000;
+
     public Task<string> CalculateAsync(string[] args)
     {
-        const int limit = 100_000;
-        var pandigitalNumbers = Enumerable.Range(2, limit - 2).Where(x => x.IsPandigital()).ToArray();
+        var products = new HashSet<int>();
+        var pandigitalNumbers = Enumerable.Range(2, Limit - 2)
+            .Where(x => !ContainsZero(x))
+            .ToArray();
 
-        var results = new List<(int, int, int Product)>();
         foreach (var multiplicand in pandigitalNumbers)
         {
-            if (multiplicand * 2 > limit)
+            if (multiplicand * 2 > Limit)
             {
                 break;
             }
@@ -25,7 +28,7 @@ public class Problem032 : IProblem
             {
                 var product = multiplicand * multiplier;
 
-                if (product > limit)
+                if (product > Limit)
                 {
                     break;
                 }
@@ -33,14 +36,15 @@ public class Problem032 : IProblem
                 var number = $"{multiplicand}{multiplier}{product}";
                 if (number.Length == 9 && int.Parse(number).IsPandigital())
                 {
-                    results.Add((multiplicand, multiplier, product));
+                    products.Add(product);
                 }
             }
         }
 
-        var products = results.Select(x => x.Product).Distinct().OrderBy(x => x).ToArray();
         var result = products.Sum();
 
         return Task.FromResult(result.ToString());
     }
+
+    private static bool ContainsZero(int number) => number.GetDigits().Any(digit => digit == 0);
 }

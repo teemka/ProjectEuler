@@ -8,16 +8,25 @@ public class Problem041 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var primes = NumberHelper.Primes(999_999_999).ToArray();
-        int max = 0;
+        var largestPandigitalPrime = Solve();
+
+        return Task.FromResult(largestPandigitalPrime.ToString());
+    }
+
+    private static long Solve()
+    {
+        // 8-digit and 9-digit pandigital numbers are divisible by 3 (sum of digits)
+        // So the greatest possible is 7-digit
+        var primes = new SieveOfErasthotenes(9_999_999).GetEnumerated().Reverse().ToArray();
+
         foreach (var prime in primes)
         {
-            if (prime.IsPandigital() && prime > max)
+            if (((int)prime).IsPandigital())
             {
-                max = prime;
+                return prime;
             }
         }
 
-        return Task.FromResult(max.ToString());
+        return 0;
     }
 }

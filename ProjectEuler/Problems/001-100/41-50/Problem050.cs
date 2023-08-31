@@ -14,26 +14,40 @@ public class Problem050 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         const int million = 1_000_000;
-        var primes = NumberHelper.Primes(million).ToHashSet();
 
-        var (maxValue, consecutiveCount) = (0, 0);
-        for (int i = 0; i < primes.Count - 1; i++)
+        var result = MaxSum(million);
+
+        return Task.FromResult(result.ToString());
+    }
+
+    internal static long MaxSum(int limit)
+    {
+        var primes = new SieveOfErasthotenes(limit);
+        var arr = primes.GetEnumerated().ToArray();
+
+        var maxSum = 0L;
+        var maxConsecutiveCount = 0;
+        for (int i = 0; i < arr.Length - 1; i++)
         {
-            for (int j = 1; j < primes.Count - i; j++)
+            var sum = arr[i];
+            for (int j = i + 1; j < arr.Length - i; j++)
             {
-                var sum = primes.Skip(i).Take(j).Sum();
-                if (sum > million)
+                sum += arr[j];
+
+                if (sum > limit)
                 {
                     break;
                 }
 
-                if (j > consecutiveCount && primes.Contains(sum))
+                var count = j - i + 1;
+                if (count > maxConsecutiveCount && primes.IsPrime(sum))
                 {
-                    (maxValue, consecutiveCount) = (sum, j);
+                    maxSum = sum;
+                    maxConsecutiveCount = count;
                 }
             }
         }
 
-        return Task.FromResult(maxValue.ToString());
+        return maxSum;
     }
 }

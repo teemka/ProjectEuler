@@ -26,4 +26,18 @@ public class SieveOfErasthotenesTests
         sieve.IsPrime(7).Should().BeTrue();
         sieve.IsPrime(999983).Should().BeTrue();
     }
+
+    [Fact]
+    public void Should_Grow()
+    {
+        // Arrange
+        var sieve = new SieveOfErasthotenes(1_000_000);
+
+        // Act
+        var primes = sieve.TakeWhile(x => x < 2_000_000).ToArray();
+
+        // Assert
+        primes.Should().HaveElementAt(78498, 1000003);
+        primes.Should().HaveElementAt(148932, 1999993);
+    }
 }
