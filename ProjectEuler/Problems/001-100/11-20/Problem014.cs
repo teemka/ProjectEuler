@@ -17,41 +17,37 @@
 /// </summary>
 public class Problem014 : IProblem
 {
+    private readonly Dictionary<long, int> cache = new() { { 1, 1 }, { 13, 10 } };
+
     public Task<string> CalculateAsync(string[] args)
     {
-        int limit = 1_000_000;
-        var maxResult = (start: 0, count: 0);
-        var countsResults = Enumerable.Range(1, limit)
-            .AsParallel()
-            .Select(x => (n: x, count: CollatzSequence(x).Count()))
-            .ToArray();
-        for (int i = 1; i < limit; i++)
-        {
-            var countResult = countsResults[i];
-            if (countResult.count > maxResult.count)
-            {
-                maxResult = countResult;
-            }
-        }
+        var (start, count) = Enumerable.Range(1, 999_999)
+            .Select(x => (start: x, count: this.CollatzCount(x)))
+            .MaxBy(x => x.count);
 
-        return Task.FromResult(maxResult.ToString());
+        return Task.FromResult(start.ToString());
     }
 
-    private static IEnumerable<long> CollatzSequence(long n)
+    public int CollatzCount(long n)
     {
-        yield return n;
-        while (n != 1)
+        if (this.cache.TryGetValue(n, out var count))
         {
-            if (n % 2 == 0)
-            {
-                n /= 2;
-            }
-            else
-            {
-                n = (3 * n) + 1;
-            }
-
-            yield return n;
+            return count;
         }
+
+        if (n % 2 == 0)
+        {
+            n /= 2;
+        }
+        else
+        {
+            n = (3 * n) + 1;
+        }
+
+        var sum = 1 + this.CollatzCount(n);
+
+        this.cache[n] = sum;
+
+        return sum;
     }
 }
