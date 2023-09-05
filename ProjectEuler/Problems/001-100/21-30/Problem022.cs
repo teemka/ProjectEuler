@@ -12,10 +12,10 @@ public class Problem022 : IProblem
 {
     public async Task<string> CalculateAsync(string[] args)
     {
-        string file = await File.ReadAllTextAsync("Problems/001-100/21-30/Problem022_names.txt");
-        string[] names = file.Split(",").Select(x => x.Trim('"')).OrderBy(x => x).ToArray();
+        var file = await File.ReadAllTextAsync("Problems/001-100/21-30/Problem022_names.txt");
+        var names = file.Split(",").Select(x => x.Trim('"')).OrderBy(x => x).ToArray();
 
-        int sum = names.Select((name, i) => name.Sum(c => c - 64) * (i + 1)).Sum();
+        var sum = names.Select((name, i) => name.Sum(c => c - 64) * (i + 1)).Sum();
         return sum.ToString();
     }
 }

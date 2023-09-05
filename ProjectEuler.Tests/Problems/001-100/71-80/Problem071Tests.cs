@@ -2,8 +2,12 @@
 
 namespace ProjectEuler.Tests.Problems._001_100._71_80;
 
-public class Problem071Tests
+public class Problem071Tests : ProblemTestBase
 {
+    public override IProblem Problem => new Problem071();
+
+    public override string Answer => "428570";
+
     [Fact]
     public void Should_CalculateExample()
     {
@@ -11,13 +15,5 @@ public class Problem071Tests
 
         result.Nominator.Should().Be(2);
         result.Denominator.Should().Be(5);
-    }
-
-    [Fact]
-    public void Should_CalculateSolution()
-    {
-        var result = Problem071.Calculate(1_000_000);
-
-        result.Nominator.Should().Be(428570);
     }
 }

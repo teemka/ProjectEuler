@@ -1,9 +1,14 @@
 ﻿using ProjectEuler.Helpers;
+using ProjectEuler.Problems._001_100._41_50;
 
 namespace ProjectEuler.Tests.Problems._001_100._41_50;
 
-public class Problem045Tests
+public class Problem045Tests : ProblemTestBase
 {
+    public override IProblem Problem => new Problem045();
+
+    public override string Answer => "1533776805";
+
     [Fact]
     public void Should_Contain40755()
     {

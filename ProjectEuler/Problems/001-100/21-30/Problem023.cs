@@ -24,7 +24,22 @@ public class Problem023 : IProblem
     {
         int limit = 28123;
         var abundantNumbers = Enumerable.Range(1, limit).Where(x => IsAbundant(x)).ToArray();
-        var sums = abundantNumbers.CartesianProduct(abundantNumbers).Select(x => x.A + x.B).ToHashSet();
+
+        var sums = new HashSet<int>();
+        foreach (var x in abundantNumbers)
+        {
+            foreach (var y in abundantNumbers)
+            {
+                var sum = x + y;
+                sums.Add(sum);
+
+                if (sum > limit)
+                {
+                    break;
+                }
+            }
+        }
+
         for (int i = 1; i < limit; i++)
         {
             if (!sums.Contains(i))

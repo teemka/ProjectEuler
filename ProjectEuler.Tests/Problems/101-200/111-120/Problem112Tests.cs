@@ -2,15 +2,17 @@
 
 namespace ProjectEuler.Tests.Problems._101_200._111_120;
 
-public class Problem112Tests
+public class Problem112Tests : ProblemTestBase
 {
-    [Theory]
-    [InlineData("0.9", "21780")]
-    [InlineData("0.99", "1587000")]
-    public async Task Should_CalculateAnswer(string target, string number)
+    public override IProblem Problem => new Problem112();
+
+    public override string Answer => "1587000";
+
+    [Fact]
+    public async Task Should_CalculateExample()
     {
-        var answer = await new Problem112().CalculateAsync(new[] { target.ToString() });
-        answer.Should().Be(number);
+        var answer = await new Problem112().CalculateAsync(new[] { "0.9" });
+        answer.Should().Be("21780");
     }
 
     [Theory]

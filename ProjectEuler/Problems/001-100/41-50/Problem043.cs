@@ -21,7 +21,6 @@ public class Problem043 : IProblem
     {
         var sum = "0123456789"
             .GetPermutations()
-            .AsParallel() // gives about 50% boost
             .Select(x => string.Concat(x))
             .Where(x => HasThisProperty(x))
             .Select(long.Parse)

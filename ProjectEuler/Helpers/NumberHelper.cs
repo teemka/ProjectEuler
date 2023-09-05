@@ -104,38 +104,6 @@ public static class NumberHelper
         return divisors.Take(divisors.Count - 1).ToArray();
     }
 
-    public static IEnumerable<long> FibonacciSequence()
-    {
-        long prev = 1;
-        long current = 1;
-        long temp;
-        yield return prev;
-        yield return current;
-        while (true)
-        {
-            temp = current;
-            current += prev;
-            yield return current;
-            prev = temp;
-        }
-    }
-
-    public static IEnumerable<BigInteger> FibonacciSequenceBigInt()
-    {
-        BigInteger prev = 1;
-        BigInteger current = 1;
-        BigInteger temp;
-        yield return prev;
-        yield return current;
-        while (true)
-        {
-            temp = current;
-            current += prev;
-            yield return current;
-            prev = temp;
-        }
-    }
-
     public static int DigitSum(int n)
     {
         int sum = 0;

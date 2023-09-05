@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Helpers;
+﻿using System.Numerics;
+
+namespace ProjectEuler.Helpers;
 
 public static class Sequences
 {
@@ -61,6 +63,23 @@ public static class Sequences
             }
 
             yield return n;
+        }
+    }
+
+    public static IEnumerable<T> Fibonacci<T>()
+        where T : INumber<T>
+    {
+        T prev = T.One;
+        T current = T.One;
+        T temp;
+        yield return prev;
+        yield return current;
+        while (true)
+        {
+            temp = current;
+            current += prev;
+            yield return current;
+            prev = temp;
         }
     }
 }

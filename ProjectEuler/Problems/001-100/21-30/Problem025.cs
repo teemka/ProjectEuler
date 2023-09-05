@@ -9,7 +9,7 @@ public class Problem025 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var (digits, index) = NumberHelper.FibonacciSequenceBigInt()
+        var (digits, index) = Sequences.Fibonacci<BigInteger>()
             .Select((x, i) => (digits: (int)Math.Floor(BigInteger.Log10(x) + 1), index: i + 1))
             .SkipWhile(x => x.digits < 1000)
             .First();

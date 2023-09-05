@@ -10,7 +10,7 @@ public class Problem017 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var names = Enumerable.Range(1, 1000).Select(x => PrintNumber(x));
+        var names = Enumerable.Range(1, 1000).Select(PrintNumber);
         var sum = names.Select(x => x.Replace(" ", string.Empty).Replace("-", string.Empty).Length).Sum();
         return Task.FromResult(sum.ToString());
     }
@@ -20,11 +20,11 @@ public class Problem017 : IProblem
         var context = new Context(n);
 
         var interpreters = new List<Interpreter>
-            {
-                new ThousandsIterpreter(),
-                new HundredsIterpreter(),
-                new TensInterpreter(),
-            };
+        {
+            new ThousandsIterpreter(),
+            new HundredsIterpreter(),
+            new TensInterpreter(),
+        };
 
         foreach (var interpreter in interpreters)
         {

@@ -12,7 +12,7 @@ public class Problem016 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         var result = BigInteger.Pow(2, 1000);
-        var digitSum = result.ToString().Select(x => int.Parse(x.ToString())).Sum();
+        var digitSum = result.ToString().Select(x => x.ToInt()).Sum();
         return Task.FromResult(digitSum.ToString());
     }
 }
