@@ -11,7 +11,11 @@ public class Problem049 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var fourDigitPrimes = NumberHelper.Primes(10_000).SkipWhile(x => x < 1000).ToArray();
+        var fourDigitPrimes = new SieveOfErasthotenes(10_000)
+            .GetEnumerated()
+            .SkipWhile(x => x < 1000)
+            .Select(x => (int)x)
+            .ToArray();
 
         var groups = fourDigitPrimes
             .GroupBy(x => string.Concat(x.ToString().OrderBy(c => c)))

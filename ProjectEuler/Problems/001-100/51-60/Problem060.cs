@@ -5,6 +5,7 @@ namespace ProjectEuler.Problems._001_100._51_60;
 public class Problem060 : IProblem
 {
     private readonly ILogger<Problem060> logger;
+    private readonly SieveOfErasthotenes sieve = new();
 
     public Problem060(ILogger<Problem060> logger)
     {
@@ -13,13 +14,11 @@ public class Problem060 : IProblem
 
     public Task<string> CalculateAsync(string[] args)
     {
-        var primes = NumberHelper.Primes(1_000_000).ToHashSet();
-        int primesCount = primes.Count;
+        bool IsConcatenationPrime(long a, long b) => this.sieve.Contains(long.Parse($"{a}{b}"));
+        bool IsConcatenationPrimeArr(long[] arr) => IsConcatenationPrime(arr[0], arr[1]) && IsConcatenationPrime(arr[1], arr[0]);
 
-        bool IsConcatenationPrime(int a, int b) => primes.Contains(int.Parse($"{a}{b}"));
-        bool IsConcatenationPrimeArr(int[] arr) => IsConcatenationPrime(arr[0], arr[1]) && IsConcatenationPrime(arr[1], arr[0]);
-
-        var output = primes
+        var output = this.sieve
+            .GetEnumerated()
             .Where(x => x != 2 && x != 5)
             .ToArray()
             .Combinations(4)

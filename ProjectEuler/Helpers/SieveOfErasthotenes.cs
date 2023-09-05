@@ -50,6 +50,9 @@ internal class SieveOfErasthotenes : IPrimes
         }
     }
 
+    // Prevent easy mistake of calling Linq's Contains
+    public bool Contains(long n) => this.IsPrime(n);
+
     public bool IsPrime(long n)
     {
         // First check if number is even. All evens but 2 are not primes.
@@ -92,6 +95,7 @@ internal class SieveOfErasthotenes : IPrimes
     {
         var newSizeInt = (int)newSize;
         Debug.Assert(newSizeInt > this.sieve.LongLength, "New size is smaller than the previous");
+        Debug.Assert(newSizeInt > 0, "New size probably overflowed");
 
         var oldSize = this.sieve.LongLength;
         Array.Resize(ref this.sieve, newSizeInt);

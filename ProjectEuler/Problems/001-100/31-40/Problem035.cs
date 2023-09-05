@@ -9,21 +9,21 @@
 /// </summary>
 public class Problem035 : IProblem
 {
+    private readonly SieveOfErasthotenes sieve = new(1_000_000);
+
     public Task<string> CalculateAsync(string[] args)
     {
-        var primes = NumberHelper.Primes(1_000_000).ToHashSet();
+        var circuralPrimes = this.sieve.GetEnumerated().Where(IsCircuralPrime).ToArray();
 
-        var circuralPrimes = primes.Where(x => IsCircuralPrime(x)).ToArray();
-
-        bool IsCircuralPrime(int n)
+        bool IsCircuralPrime(long n)
         {
             var number = n.ToString();
             string src = number + number;
             return Enumerable
                 .Range(0, number.Length)
                 .Select(x => src.Substring(x, number.Length))
-                .Select(int.Parse)
-                .All(x => primes.Contains(x));
+                .Select(long.Parse)
+                .All(this.sieve.Contains);
         }
 
         var result = circuralPrimes.Length;

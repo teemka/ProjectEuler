@@ -1,9 +1,7 @@
 ﻿namespace ProjectEuler.Problems._101_200._141_150;
 
 /// <summary>
-/// How many reversible numbers are there below one-billion?
 /// https://projecteuler.net/problem=145
-/// Solution: 608720
 /// </summary>
 public class Problem145 : IProblem
 {
@@ -11,7 +9,7 @@ public class Problem145 : IProblem
     {
         if (!int.TryParse(args.FirstOrDefault(), out int limit))
         {
-            limit = 1_000_000_000;
+            limit = 1_000_000_000 / 2; // only need to check to halfway
         }
 
         int count = 0;

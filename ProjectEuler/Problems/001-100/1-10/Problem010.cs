@@ -8,7 +8,7 @@ public class Problem010 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        long sum = NumberHelper.Primes(2_000_000).Select(x => (long)x).Sum();
+        var sum = new SieveOfErasthotenes(2_000_000).GetEnumerated().Sum();
         return Task.FromResult(sum.ToString());
     }
 }

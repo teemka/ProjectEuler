@@ -5,89 +5,18 @@ namespace ProjectEuler.Helpers;
 
 public static class NumberHelper
 {
-    public static IEnumerable<int> Primes(int upperLimit)
+    public static IEnumerable<long> Primes(long upperLimit) => new SieveOfErasthotenes(upperLimit);
+
+    public static IReadOnlyCollection<T> Divisors<T>(T number)
+        where T : INumber<T>
     {
-        yield return 2;
+        var sqrt = number.SqrtViaDouble();
+        var beginning = new List<T>();
+        var end = new List<T>();
 
-        // Check odd numbers for primality
-        const int offset = 3;
-        static int ToNumber(int index) => (2 * index) + offset;
-        static int ToIndex(int number) => (number - offset) / 2;
-        var bits = new BitArray(ToIndex(upperLimit) + 1, defaultValue: true);
-        var upperSqrtIndex = ToIndex((int)Math.Sqrt(upperLimit));
-        for (var i = 0; i <= upperSqrtIndex; i++)
+        for (var i = T.One; i <= sqrt; i++)
         {
-            // If this bit has already been turned off, then its associated number is composite.
-            if (!bits[i])
-            {
-                continue;
-            }
-
-            var number = ToNumber(i);
-
-            // The instant we have a known prime, immediately yield its value.
-            yield return number;
-
-            // Any multiples of number are composite and their respective bits should be turned off.
-            for (var j = ToIndex(number * number); j > i && j < bits.Length; j += number)
-            {
-                bits[j] = false;
-            }
-        }
-
-        // Output remaining primes once bit array is fully resolved:
-        for (var i = upperSqrtIndex + 1; i < bits.Length; i++)
-        {
-            if (bits[i])
-            {
-                yield return ToNumber(i);
-            }
-        }
-    }
-
-    public static IEnumerable<long> Primes()
-    {
-        yield return 2;
-        yield return 3;
-        var primeCache = new List<long> { 3 };
-        long curentNumber = 3;
-        while (true)
-        {
-            var isPrime = true;
-            var currentRoot = Math.Sqrt(curentNumber);
-            foreach (var cachedPrime in primeCache)
-            {
-                if (curentNumber % cachedPrime == 0)
-                {
-                    isPrime = false;
-                    break;
-                }
-
-                if (cachedPrime > currentRoot)
-                {
-                    break;
-                }
-            }
-
-            if (isPrime)
-            {
-                primeCache.Add(curentNumber);
-                yield return curentNumber;
-            }
-
-            curentNumber += 2;
-        }
-    }
-
-    public static ICollection<long> Divisors(long number)
-    {
-        long sqrt = (long)Math.Sqrt(number);
-        var beginning = new List<long>();
-        var end = new List<long>();
-
-        for (int i = 1; i <= sqrt; i++)
-        {
-            if (number % i == 0)
+            if (number % i == T.Zero)
             {
                 beginning.Add(i);
                 end.Add(number / i);
@@ -98,34 +27,25 @@ public static class NumberHelper
         return beginning.Concat(end).Distinct().ToArray();
     }
 
-    public static ICollection<long> ProperDivisors(long number)
+    public static IReadOnlyCollection<T> ProperDivisors<T>(T number)
+        where T : INumber<T>
     {
         var divisors = Divisors(number);
         return divisors.Take(divisors.Count - 1).ToArray();
     }
 
-    public static int DigitSum(int n)
+    public static T DigitSum<T>(T n)
+        where T : IBinaryInteger<T>
     {
-        int sum = 0;
-        while (n != 0)
+        var ten = T.CreateChecked(10);
+        var sum = T.Zero;
+        while (n != T.Zero)
         {
-            sum += n % 10;
-            n /= 10;
+            sum += n % ten;
+            n /= ten;
         }
 
         return sum;
-    }
-
-    public static int DigitSum(BigInteger n)
-    {
-        BigInteger sum = 0;
-        while (n != 0)
-        {
-            sum += n % new BigInteger(10);
-            n /= 10;
-        }
-
-        return (int)sum;
     }
 
     /// <summary>
@@ -188,24 +108,29 @@ public static class NumberHelper
     }
 
     /// <summary>
-    /// Returns non distinc prime factors of a number. If number is a prime - returns itself.
+    /// Returns non distinct prime factors of a number. If number is a prime - returns itself.
     /// </summary>
+    /// <typeparam name="T">Type of number.</typeparam>
     /// <param name="n">Number to be factorized</param>
     /// <returns>Lazy executed prime factors</returns>
-    public static IEnumerable<long> PrimeFactors(long n)
+    public static IEnumerable<T> PrimeFactors<T>(T n)
+        where T : INumber<T>
     {
-        while (n % 2 == 0)
+        var two = T.CreateChecked(2);
+        while (n % two == T.Zero)
         {
-            yield return 2;
-            n /= 2;
+            yield return two;
+            n /= two;
         }
 
         // n must be odd at this point. So we can
         // skip one element (Note i = i+2)
-        for (int i = 3; i <= Math.Sqrt(n); i += 2)
+        var three = T.CreateChecked(3);
+        var sqrt = n.SqrtViaDouble();
+        for (var i = three; i <= sqrt; i += two)
         {
             // While i divides n, return i and divide n
-            while (n % i == 0)
+            while (n % i == T.Zero)
             {
                 yield return i;
                 n /= i;
@@ -214,7 +139,7 @@ public static class NumberHelper
 
         // This condition is to handle the case when
         // n is a prime number greater than 2
-        if (n > 2)
+        if (n > two)
         {
             yield return n;
         }
@@ -246,5 +171,11 @@ public static class NumberHelper
         }
 
         return table[n];
+    }
+
+    public static T SqrtViaDouble<T>(this T number)
+        where T : INumber<T>
+    {
+        return T.CreateTruncating(double.Sqrt(double.CreateChecked(number)));
     }
 }

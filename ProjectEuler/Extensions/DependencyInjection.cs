@@ -24,8 +24,6 @@ internal static partial class DependencyInjection
             services.AddTransient(typeof(IProblem), problemType);
         }
 
-        services.AddTransient<IPrimes, SieveOfErasthotenes>();
-
         return services;
     }
 

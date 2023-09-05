@@ -8,7 +8,10 @@ public class Problem077 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         // TODO: Adapt https://projecteuler.net/overview=031
-        var coins = NumberHelper.Primes(1_000_000).ToArray();
+        var coins = new SieveOfErasthotenes(1_000)
+            .GetEnumerated()
+            .Cast<int>()
+            .ToArray();
 
         int Ways(int target, int avc)
         {

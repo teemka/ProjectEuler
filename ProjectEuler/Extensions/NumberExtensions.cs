@@ -1,24 +1,17 @@
-﻿namespace ProjectEuler.Extensions;
+﻿using System.Numerics;
+
+namespace ProjectEuler.Extensions;
 
 public static class NumberExtensions
 {
     /// <summary>
     /// Is the number a palindrome in decimal representation.
     /// </summary>
+    /// <typeparam name="T">Type of integer.</typeparam>
     /// <param name="value">The number to check.</param>
     /// <returns>A value indicating if a nubmer is a palindrome.</returns>
-    public static bool IsPalindrome(this int value)
-    {
-        var reversed = value.Reverse();
-        return reversed == value;
-    }
-
-    /// <summary>
-    /// Is the number a palindrome in decimal representation.
-    /// </summary>
-    /// <param name="value">The number to check.</param>
-    /// <returns>A value indicating if a nubmer is a palindrome.</returns>
-    public static bool IsPalindrome(this long value)
+    public static bool IsPalindrome<T>(this T value)
+        where T : IBinaryInteger<T>
     {
         var reversed = value.Reverse();
         return reversed == value;
@@ -45,61 +38,53 @@ public static class NumberExtensions
     /// <summary>
     /// Returns non distinc prime factors of a number. If number is a prime - returns itself.
     /// </summary>
+    /// <typeparam name="T">Type of number.</typeparam>
     /// <param name="n">Number to be factorized</param>
     /// <returns>Lazy executed prime factors</returns>
-    public static IEnumerable<long> PrimeFactors(this long n)
+    public static IEnumerable<T> PrimeFactors<T>(this T n)
+        where T : INumber<T>
     {
         return NumberHelper.PrimeFactors(n);
     }
 
-    public static ICollection<long> ProperDivisors(this long number)
+    public static IReadOnlyCollection<T> ProperDivisors<T>(this T number)
+        where T : INumber<T>
     {
         return NumberHelper.ProperDivisors(number);
     }
 
-    public static ICollection<long> Divisors(this long number)
+    public static IReadOnlyCollection<T> Divisors<T>(this T number)
+        where T : INumber<T>
     {
         return NumberHelper.Divisors(number);
     }
 
-    public static IEnumerable<int> GetDigits(this int n)
+    public static IEnumerable<T> GetDigits<T>(this T n)
+        where T : IBinaryInteger<T>
     {
-        while (n != 0)
+        var ten = T.CreateChecked(10);
+        while (n != T.Zero)
         {
-            n = Math.DivRem(n, 10, out var remainder);
+            (n, var remainder) = T.DivRem(n, ten);
             yield return remainder;
         }
     }
 
     /// <summary>
-    /// Reverse decimal number by its digits. 123 becomes 321. 200 becomes 2.
+    /// Reverse decimal integer by its digits. 123 becomes 321. 200 becomes 2.
     /// </summary>
+    /// <typeparam name="T">Type of integer.</typeparam>
     /// <param name="value">value to reverse.</param>
     /// <returns>reversed value.</returns>
-    public static int Reverse(this int value)
+    public static T Reverse<T>(this T value)
+        where T : IBinaryInteger<T>
     {
-        int reversed = 0;
-        while (value > 0)
+        var ten = T.CreateChecked(10);
+        var reversed = T.Zero;
+        while (value > T.Zero)
         {
-            value = Math.DivRem(value, 10, out var remainder);
-            reversed = (reversed * 10) + remainder;
-        }
-
-        return reversed;
-    }
-
-    /// <summary>
-    /// Reverse decimal number by its digits. 123 becomes 321. 200 becomes 2.
-    /// </summary>
-    /// <param name="value">value to reverse.</param>
-    /// <returns>reversed value.</returns>
-    public static long Reverse(this long value)
-    {
-        long reversed = 0;
-        while (value > 0)
-        {
-            value = Math.DivRem(value, 10, out var remainder);
-            reversed = (reversed * 10) + remainder;
+            (value, var remainder) = T.DivRem(value, ten);
+            reversed = (reversed * ten) + remainder;
         }
 
         return reversed;

@@ -11,7 +11,8 @@ public class Problem037 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var primesSet = NumberHelper.Primes(1_000_000)
+        var primesSet = new SieveOfErasthotenes(1_000_000)
+            .GetEnumerated()
             .Select(x => x.ToString())
             .ToHashSet();
 
