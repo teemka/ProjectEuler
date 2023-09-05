@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace ProjectEuler.Helpers;
 
 public static class NumberHelper
 {
-    public static IEnumerable<long> Primes(long upperLimit) => new SieveOfErasthotenes(upperLimit);
-
     public static IReadOnlyCollection<T> Divisors<T>(T number)
         where T : INumber<T>
     {

@@ -14,8 +14,8 @@ public class Problem060 : IProblem
 
     public Task<string> CalculateAsync(string[] args)
     {
-        bool IsConcatenationPrime(long a, long b) => this.sieve.Contains(long.Parse($"{a}{b}"));
-        bool IsConcatenationPrimeArr(long[] arr) => IsConcatenationPrime(arr[0], arr[1]) && IsConcatenationPrime(arr[1], arr[0]);
+        bool IsConcatenationPrime(int a, int b) => this.sieve.Contains(int.Parse($"{a}{b}"));
+        bool IsConcatenationPrimeArr(int[] arr) => IsConcatenationPrime(arr[0], arr[1]) && IsConcatenationPrime(arr[1], arr[0]);
 
         var output = this.sieve
             .GetEnumerated()

@@ -22,7 +22,7 @@ public class Problem043 : IProblem
         var sum = "0123456789"
             .GetPermutations()
             .Select(x => string.Concat(x))
-            .Where(x => HasThisProperty(x))
+            .Where(HasThisProperty)
             .Select(long.Parse)
             .Sum();
 
@@ -39,7 +39,7 @@ public class Problem043 : IProblem
                IsSubspanDivisible(number, 6, 9, 13) &&
                IsSubspanDivisible(number, 7, 10, 17);
 
-        static bool IsSubspanDivisible(string number, Index start, Index end, int modulo)
+        static bool IsSubspanDivisible(ReadOnlySpan<char> number, Index start, Index end, int modulo)
         {
             var d1 = number[start..end];
             return int.Parse(d1) % modulo == 0;

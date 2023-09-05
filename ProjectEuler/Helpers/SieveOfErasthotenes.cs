@@ -10,7 +10,7 @@ internal class SieveOfErasthotenes : IPrimes
     // true means is composite
     private bool[] sieve;
 
-    public SieveOfErasthotenes(long upperLimit = 1_000_000)
+    public SieveOfErasthotenes(int upperLimit = 1_000_000)
     {
         this.sieve = new bool[ToIndex(upperLimit) + 1];
         var upperSqrtIndex = ToIndex((int)Math.Sqrt(upperLimit));
@@ -23,18 +23,18 @@ internal class SieveOfErasthotenes : IPrimes
 
             var prime = ToNumber(i);
             var squareIndex = ToIndex(prime * prime);
-            for (var j = squareIndex; j < this.sieve.LongLength; j += prime)
+            for (var j = squareIndex; j < this.sieve.Length; j += prime)
             {
                 this.sieve[j] = true;
             }
         }
     }
 
-    public IEnumerator<long> GetEnumerator()
+    public IEnumerator<int> GetEnumerator()
     {
         yield return 2;
 
-        long i = 0;
+        var i = 0;
         while (true)
         {
             for (var j = i; j < this.sieve.Length; j++)
@@ -45,15 +45,15 @@ internal class SieveOfErasthotenes : IPrimes
                 }
             }
 
-            i = this.sieve.LongLength;
+            i = this.sieve.Length;
             this.Grow(i * 2);
         }
     }
 
     // Prevent easy mistake of calling Linq's Contains
-    public bool Contains(long n) => this.IsPrime(n);
+    public bool Contains(int n) => this.IsPrime(n);
 
-    public bool IsPrime(long n)
+    public bool IsPrime(int n)
     {
         // First check if number is even. All evens but 2 are not primes.
         if (n % 2 == 0)
@@ -64,9 +64,9 @@ internal class SieveOfErasthotenes : IPrimes
         // Check if an odd number is contained in the sieve
         var index = ToIndex(n);
 
-        if (index > this.sieve.LongLength)
+        if (index > this.sieve.Length)
         {
-            this.Grow(n);
+            this.Grow(index + 1);
         }
 
         return !this.sieve[index];
@@ -74,7 +74,7 @@ internal class SieveOfErasthotenes : IPrimes
 
     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-    public IEnumerable<long> GetEnumerated()
+    public IEnumerable<int> GetEnumerated()
     {
         yield return 2;
 
@@ -87,18 +87,17 @@ internal class SieveOfErasthotenes : IPrimes
         }
     }
 
-    private static long ToIndex(long number) => (number - Offset) / 2;
+    private static int ToIndex(int number) => (number - Offset) / 2;
 
-    private static long ToNumber(long index) => (2 * index) + Offset;
+    private static int ToNumber(int index) => (2 * index) + Offset;
 
-    private void Grow(long newSize)
+    private void Grow(int newSize)
     {
-        var newSizeInt = (int)newSize;
-        Debug.Assert(newSizeInt > this.sieve.LongLength, "New size is smaller than the previous");
-        Debug.Assert(newSizeInt > 0, "New size probably overflowed");
+        Debug.Assert(newSize > this.sieve.Length, "New size is smaller than the previous");
+        Debug.Assert(newSize > 0, "New size probably overflowed");
 
-        var oldSize = this.sieve.LongLength;
-        Array.Resize(ref this.sieve, newSizeInt);
+        var oldSize = this.sieve.Length;
+        Array.Resize(ref this.sieve, newSize);
 
         var lowerLimit = ToNumber(oldSize);
         var upperLimit = ToNumber(newSize);
@@ -120,7 +119,7 @@ internal class SieveOfErasthotenes : IPrimes
                 start += prime;
             }
 
-            for (var j = ToIndex(start); j < this.sieve.LongLength; j += prime)
+            for (var j = ToIndex(start); j < this.sieve.Length; j += prime)
             {
                 this.sieve[j] = true;
             }

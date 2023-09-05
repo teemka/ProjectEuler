@@ -34,9 +34,10 @@ public class SieveOfErasthotenesTests
         var sieve = new SieveOfErasthotenes(1_000_000);
 
         // Act
-        var primes = sieve.TakeWhile(x => x < 2_000_000).ToArray();
+        var primes = sieve.Take(148933).ToArray();
 
         // Assert
+        primes.Should().HaveCount(148933);
         primes.Should().HaveElementAt(78498, 1000003);
         primes.Should().HaveElementAt(148932, 1999993);
     }

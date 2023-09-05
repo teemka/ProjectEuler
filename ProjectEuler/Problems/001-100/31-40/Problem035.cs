@@ -15,14 +15,14 @@ public class Problem035 : IProblem
     {
         var circuralPrimes = this.sieve.GetEnumerated().Where(IsCircuralPrime).ToArray();
 
-        bool IsCircuralPrime(long n)
+        bool IsCircuralPrime(int n)
         {
             var number = n.ToString();
             string src = number + number;
             return Enumerable
                 .Range(0, number.Length)
                 .Select(x => src.Substring(x, number.Length))
-                .Select(long.Parse)
+                .Select(int.Parse)
                 .All(this.sieve.Contains);
         }
 

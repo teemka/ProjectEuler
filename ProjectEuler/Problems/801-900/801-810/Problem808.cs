@@ -30,7 +30,7 @@ internal sealed class Problem808 : IProblem
                 continue;
             }
 
-            var candidateInteger = (long)secondPrimeCandidate;
+            var candidateInteger = (int)secondPrimeCandidate;
 
             if (!this.primes.IsPrime(candidateInteger))
             {

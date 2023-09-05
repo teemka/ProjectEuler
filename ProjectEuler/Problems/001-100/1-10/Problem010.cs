@@ -8,7 +8,7 @@ public class Problem010 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var sum = new SieveOfErasthotenes(2_000_000).GetEnumerated().Sum();
+        var sum = new SieveOfErasthotenes(2_000_000).GetEnumerated().Sum(x => (long)x);
         return Task.FromResult(sum.ToString());
     }
 }

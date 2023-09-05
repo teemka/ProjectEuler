@@ -9,13 +9,13 @@ public class Problem145 : IProblem
     {
         if (!int.TryParse(args.FirstOrDefault(), out int limit))
         {
-            limit = 1_000_000_000 / 2; // only need to check to halfway
+            limit = 100_000_000; // there are no 9-digit solutions
         }
 
         int count = 0;
-        for (int i = 1; i < limit; i++)
+        for (int i = 1; i < limit; i += 2)
         {
-            if (IsReversibleIfReverseIsGreater(i))
+            if (IsReversible(i))
             {
                 count++;
             }
@@ -26,27 +26,11 @@ public class Problem145 : IProblem
         return Task.FromResult(count.ToString());
     }
 
-    private static bool IsReversibleIfReverseIsGreater(int value)
+    private static bool IsReversible(int value)
     {
         var reverse = value.Reverse();
-        if (reverse < value)
-        {
-            return false;
-        }
 
         var sum = reverse + value;
-        return AllDigitsOdd(sum);
-    }
-
-    private static bool AllDigitsOdd(int n)
-    {
-        bool allOdd = true;
-        while (n != 0)
-        {
-            n = Math.DivRem(n, 10, out var remainder);
-            allOdd &= remainder % 2 == 1;
-        }
-
-        return allOdd;
+        return sum.GetDigits().All(x => x % 2 == 1);
     }
 }
