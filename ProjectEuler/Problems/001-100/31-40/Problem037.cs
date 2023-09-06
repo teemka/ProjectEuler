@@ -9,31 +9,61 @@
 /// </summary>
 public class Problem037 : IProblem
 {
+    private readonly SieveOfErasthotenes sieve = new(upperLimit: 1_000_000);
+
     public Task<string> CalculateAsync(string[] args)
     {
-        var primesSet = new SieveOfErasthotenes(1_000_000)
+        var primes = this.sieve
             .GetEnumerated()
-            .Select(x => x.ToString())
-            .ToHashSet();
+            .Skip(4) // skip single digit primes
+            .ToArray();
 
-        var output = new HashSet<string>();
-        foreach (var prime in primesSet.Where(p => p.Length > 1))
+        var output = new HashSet<int>();
+        foreach (var prime in primes)
         {
-            if (Enumerable.Range(0, prime.Length - 1)
-                .All(i =>
-                {
-                    var trunactedFromLeft = prime[(i + 1)..];
-                    var truncatedFromRight = prime[..^(i + 1)];
-
-                    return primesSet.Contains(trunactedFromLeft) &&
-                           primesSet.Contains(truncatedFromRight);
-                }))
+            if (this.IsTruncable(prime))
             {
                 output.Add(prime);
             }
+
+            if (output.Count == 11)
+            {
+                break;
+            }
         }
 
-        var sum = output.Select(x => Convert.ToInt32(x)).Sum();
+        var sum = output.Sum();
         return Task.FromResult(sum.ToString());
+    }
+
+    private bool IsTruncable(int prime)
+    {
+        var rightToLeft = prime;
+        var leftToRight = 0;
+        var i = 0;
+        while (true)
+        {
+            (rightToLeft, var remainder) = Math.DivRem(rightToLeft, 10);
+
+            if (rightToLeft == 0)
+            {
+                break;
+            }
+
+            leftToRight += remainder * (int)Math.Pow(10, i);
+
+            var isTruncable =
+                this.sieve.IsPrime(rightToLeft) &&
+                this.sieve.IsPrime(leftToRight);
+
+            if (!isTruncable)
+            {
+                return false;
+            }
+
+            i++;
+        }
+
+        return true;
     }
 }

@@ -2,7 +2,6 @@
 
 /// <summary>
 /// https://projecteuler.net/problem=82
-/// Answer: 260324
 /// </summary>
 public class Problem082 : IProblem
 {
@@ -50,21 +49,23 @@ public class Problem082 : IProblem
             }
         }
 
-        var targets = new Dijkstra.Vertex[80];
+        // Create a fake root which is connected to all vertices on the left column.
+        var root = new Dijkstra.Vertex(0);
+        graph.Add(root);
         for (int i = 0; i < size; i++)
         {
-            targets[i] = arr[i, size - 1];
+            root.Neighbours.Add(arr[i, 0]);
         }
 
-        var distances = new List<long>();
+        // Create a fake target which is connected to all vertices on the right column.
+        var target = new Dijkstra.Vertex(0);
+        graph.Add(target);
         for (int i = 0; i < size; i++)
         {
-            var root = arr[i, 0];
-            var (dist, prev) = Dijkstra.Calculate(graph, root);
-
-            distances.AddRange(targets.Select(t => dist[t]));
+            arr[i, size - 1].Neighbours.Add(target);
         }
 
-        return distances.Min().ToString();
+        var (dist, prev) = Dijkstra.Calculate(graph, root);
+        return dist[target].ToString();
     }
 }

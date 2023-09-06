@@ -10,8 +10,7 @@ public class Problem024 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var perms = "0123456789".GetPermutations().Select(x => string.Concat(x)).OrderBy(x => x).ToArray();
-        var milionth = perms.Skip(999_999).First();
-        return Task.FromResult(milionth.ToString());
+        var millionth = "0123456789".GetPermutations().Skip(999_999).First().Concat();
+        return Task.FromResult(millionth);
     }
 }

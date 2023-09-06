@@ -56,17 +56,23 @@ internal class SieveOfErasthotenes : IPrimes
     public bool IsPrime(int n)
     {
         // First check if number is even. All evens but 2 are not primes.
-        if (n % 2 == 0)
+        if (int.IsEvenInteger(n))
         {
             return n == 2;
+        }
+
+        if (n <= 1)
+        {
+            return false;
         }
 
         // Check if an odd number is contained in the sieve
         var index = ToIndex(n);
 
-        if (index > this.sieve.Length)
+        if (index >= this.sieve.Length)
         {
-            this.Grow(index + 1);
+            var newSize = Math.Max(index + 1, this.sieve.Length * 2);
+            this.Grow(newSize);
         }
 
         return !this.sieve[index];

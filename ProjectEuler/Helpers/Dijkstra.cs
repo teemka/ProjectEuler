@@ -5,13 +5,13 @@ public static class Dijkstra
     public static (Dictionary<Vertex, long> Dist, Dictionary<Vertex, Vertex?> Prev) Calculate(IEnumerable<Vertex> graph, Vertex root)
     {
         var queue = new PriorityQueue<Vertex, long>();
-        var dist = graph.ToDictionary(x => x, v => long.MaxValue);
+        var dist = graph.ToDictionary(v => v, v => long.MaxValue);
         var prev = new Dictionary<Vertex, Vertex?>
         {
             [root] = null,
         };
         dist[root] = root.Value;
-        queue.EnqueueRange(graph.Select(x => (x, dist[x])));
+        queue.EnqueueRange(graph.Select(v => (v, dist[v])));
 
         while (queue.TryDequeue(out var u, out var value))
         {
@@ -22,7 +22,7 @@ public static class Dijkstra
                 {
                     dist[v] = alt;
                     prev[v] = u;
-                    queue.Enqueue(v, dist[v] - alt);
+                    queue.Enqueue(v, 0);
                 }
             }
         }

@@ -29,11 +29,6 @@ internal static class IEnumerableExtensions
 
     internal static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<T> sequence)
     {
-        if (sequence == null)
-        {
-            yield break;
-        }
-
         var list = sequence.ToList();
 
         if (!list.Any())
