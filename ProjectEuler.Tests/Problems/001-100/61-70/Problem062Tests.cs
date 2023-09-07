@@ -1,0 +1,23 @@
+﻿using ProjectEuler.Problems._001_100._61_70;
+
+namespace ProjectEuler.Tests.Problems._001_100._61_70;
+
+public class Problem062Tests : ProblemTestBase
+{
+    public override IProblem Problem => new Problem062();
+
+    public override string Answer => "127035954683";
+
+    [Fact]
+    public async Task Should_SolveExample()
+    {
+        // Arrange
+        var args = new[] { "3" };
+
+        // Act
+        var result = await this.Problem.CalculateAsync(args);
+
+        // Assert
+        result.Should().Be("41063625");
+    }
+}
