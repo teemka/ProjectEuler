@@ -220,9 +220,9 @@ dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 # analyzers
-dotnet_diagnostic.SA0001.severity = silent
-dotnet_diagnostic.SA1200.severity = silent
-dotnet_diagnostic.SA1300.severity = silent
-dotnet_diagnostic.SA1600.severity = silent
-dotnet_diagnostic.SA1629.severity = silent
-dotnet_diagnostic.SA1633.severity = silent
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1200.severity = none
+dotnet_diagnostic.SA1300.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1629.severity = none
+dotnet_diagnostic.SA1633.severity = none

@@ -1,35 +1,59 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace ProjectEuler.Problems._001_100._51_60;
+﻿namespace ProjectEuler.Problems._001_100._51_60;
 
 public class Problem060 : IProblem
 {
-    private readonly ILogger<Problem060> logger;
-    private readonly SieveOfErasthotenes sieve = new();
-
-    public Problem060(ILogger<Problem060> logger)
-    {
-        this.logger = logger;
-    }
+    private readonly SieveOfErasthotenes sieve = new(10_000);
 
     public Task<string> CalculateAsync(string[] args)
     {
-        bool IsConcatenationPrime(int a, int b) => this.sieve.Contains(int.Parse($"{a}{b}"));
-        bool IsConcatenationPrimeArr(int[] arr) => IsConcatenationPrime(arr[0], arr[1]) && IsConcatenationPrime(arr[1], arr[0]);
-
-        var output = this.sieve
-            .GetEnumerated()
-            .Where(x => x != 2 && x != 5)
-            .ToArray()
-            .Combinations(4)
-            .First(x => x.Combinations(2).All(x => IsConcatenationPrimeArr(x)));
-
-        foreach (var permutation in output.Combinations(2))
+        var target = 5; // default
+        if (args.Length == 1)
         {
-            this.logger.LogDebug("{perm0}{perm1}", permutation[0], permutation[1]);
-            this.logger.LogDebug("{perm1}{perm0}", permutation[1], permutation[0]);
+            _ = int.TryParse(args[0], out target);
         }
 
-        return Task.FromResult(output.Sum().ToString());
+        var clique = this.Find(target);
+
+        var sum = clique.Sum();
+        return Task.FromResult(sum.ToString());
+    }
+
+    private List<int> Find(int target)
+    {
+        var primes = this.sieve.GetEnumerated()
+            .Where(x => x != 2 && x != 5) // 2 or 5 at the end of a number result in not a prime
+            .ToArray();
+
+        // For all primes find maximal clique to which they belong
+        foreach (var initialPrime in primes)
+        {
+            var clique = new List<int> { initialPrime };
+            foreach (var prime in primes)
+            {
+                if (clique.All(x =>
+                    this.sieve.IsPrime(new ConcatenatedNumber(x, prime).Value) &&
+                    this.sieve.IsPrime(new ConcatenatedNumber(prime, x).Value)))
+                {
+                    clique.Add(prime);
+
+                    if (clique.Count >= target)
+                    {
+                        return clique;
+                    }
+                }
+            }
+        }
+
+        throw new Exception("Clique not found");
+    }
+
+    private readonly struct ConcatenatedNumber
+    {
+        public ConcatenatedNumber(int left, int right)
+        {
+            this.Value = int.Parse($"{left}{right}");
+        }
+
+        public int Value { get; }
     }
 }
