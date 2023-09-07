@@ -46,14 +46,4 @@ public class Problem060 : IProblem
 
         throw new Exception("Clique not found");
     }
-
-    private readonly struct ConcatenatedNumber
-    {
-        public ConcatenatedNumber(int left, int right)
-        {
-            this.Value = int.Parse($"{left}{right}");
-        }
-
-        public int Value { get; }
-    }
 }
