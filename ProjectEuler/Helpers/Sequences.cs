@@ -30,6 +30,15 @@ public static class Sequences
         }
     }
 
+    public static IEnumerable<long> SquareNumbers(long n = 1)
+    {
+        while (true)
+        {
+            yield return n * n;
+            n++;
+        }
+    }
+
     public static IEnumerable<long> PentagonalNumbers(long n = 1)
     {
         while (true)
@@ -44,6 +53,24 @@ public static class Sequences
         while (true)
         {
             yield return n * ((2 * n) - 1);
+            n++;
+        }
+    }
+
+    public static IEnumerable<long> HeptagonalNumbers(long n = 1)
+    {
+        while (true)
+        {
+            yield return n * ((5 * n) - 3) / 2;
+            n++;
+        }
+    }
+
+    public static IEnumerable<long> OctagonalNumbers(long n = 1)
+    {
+        while (true)
+        {
+            yield return n * ((3 * n) - 2);
             n++;
         }
     }
