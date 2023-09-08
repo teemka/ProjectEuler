@@ -99,8 +99,8 @@ public class Problem054 : IProblem
             bool isSameSuit = this.Cards.All(x => x.Color == this.Cards[0].Color);
 
             var isStraight = this.OrderedCards
-                .Zip(this.OrderedCards.Skip(1), (x, y) => (x, y))
-                .All(pair => pair.x.Value - 1 == pair.y.Value);
+                .Zip(this.OrderedCards.Skip(1))
+                .All(pair => pair.First.Value - 1 == pair.Second.Value);
 
             highestCard = this.OrderedCards.First();
             highestValueInFigure = highestCard.Value;
