@@ -16,7 +16,7 @@ public class Problem004 : IProblem
                        select number1 * number2;
 
         var largestProduct = products
-            .OrderByDescending(x => x)
+            .OrderDescending()
             .Where(x => x.IsPalindrome())
             .First();
 

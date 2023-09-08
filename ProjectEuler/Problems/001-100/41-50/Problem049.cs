@@ -18,7 +18,7 @@ public class Problem049 : IProblem
             .ToArray();
 
         var groups = fourDigitPrimes
-            .GroupBy(x => string.Concat(x.ToString().OrderBy(c => c)))
+            .GroupBy(x => string.Concat(x.ToString().Order()))
             .Where(g => g.Count() > 2);
 
         var output = new List<List<int>>();
