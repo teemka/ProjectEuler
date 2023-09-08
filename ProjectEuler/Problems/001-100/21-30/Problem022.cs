@@ -13,7 +13,7 @@ public class Problem022 : IProblem
     public async Task<string> CalculateAsync(string[] args)
     {
         var file = await File.ReadAllTextAsync("Problems/001-100/21-30/Problem022_names.txt");
-        var names = file.Split(",").Select(x => x.Trim('"')).OrderBy(x => x).ToArray();
+        var names = file.Split(",").Select(x => x.Trim('"')).Order().ToArray();
 
         var sum = names.Select((name, i) => name.Sum(c => c - 64) * (i + 1)).Sum();
         return sum.ToString();

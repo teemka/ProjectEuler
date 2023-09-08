@@ -15,7 +15,7 @@ public class Problem062 : IProblem
         for (var i = 0; ; i++)
         {
             var cube = (long)Math.Pow(i, 3);
-            var key = cube.ToString().OrderBy(x => x).Concat();
+            var key = cube.ToString().Order().Concat();
 
             if (!this.permutations.TryGetValue(key, out var cubes))
             {

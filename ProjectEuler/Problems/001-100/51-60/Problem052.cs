@@ -32,6 +32,6 @@ public class Problem052 : IProblem
 
     private static string NumberWithSortedDigits(long number)
     {
-        return string.Concat(number.ToString().OrderBy(x => x));
+        return string.Concat(number.ToString().Order());
     }
 }

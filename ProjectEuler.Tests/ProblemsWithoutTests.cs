@@ -12,13 +12,13 @@ public class ProblemsWithoutTests
             .GetTypes()
             .Where(t => typeof(IProblem).IsAssignableFrom(t) && !t.IsInterface)
             .Select(x => x.Name)
-            .OrderBy(x => x);
+            .Order();
 
         var tests = Assembly.GetExecutingAssembly()
             .GetTypes()
             .Where(t => typeof(ProblemTestBase).IsAssignableFrom(t) && t.IsClass)
             .Select(x => x.Name[..^5])
-            .OrderBy(x => x);
+            .Order();
 
         problems.Except(tests).Should().BeEmpty();
     }

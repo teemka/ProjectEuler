@@ -8,7 +8,7 @@ if (args.Length == 0)
     return;
 }
 
-var sp = new ServiceCollection()
+using var sp = new ServiceCollection()
     .AddLogging(x => x.AddSimpleConsole())
     .AddProblems()
     .AddTransient<ProblemExecutor>()
