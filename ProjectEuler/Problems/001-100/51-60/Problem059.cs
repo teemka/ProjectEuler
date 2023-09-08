@@ -7,7 +7,6 @@ namespace ProjectEuler.Problems._001_100._51_60;
 /// <summary>
 /// XOR decryption
 /// https://projecteuler.net/problem=59
-/// Solution: 129448
 /// </summary>
 public partial class Problem059 : IProblem
 {

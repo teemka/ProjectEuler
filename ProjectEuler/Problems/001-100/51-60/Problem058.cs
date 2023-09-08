@@ -3,7 +3,6 @@
 /// <summary>
 /// Spiral primes
 /// https://projecteuler.net/problem=58
-/// Solution: 8581146
 /// </summary>
 public class Problem058 : IProblem
 {

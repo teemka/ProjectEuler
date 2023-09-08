@@ -1,5 +1,8 @@
 ﻿namespace ProjectEuler.Problems._001_100._61_70;
 
+/// <summary>
+/// https://projecteuler.net/problem=69
+/// </summary>
 public class Problem069 : IProblem
 {
     // This dictionary stores result of φ(n) function

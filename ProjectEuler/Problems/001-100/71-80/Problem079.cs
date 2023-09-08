@@ -3,7 +3,6 @@
 /// <summary>
 /// Passcode derivation
 /// https://projecteuler.net/problem=79
-/// Solution: 73162890
 /// </summary>
 public class Problem079 : IProblem
 {
@@ -15,7 +14,7 @@ public class Problem079 : IProblem
         var values = digits.ToDictionary(x => x, x => (int?)null);
         foreach (var entry in entries)
         {
-            var pairs = entry.Zip(entry.Skip(1), (x, y) => (x, y));
+            var pairs = entry.Zip(entry.Skip(1));
             foreach (var (x, y) in pairs)
             {
                 if (values[x] is null)

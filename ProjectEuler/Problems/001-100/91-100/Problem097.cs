@@ -2,7 +2,6 @@
 
 /// <summary>
 /// https://projecteuler.net/problem=97
-/// Solution: 8739992577
 /// </summary>
 public class Problem097 : IProblem
 {
