@@ -12,4 +12,23 @@ public class NumberExtensionsTests
     {
         number.IsPandigital().Should().BeTrue();
     }
+
+    [Theory]
+    [InlineData(123321)]
+    [InlineData(9999999999)]
+    [InlineData(100000000001)]
+    public void Should_BePalindrome(long number)
+    {
+        number.IsPalindrome().Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData(123456789)]
+    [InlineData(9999999998)]
+    [InlineData(9999998999)]
+    [InlineData(100000000000)]
+    public void Should_NotBePalindrome(long number)
+    {
+        number.IsPalindrome().Should().BeFalse();
+    }
 }
