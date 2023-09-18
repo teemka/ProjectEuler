@@ -5,39 +5,64 @@
 /// </summary>
 public class Problem077 : IProblem
 {
+    private readonly Dictionary<(int N, int Index), int> cache = new();
+    private readonly int[] primes;
+
+    public Problem077()
+    {
+        this.primes = new SieveOfErasthotenes(1_000).GetEnumerated().ToArray();
+    }
+
     public Task<string> CalculateAsync(string[] args)
     {
-        // TODO: Adapt https://projecteuler.net/overview=031
-        var coins = new SieveOfErasthotenes(1_000)
-            .GetEnumerated()
-            .Cast<int>()
-            .ToArray();
-
-        int Ways(int target, int avc)
+        var size = 5_000; // default
+        if (args.Length == 1)
         {
-            if (avc <= 2)
-            {
-                return 1;
-            }
-
-            int res = 0;
-            while (target >= 0)
-            {
-                res += Ways(target, avc - 1);
-                target -= coins[avc];
-            }
-
-            return res;
+            size = int.Parse(args[0]);
         }
 
-        var test = Ways(10, 3);
-
-        var result = 11; // 10 is provided in example
-        while (Ways(result, result / 2) < 5001)
+        var i = 4; // first summable prime
+        for (; ; i++)
         {
-            result++;
+            var result = this.PrimeSummations(i);
+
+            if (result > size)
+            {
+                break;
+            }
         }
 
-        return Task.FromResult(result.ToString());
+        return Task.FromResult(i.ToString());
+    }
+
+    private int PrimeSummations(int n, int index = 0)
+    {
+        if (this.cache.TryGetValue((n, index), out var summations))
+        {
+            return summations;
+        }
+
+        for (int i = index; i < this.primes.Length; i++)
+        {
+            var prime = this.primes[i];
+            var val = n - prime;
+
+            if (val < 0)
+            {
+                break;
+            }
+
+            if (val == 0)
+            {
+                summations++;
+                break;
+            }
+
+            summations += this.PrimeSummations(val, i);
+        }
+
+        this.cache.Add((n, index), summations);
+
+        return summations;
     }
 }
