@@ -9,42 +9,27 @@ public class Problem719 : IProblem
 {
     public static bool TrySplit(long target, long number)
     {
-        if (target < 0)
+        if (target > number)
         {
             return false;
         }
 
-        var n = number.ToString().AsSpan();
-
-        if (n.Length == 1)
+        if (target == number)
         {
-            return false;
+            return true;
         }
 
-        for (int i = 1; i < n.Length; i++)
+        var divisor = 10L;
+
+        while (divisor < number)
         {
-            var left = n[..i];
-            var right = n[i..];
-
-            var leftN = long.Parse(left);
-            var rightN = long.Parse(right);
-
-            var sum = leftN + rightN;
-            if (sum == target)
+            var (left, right) = Math.DivRem(number, divisor);
+            if (right < target && TrySplit(target - right, left))
             {
                 return true;
             }
 
-            if (sum < target)
-            {
-                continue;
-            }
-
-            if (TrySplit(target - leftN, rightN) ||
-                TrySplit(target - rightN, leftN))
-            {
-                return true;
-            }
+            divisor *= 10;
         }
 
         return false;
@@ -52,26 +37,24 @@ public class Problem719 : IProblem
 
     public Task<string> CalculateAsync(string[] args)
     {
-        long limit = 1_000_000_000_000; // 10^12
+        var limit = 1_000_000_000_000; // 10^12
 
         if (args.Any())
         {
             limit = long.Parse(args[0]);
         }
 
-        var i = 1;
         var n = 1L;
         var sum = 0L;
-        while (n <= limit)
+        for (var i = 2L; n <= limit; i++)
         {
-            n = (long)Math.Pow(i, 2);
+            n = i * i;
 
+            // digit sum mod 9 optimization
             if (n % 9 <= 1 && TrySplit(i, n))
             {
                 sum += n;
             }
-
-            i++;
         }
 
         return Task.FromResult(sum.ToString());
