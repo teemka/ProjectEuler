@@ -175,4 +175,19 @@ public static class NumberHelper
     {
         return T.CreateTruncating(double.Sqrt(double.CreateChecked(number)));
     }
+
+    public static int DigitCount<T>(T number)
+        where T : IFloatingPointIeee754<T>
+    {
+        var log10P1 = T.Log10P1(number);
+        var floor = T.Floor(log10P1);
+        return int.CreateChecked(floor);
+    }
+
+    public static int DigitCount(BigInteger number)
+    {
+        var log10P1 = BigInteger.Log10(number) + 1;
+        var floor = Math.Floor(log10P1);
+        return (int)floor;
+    }
 }

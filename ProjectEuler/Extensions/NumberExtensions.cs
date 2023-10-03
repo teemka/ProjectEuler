@@ -89,4 +89,10 @@ public static class NumberExtensions
 
         return reversed;
     }
+
+    public static int DigitCount<T>(this T number)
+        where T : IFloatingPointIeee754<T> => NumberHelper.DigitCount(number);
+
+    public static int DigitCount(this BigInteger number) =>
+        NumberHelper.DigitCount(number);
 }
