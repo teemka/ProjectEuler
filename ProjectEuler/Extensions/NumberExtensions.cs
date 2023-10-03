@@ -95,4 +95,7 @@ public static class NumberExtensions
 
     public static int DigitCount(this BigInteger number) =>
         NumberHelper.DigitCount(number);
+
+    public static T DigitSum<T>(this T number)
+        where T : IBinaryInteger<T> => NumberHelper.DigitSum(number);
 }

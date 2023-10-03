@@ -15,7 +15,7 @@ public class Problem056 : IProblem
         {
             for (int b = 1; b < 100; b++)
             {
-                var digitSum = NumberHelper.DigitSum(BigInteger.Pow(a, b));
+                var digitSum = BigInteger.Pow(a, b).DigitSum();
                 if (digitSum > maxDigitSum)
                 {
                     maxDigitSum = digitSum;

@@ -20,7 +20,7 @@ public class Problem020 : IProblem
             factorial *= i;
         }
 
-        var sum = factorial.ToString().Select(x => x.ToInt()).Sum();
-        return Task.FromResult(sum.ToString());
+        var digitSum = factorial.DigitSum();
+        return Task.FromResult(digitSum.ToString());
     }
 }
