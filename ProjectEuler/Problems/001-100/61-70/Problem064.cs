@@ -12,13 +12,13 @@ public class Problem064 : IProblem
         var count = 0;
         for (var i = 2; i <= 10_000; i++)
         {
-            var seq = Calc(i);
-            if (!seq.Any())
+            var period = SquareRootPeriod(i);
+            if (!period.Any())
             {
                 continue;
             }
 
-            var numbers = seq.Skip(1).ToArray();
+            var numbers = period.Skip(1).ToArray();
             if (int.IsOddInteger(numbers.Length))
             {
                 count++;
@@ -28,7 +28,7 @@ public class Problem064 : IProblem
         return Task.FromResult(count.ToString());
     }
 
-    internal static IEnumerable<int> Calc(int number)
+    internal static IEnumerable<int> SquareRootPeriod(int number)
     {
         var sqrt = Math.Sqrt(number);
         var floor = (int)Math.Floor(sqrt);
@@ -42,18 +42,20 @@ public class Problem064 : IProblem
 
         var set = new HashSet<(int Digit, int NumeratorTerm, int Denominator)>();
 
-        int denominator;
         var numeratorFactor = 1;
         var numeratorTerm = floor;
         while (true)
         {
-            denominator = number - (numeratorTerm * numeratorTerm);
+            var denominator = number - (numeratorTerm * numeratorTerm);
             var digit = (int)Math.Floor(numeratorFactor * (sqrt + numeratorTerm) / denominator);
-            var proper = new Fraction(numeratorFactor, denominator);
-            denominator = (int)proper.Denominator;
+
+            // Reduce the fraction
+            denominator = (int)new Fraction(numeratorFactor, denominator).Denominator;
+
             numeratorTerm = Math.Abs(numeratorTerm - (denominator * digit));
             numeratorFactor = denominator;
 
+            // Check if sequence repeats
             if (!set.Add((digit, numeratorTerm, denominator)))
             {
                 break;

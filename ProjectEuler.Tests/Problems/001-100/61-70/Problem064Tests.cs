@@ -24,7 +24,7 @@ public class Problem064Tests : ProblemTestBase
     public void Should_ExpandExamples(int power, int[] expected)
     {
         // Act
-        var sequence = Problem064.Calc(power);
+        var sequence = Problem064.SquareRootPeriod(power);
 
         // Assert
         sequence.Should().BeEquivalentTo(expected);
