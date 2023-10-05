@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Extensions;
+﻿using System.Diagnostics;
+
+namespace ProjectEuler.Extensions;
 
 internal static class IEnumerableExtensions
 {
@@ -65,6 +67,18 @@ internal static class IEnumerableExtensions
         foreach (var item in secondSequence)
         {
             yield return item;
+        }
+    }
+
+    internal static IEnumerable<T> RepeatForever<T>(this IEnumerable<T> sequence)
+    {
+        var arr = sequence.ToArray();
+        while (true)
+        {
+            foreach (var item in arr)
+            {
+                yield return item;
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Problems._001_100._71_80;
+﻿using Fractions;
+
+namespace ProjectEuler.Problems._001_100._71_80;
 
 /// <summary>
 /// https://projecteuler.net/problem=71
@@ -15,7 +17,7 @@ public class Problem071 : IProblem
 
         var result = Calculate(size);
 
-        return Task.FromResult(result.Nominator.ToString());
+        return Task.FromResult(result.Numerator.ToString());
     }
 
     internal static Fraction Calculate(int size)
@@ -25,16 +27,16 @@ public class Problem071 : IProblem
 
         for (int denominator = size; denominator > 1; denominator--)
         {
-            var start = (int)(denominator * target.RealValue);
+            var start = (int)(denominator * (double)target);
             for (int nominator = start; nominator < size; nominator++)
             {
                 var current = new Fraction(nominator, denominator);
-                if (current.RealValue >= target.RealValue)
+                if (current >= target)
                 {
                     break;
                 }
 
-                if (current.RealValue > best.RealValue)
+                if (current > best)
                 {
                     best = current;
                 }
@@ -42,43 +44,5 @@ public class Problem071 : IProblem
         }
 
         return best.Reduce();
-    }
-
-    internal readonly struct Fraction
-    {
-        public Fraction(int nominator, int denominator)
-        {
-            this.Nominator = nominator;
-            this.Denominator = denominator;
-
-            this.RealValue = (double)nominator / denominator;
-        }
-
-        public int Nominator { get; }
-
-        public int Denominator { get; }
-
-        public double RealValue { get; }
-
-        public Fraction Reduce()
-        {
-            var nominator = this.Nominator;
-            var denominator = this.Denominator;
-            while (true)
-            {
-                var gcd = NumberHelper.GCD(nominator, denominator);
-                if (gcd == 1)
-                {
-                    break;
-                }
-
-                nominator /= gcd;
-                denominator /= gcd;
-            }
-
-            return new(nominator, denominator);
-        }
-
-        public override string ToString() => $"{this.Nominator}/{this.Denominator}";
     }
 }

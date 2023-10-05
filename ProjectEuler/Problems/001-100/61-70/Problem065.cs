@@ -2,11 +2,20 @@
 
 namespace ProjectEuler.Problems._001_100._61_70;
 
+/// <summary>
+/// https://projecteuler.net/problem=65
+/// </summary>
 public class Problem065 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var arr = ExpandE().Take(100).Reverse().ToArray();
+        var nth = 100; // default
+        if (args.Length == 1)
+        {
+            nth = int.Parse(args[0]);
+        }
+
+        var arr = ExpandE().Take(nth).Reverse().ToArray();
 
         var fraction = new Fraction(1, arr[0]);
         foreach (var number in arr.Skip(1))
