@@ -12,14 +12,13 @@ public class Problem064 : IProblem
         var count = 0;
         for (var i = 2; i <= 10_000; i++)
         {
-            var period = SquareRootPeriod(i);
+            var (_, period) = SquareRootPeriod(i);
             if (!period.Any())
             {
                 continue;
             }
 
-            var numbers = period.Skip(1).ToArray();
-            if (int.IsOddInteger(numbers.Length))
+            if (int.IsOddInteger(period.Count))
             {
                 count++;
             }
@@ -28,40 +27,41 @@ public class Problem064 : IProblem
         return Task.FromResult(count.ToString());
     }
 
-    internal static IEnumerable<int> SquareRootPeriod(int number)
+    internal static (int FirstInteger, IReadOnlyCollection<int> Period) SquareRootPeriod(int number)
     {
         var sqrt = Math.Sqrt(number);
-        var floor = (int)Math.Floor(sqrt);
+        var firstInteger = (int)Math.Floor(sqrt);
 
-        if (sqrt == floor)
+        if (sqrt == firstInteger)
         {
-            yield break;
+            return (firstInteger, Array.Empty<int>());
         }
 
-        yield return floor;
-
         var set = new HashSet<(int Digit, int NumeratorTerm, int Denominator)>();
+        var period = new List<int>();
 
         var numeratorFactor = 1;
-        var numeratorTerm = floor;
+        var numeratorTerm = firstInteger;
         while (true)
         {
             var denominator = number - (numeratorTerm * numeratorTerm);
-            var digit = (int)Math.Floor(numeratorFactor * (sqrt + numeratorTerm) / denominator);
+            var integer = (int)Math.Floor(numeratorFactor * (sqrt + numeratorTerm) / denominator);
 
             // Reduce the fraction
             denominator = (int)new Fraction(numeratorFactor, denominator).Denominator;
 
-            numeratorTerm = Math.Abs(numeratorTerm - (denominator * digit));
+            numeratorTerm = Math.Abs(numeratorTerm - (denominator * integer));
             numeratorFactor = denominator;
 
             // Check if sequence repeats
-            if (!set.Add((digit, numeratorTerm, denominator)))
+            if (!set.Add((integer, numeratorTerm, denominator)))
             {
                 break;
             }
 
-            yield return digit;
+            period.Add(integer);
         }
+
+        return (firstInteger, period);
     }
 }

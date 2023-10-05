@@ -10,23 +10,24 @@ public class Problem064Tests : ProblemTestBase
     public override string Answer => "1322";
 
     [Theory]
-    [InlineData(2, new[] { 1, 2 })]
-    [InlineData(3, new[] { 1, 1, 2 })]
-    [InlineData(5, new[] { 2, 4 })]
-    [InlineData(6, new[] { 2, 2, 4 })]
-    [InlineData(7, new[] { 2, 1, 1, 1, 4 })]
-    [InlineData(8, new[] { 2, 1, 4 })]
-    [InlineData(10, new[] { 3, 6 })]
-    [InlineData(11, new[] { 3, 3, 6 })]
-    [InlineData(12, new[] { 3, 2, 6 })]
-    [InlineData(13, new[] { 3, 1, 1, 1, 1, 6 })]
-    [InlineData(23, new[] { 4, 1, 3, 1, 8 })]
-    public void Should_ExpandExamples(int power, int[] expected)
+    [InlineData(2, 1, new[] { 2 })]
+    [InlineData(3, 1, new[] { 1, 2 })]
+    [InlineData(5, 2, new[] { 4 })]
+    [InlineData(6, 2, new[] { 2, 4 })]
+    [InlineData(7, 2, new[] { 1, 1, 1, 4 })]
+    [InlineData(8, 2, new[] { 1, 4 })]
+    [InlineData(10, 3, new[] { 6 })]
+    [InlineData(11, 3, new[] { 3, 6 })]
+    [InlineData(12, 3, new[] { 2, 6 })]
+    [InlineData(13, 3, new[] { 1, 1, 1, 1, 6 })]
+    [InlineData(23, 4, new[] { 1, 3, 1, 8 })]
+    public void Should_ExpandExamples(int power, int expectedFirstInteger, int[] expectedPeriod)
     {
         // Act
-        var sequence = Problem064.SquareRootPeriod(power);
+        var (firstInteger, period) = Problem064.SquareRootPeriod(power);
 
         // Assert
-        sequence.Should().BeEquivalentTo(expected);
+        firstInteger.Should().Be(expectedFirstInteger);
+        period.Should().BeEquivalentTo(expectedPeriod);
     }
 }

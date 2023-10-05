@@ -13,7 +13,7 @@ public class Problem071Tests : ProblemTestBase
     {
         var result = Problem071.Calculate(8);
 
-        result.Nominator.Should().Be(2);
+        result.Numerator.Should().Be(2);
         result.Denominator.Should().Be(5);
     }
 }
