@@ -6,7 +6,6 @@ namespace ProjectEuler.Problems._001_100._61_70;
 /// <summary>
 /// https://projecteuler.net/problem=66
 /// https://en.wikipedia.org/wiki/Pell%27s_equation#Fundamental_solution_via_continued_fractions
-/// TODO: https://en.wikipedia.org/wiki/Pell%27s_equation#Continued_fractions
 /// </summary>
 public class Problem066 : IProblem
 {
@@ -23,7 +22,7 @@ public class Problem066 : IProblem
         for (var d = 2; d <= limit; d++)
         {
             var (first, period) = Problem064.SquareRootPeriod(d);
-            if (!period.Any())
+            if (period.Count == 0)
             {
                 continue;
             }

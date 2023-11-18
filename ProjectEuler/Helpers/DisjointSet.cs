@@ -9,8 +9,8 @@ namespace ProjectEuler.Helpers;
 public class DisjointSet<T> : IReadOnlyCollection<T>
     where T : notnull
 {
-    private readonly Dictionary<T, T> parents = new();
-    private readonly Dictionary<T, int> sizes = new();
+    private readonly Dictionary<T, T> parents = [];
+    private readonly Dictionary<T, int> sizes = [];
 
     public int Count => this.sizes.Count;
 
@@ -69,16 +69,10 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
 
     IEnumerator IEnumerable.GetEnumerator() => this.sizes.Keys.GetEnumerator();
 
-    private struct Element
+    private struct Element(T parent, int size)
     {
-        public Element(T parent, int size)
-        {
-            this.Parent = parent;
-            this.Size = size;
-        }
+        public T Parent { get; set; } = parent;
 
-        public T Parent { get; set; }
-
-        public int Size { get; set; }
+        public int Size { get; set; } = size;
     }
 }

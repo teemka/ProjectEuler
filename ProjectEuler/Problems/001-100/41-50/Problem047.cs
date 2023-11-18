@@ -32,10 +32,10 @@ public class Problem047 : IProblem
 
             if (output.Count == consecutiveCount)
             {
-                return output.ToArray();
+                return [.. output];
             }
         }
 
-        return Array.Empty<int>();
+        return [];
     }
 }

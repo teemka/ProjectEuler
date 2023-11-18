@@ -12,7 +12,7 @@ public class Problem186 : IProblem
     private const int NetworkSize = 1_000_000;
 
     private readonly LaggedFibonacciGenerator lfg = new();
-    private readonly DisjointSet<int> network = new();
+    private readonly DisjointSet<int> network = [];
 
     public Problem186()
     {

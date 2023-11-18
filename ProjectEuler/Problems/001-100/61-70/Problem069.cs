@@ -6,7 +6,7 @@
 public class Problem069 : IProblem
 {
     // This dictionary stores result of φ(n) function
-    private readonly Dictionary<int, int> phiByN = new();
+    private readonly Dictionary<int, int> phiByN = [];
 
     public Task<string> CalculateAsync(string[] args)
     {

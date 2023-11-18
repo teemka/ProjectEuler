@@ -4,7 +4,7 @@ namespace ProjectEuler.Problems._001_100._51_60;
 
 public class Problem051 : IProblem
 {
-    private readonly HashSet<string> checkedWildcards = new();
+    private readonly HashSet<string> checkedWildcards = [];
     private readonly SieveOfErasthotenes sieve = new();
 
     public Task<string> CalculateAsync(string[] args)

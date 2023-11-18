@@ -12,7 +12,7 @@ public class Problem686Tests
     {
         var problem = new Problem686();
 
-        var result = await problem.CalculateAsync(new[] { l, n });
+        var result = await problem.CalculateAsync([l, n]);
 
         Assert.Equal(j, result);
     }

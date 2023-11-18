@@ -2,7 +2,7 @@
 
 public class Problem062 : IProblem
 {
-    private readonly Dictionary<string, List<long>> permutations = new();
+    private readonly Dictionary<string, List<long>> permutations = [];
 
     public Task<string> CalculateAsync(string[] args)
     {

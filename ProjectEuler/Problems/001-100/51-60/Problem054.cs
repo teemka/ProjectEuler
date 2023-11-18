@@ -78,7 +78,7 @@ public class Problem054 : IProblem
         public Hand(Card[] cards)
         {
             this.Cards = cards;
-            this.OrderedCards = cards.OrderByDescending(x => x.Value).ToArray();
+            this.OrderedCards = [.. cards.OrderByDescending(x => x.Value)];
             this.Figure = this.CalculateValue(out var hc, out var hvif);
             this.HighestCard = hc;
             this.HighestValueInFigure = hvif;
@@ -162,11 +162,9 @@ public class Problem054 : IProblem
         }
     }
 
-    private class Card
+    private class Card(char value, char color)
     {
-        public Card(char value, char color)
-        {
-            this.Value = value switch
+        public int Value { get; } = value switch
             {
                 'T' => 10,
                 'J' => 11,
@@ -175,11 +173,7 @@ public class Problem054 : IProblem
                 'A' => 14,
                 _ => int.Parse(value.ToString()),
             };
-            this.Color = color;
-        }
 
-        public int Value { get; }
-
-        public char Color { get; }
+        public char Color { get; } = color;
     }
 }

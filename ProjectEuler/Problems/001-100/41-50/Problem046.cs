@@ -5,7 +5,7 @@
 /// </summary>
 public class Problem046 : IProblem
 {
-    private static readonly List<long> Primes = new();
+    private static readonly List<long> Primes = [];
 
     public Task<string> CalculateAsync(string[] args)
     {

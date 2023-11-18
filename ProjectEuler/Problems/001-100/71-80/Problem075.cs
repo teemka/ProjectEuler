@@ -71,21 +71,13 @@ public class Problem075 : IProblem
         }
     }
 
-    private readonly struct RightTriangle
+    private readonly struct RightTriangle(long a, long b, long c)
     {
-        public readonly long A;
-        public readonly long B;
-        public readonly long C;
+        public readonly long A = a;
+        public readonly long B = b;
+        public readonly long C = c;
 
-        public RightTriangle(long a, long b, long c)
-        {
-            this.A = a;
-            this.B = b;
-            this.C = c;
-            this.Perimeter = a + b + c;
-        }
-
-        public long Perimeter { get; }
+        public long Perimeter { get; } = a + b + c;
 
         public override string ToString() => $"{this.A}, {this.B}, {this.C}";
     }

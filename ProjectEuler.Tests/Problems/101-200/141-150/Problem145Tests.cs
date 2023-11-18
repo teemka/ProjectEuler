@@ -13,7 +13,7 @@ public class Problem145Tests : ProblemTestBase
     {
         var problem = new Problem145();
 
-        var result = await problem.CalculateAsync(new[] { "1000" });
+        var result = await problem.CalculateAsync(["1000"]);
 
         Assert.Equal("120", result);
     }

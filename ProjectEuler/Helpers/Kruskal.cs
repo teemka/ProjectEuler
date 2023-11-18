@@ -36,26 +36,19 @@ public static class Kruskal
 
     public class Vertex
     {
-        public HashSet<Edge> Edges { get; } = new();
+        public HashSet<Edge> Edges { get; } = [];
     }
 
-    public class Edge
+    public class Edge(
+        int value,
+        Vertex v1,
+        Vertex v2)
     {
-        public Edge(
-            int value,
-            Vertex v1,
-            Vertex v2)
-        {
-            this.Value = value;
-            this.V1 = v1;
-            this.V2 = v2;
-        }
+        public int Value { get; } = value;
 
-        public int Value { get; }
+        public Vertex V1 { get; } = v1;
 
-        public Vertex V1 { get; }
-
-        public Vertex V2 { get; }
+        public Vertex V2 { get; } = v2;
 
         public override string ToString() => this.Value.ToString();
     }
