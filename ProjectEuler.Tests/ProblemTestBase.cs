@@ -10,7 +10,7 @@ public abstract class ProblemTestBase
     public async Task Should_Solve()
     {
         // Act
-        var result = await this.Problem.CalculateAsync(Array.Empty<string>());
+        var result = await this.Problem.CalculateAsync([]);
 
         // Assert
         result.Should().Be(this.Answer);
