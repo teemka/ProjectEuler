@@ -33,7 +33,7 @@ internal static class IEnumerableExtensions
     {
         var list = sequence.ToList();
 
-        if (!list.Any())
+        if (list.Count == 0)
         {
             yield return Enumerable.Empty<T>();
         }

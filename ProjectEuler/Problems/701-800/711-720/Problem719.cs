@@ -39,7 +39,7 @@ public class Problem719 : IProblem
     {
         var limit = 1_000_000_000_000; // 10^12
 
-        if (args.Any())
+        if (args.Length != 0)
         {
             limit = long.Parse(args[0]);
         }

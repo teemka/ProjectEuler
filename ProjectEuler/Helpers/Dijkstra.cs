@@ -60,7 +60,7 @@ public static class Dijkstra
 
         public long Value { get; }
 
-        public HashSet<Vertex> Neighbours { get; } = new();
+        public HashSet<Vertex> Neighbours { get; } = [];
 
         public override string ToString() => this.Value.ToString();
     }

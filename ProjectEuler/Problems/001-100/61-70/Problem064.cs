@@ -13,7 +13,7 @@ public class Problem064 : IProblem
         for (var i = 2; i <= 10_000; i++)
         {
             var (_, period) = SquareRootPeriod(i);
-            if (!period.Any())
+            if (period.Count == 0)
             {
                 continue;
             }

@@ -129,16 +129,11 @@ public class Problem017 : IProblem
         }
     }
 
-    private class Context
+    private class Context(int number)
     {
-        private readonly List<string> terms = new();
+        private readonly List<string> terms = [];
 
-        public Context(int number)
-        {
-            this.Number = number;
-        }
-
-        public int Number { get; set; }
+        public int Number { get; set; } = number;
 
         public string Name => string.Join(" and ", this.terms);
 

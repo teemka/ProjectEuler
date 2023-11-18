@@ -11,7 +11,7 @@ public class Problem112Tests : ProblemTestBase
     [Fact]
     public async Task Should_CalculateExample()
     {
-        var answer = await new Problem112().CalculateAsync(new[] { "0.9" });
+        var answer = await new Problem112().CalculateAsync(["0.9"]);
         answer.Should().Be("21780");
     }
 

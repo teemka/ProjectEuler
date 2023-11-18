@@ -26,7 +26,7 @@ public class Problem018 : IProblem
 
         var root = new Dijkstra.Vertex(100 - int.Parse(lines[0]));
         var vertices = new Dijkstra.Vertex[lines.Length][];
-        vertices[0] = new Dijkstra.Vertex[] { root };
+        vertices[0] = [root];
         var edges = vertices.Take(lines.Length - 1).Zip(lines.Skip(1), (v, l) => (vertices: v, line: l)).ToArray();
         for (int i = 0; i < edges.Length; i++)
         {

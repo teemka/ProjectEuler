@@ -21,7 +21,7 @@ public class Problem039 : IProblem
 
                 var hypotenuse = Math.Sqrt(Math.Pow(i, 2) + Math.Pow(j, 2));
 
-                if ((int)hypotenuse != hypotenuse)
+                if (!double.IsInteger(hypotenuse))
                 {
                     continue;
                 }
@@ -43,21 +43,13 @@ public class Problem039 : IProblem
         return Task.FromResult(perimeter?.ToString() ?? "0");
     }
 
-    private readonly struct RightTriangle
+    private readonly struct RightTriangle(int a, int b, int c)
     {
-        public readonly int A;
-        public readonly int B;
-        public readonly int C;
+        public readonly int A = a;
+        public readonly int B = b;
+        public readonly int C = c;
 
-        public RightTriangle(int a, int b, int c)
-        {
-            this.A = a;
-            this.B = b;
-            this.C = c;
-            this.Perimeter = a + b + c;
-        }
-
-        public int Perimeter { get; }
+        public int Perimeter { get; } = a + b + c;
 
         public override string ToString() => $"{this.A}, {this.B}, {this.C}";
     }

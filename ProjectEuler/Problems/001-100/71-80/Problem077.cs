@@ -5,7 +5,7 @@
 /// </summary>
 public class Problem077 : IProblem
 {
-    private readonly Dictionary<(int N, int Index), int> cache = new();
+    private readonly Dictionary<(int N, int Index), int> cache = [];
     private readonly int[] primes;
 
     public Problem077()

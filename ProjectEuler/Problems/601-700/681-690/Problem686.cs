@@ -12,7 +12,7 @@ public class Problem686 : IProblem
     {
         if (args.Length != 2)
         {
-            args = new[] { "123", "678910" };
+            args = ["123", "678910"];
         }
 
         var l = int.Parse(args[0]);

@@ -7,7 +7,7 @@ namespace ProjectEuler.Problems._801_900._801_810;
 /// </summary>
 internal sealed class Problem808 : IProblem
 {
-    private readonly HashSet<long> reversiblePrimeSquares = new();
+    private readonly HashSet<long> reversiblePrimeSquares = [];
     private readonly SieveOfErasthotenes primes = new();
 
     public Task<string> CalculateAsync(string[] args)

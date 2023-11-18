@@ -3,24 +3,17 @@ using System.Diagnostics;
 
 namespace ProjectEuler;
 
-public class ProblemExecutor
+public class ProblemExecutor(ILogger<ProblemExecutor> logger)
 {
-    private readonly ILogger<ProblemExecutor> logger;
-
-    public ProblemExecutor(ILogger<ProblemExecutor> logger)
-    {
-        this.logger = logger;
-    }
-
     public async Task CalculateProblem(string[] args, IProblem problem)
     {
         var problemName = problem.GetType().Name;
-        this.logger.LogInformation("Starting execution of {Problem}", problemName);
+        logger.LogInformation("Starting execution of {Problem}", problemName);
 
         var sw = Stopwatch.StartNew();
 
         var solution = await problem.CalculateAsync(args);
         sw.Stop();
-        this.logger.LogInformation("{Problem} solved in {Elapsed}. Solution: {solution}", problemName, sw.Elapsed, solution);
+        logger.LogInformation("{Problem} solved in {Elapsed}. Solution: {solution}", problemName, sw.Elapsed, solution);
     }
 }
