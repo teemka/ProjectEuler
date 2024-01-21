@@ -165,14 +165,14 @@ public class Problem054 : IProblem
     private class Card(char value, char color)
     {
         public int Value { get; } = value switch
-            {
-                'T' => 10,
-                'J' => 11,
-                'Q' => 12,
-                'K' => 13,
-                'A' => 14,
-                _ => int.Parse(value.ToString()),
-            };
+        {
+            'T' => 10,
+            'J' => 11,
+            'Q' => 12,
+            'K' => 13,
+            'A' => 14,
+            _ => int.Parse(value.ToString()),
+        };
 
         public char Color { get; } = color;
     }
