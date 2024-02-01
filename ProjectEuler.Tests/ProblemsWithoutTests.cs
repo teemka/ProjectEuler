@@ -4,7 +4,7 @@ namespace ProjectEuler.Tests;
 
 public class ProblemsWithoutTests
 {
-    [Fact(Skip = "Some problems are unsolved")]
+    [Fact]
     public void AllShouldHaveTests()
     {
         var problems = Assembly
