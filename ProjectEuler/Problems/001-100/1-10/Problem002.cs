@@ -11,7 +11,12 @@ public class Problem002 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var sum = Sequences.Fibonacci<int>().TakeWhile(x => x <= 4_000_000).Where(int.IsEvenInteger).Sum();
+        var sum = Sequences
+            .Fibonacci<int>()
+            .TakeWhile(x => x <= 4_000_000)
+            .Where(int.IsEvenInteger)
+            .Sum();
+
         return Task.FromResult(sum.ToString());
     }
 }
