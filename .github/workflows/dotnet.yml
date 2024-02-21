@@ -11,6 +11,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      # Enable color output from .NET CLI
+      DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: true
+      TERM: xterm
+
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
