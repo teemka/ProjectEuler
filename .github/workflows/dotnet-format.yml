@@ -1,4 +1,4 @@
-name: Build & Test
+name: Format
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  run-dotnet-format:
 
     runs-on: ubuntu-latest
 
@@ -17,9 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore -c Release
-    - name: Test
-      run: dotnet test --no-build --verbosity normal -c Release
+    - name: Run dotnet format
+      uses: wearerequired/lint-action@v2
+      with:
+        dotnet_format: true
