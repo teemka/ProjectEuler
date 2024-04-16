@@ -21,7 +21,7 @@ public class Problem060 : IProblem
     private List<int> Find(int target)
     {
         var primes = this.sieve.GetEnumerated()
-            .Where(x => x != 2 && x != 5) // 2 or 5 at the end of a number result in not a prime
+            .Where(x => x is not 2 and not 5) // 2 or 5 at the end of a number result in not a prime
             .ToArray();
 
         // For all primes find maximal clique to which they belong
