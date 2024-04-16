@@ -8,14 +8,9 @@ namespace ProjectEuler.Problems._001_100._51_60;
 /// XOR decryption
 /// https://projecteuler.net/problem=59
 /// </summary>
-public partial class Problem059 : IProblem
+public partial class Problem059(ILogger<Problem059> logger) : IProblem
 {
-    private readonly ILogger<Problem059> logger;
-
-    public Problem059(ILogger<Problem059> logger)
-    {
-        this.logger = logger;
-    }
+    private readonly ILogger<Problem059> logger = logger;
 
     public async Task<string> CalculateAsync(string[] args)
     {
