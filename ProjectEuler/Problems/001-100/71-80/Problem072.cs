@@ -12,23 +12,36 @@ public class Problem072 : IProblem
     {
         if (!int.TryParse(args.FirstOrDefault(), out var size))
         {
-            size = 1_000_000;
+            size = 1_000;
         }
 
-        HashSet<Fraction> set = [];
+        IPrimes primes = new SieveOfErasthotenes(size);
 
-        // Use primes
-        for (int numerator = 1; numerator <= size; numerator++)
+        var count = 0;
+        for (int denominator = size; denominator > 2; denominator--)
         {
-            for (int denominator = 1; denominator <= size; denominator++)
+            count++; // 1 / denominator
+
+            var half = denominator / 2;
+            foreach (var prime in primes)
             {
-                if (numerator < denominator)
+                if (prime > half)
                 {
-                    set.Add(new Fraction(numerator, denominator));
+                    break;
+                }
+
+                var fraction = new Fraction(prime, denominator, normalize: false);
+
+                if (fraction.Reduce() == fraction)
+                {
+                    count++;
                 }
             }
         }
 
-        return Task.FromResult(set.Count.ToString());
+        count *= 2;
+        count++;
+
+        return Task.FromResult(count.ToString());
     }
 }
