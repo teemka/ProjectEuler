@@ -28,9 +28,9 @@ public class Problem071 : IProblem
         for (int denominator = size; denominator > 1; denominator--)
         {
             var start = (int)(denominator * (double)target);
-            for (int nominator = start; nominator < size; nominator++)
+            for (int numerator = start; numerator < size; numerator++)
             {
-                var current = new Fraction(nominator, denominator);
+                var current = new Fraction(numerator, denominator, normalize: false);
                 if (current >= target)
                 {
                     break;
