@@ -9,7 +9,7 @@ public class Problem145Tests : ProblemTestBase
     public override string Answer => "608720";
 
     [Fact]
-    public async void Should_CalculateExample()
+    public async Task Should_CalculateExample()
     {
         var problem = new Problem145();
 
