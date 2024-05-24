@@ -6,13 +6,15 @@ public class Problem072Tests : ProblemTestBase
 {
     public override IProblem Problem => new Problem072();
 
-    public override string Answer => "";
+    public override string Answer => "303963552391";
 
-    [Fact]
-    public async Task Should_CalculateExample()
+    [Theory]
+    [InlineData("8", "21")] // example
+    [InlineData("9", "27")]
+    public async Task Should_Calculate(string arg, string expected)
     {
-        var result = await this.Problem.CalculateAsync(["8"]);
+        var result = await this.Problem.CalculateAsync([arg]);
 
-        result.Should().Be("21");
+        result.Should().Be(expected);
     }
 }

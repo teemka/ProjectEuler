@@ -1,4 +1,4 @@
-﻿using Fractions;
+﻿using System.Collections.Concurrent;
 
 namespace ProjectEuler.Problems._001_100._71_80;
 
@@ -12,32 +12,35 @@ public class Problem072 : IProblem
     {
         if (!int.TryParse(args.FirstOrDefault(), out var size))
         {
-            size = 1_000;
+            size = 1_000_000;
         }
 
-        IPrimes primes = new SieveOfErasthotenes(size);
-
-        var count = 0;
-        for (int denominator = size; denominator > 2; denominator--)
-        {
-            count++; // 1 / denominator
-
-            var half = denominator / 2;
-            foreach (var prime in primes)
+        // Use Farey Sequence
+        var count = Partitioner.Create(Enumerable
+            .Range(3, size - 2), EnumerablePartitionerOptions.NoBuffering)
+            .AsParallel()
+            .Sum(denominator =>
             {
-                if (prime > half)
+                var count = 1L; // 1 / denominator
+
+                var half = denominator / 2;
+                var numerators = Enumerable.Range(2, half);
+
+                foreach (var numerator in numerators)
                 {
-                    break;
+                    if (numerator > half)
+                    {
+                        break;
+                    }
+
+                    if (NumberHelper.GCD(numerator, denominator) == 1)
+                    {
+                        count++;
+                    }
                 }
 
-                var fraction = new Fraction(prime, denominator, normalize: false);
-
-                if (fraction.Reduce() == fraction)
-                {
-                    count++;
-                }
-            }
-        }
+                return count;
+            });
 
         count *= 2;
         count++;
