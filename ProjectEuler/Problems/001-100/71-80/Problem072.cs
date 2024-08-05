@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+﻿using Fractions;
 
 namespace ProjectEuler.Problems._001_100._71_80;
 
@@ -15,36 +15,36 @@ public class Problem072 : IProblem
             size = 1_000_000;
         }
 
-        // Use Farey Sequence
-        var count = Partitioner.Create(Enumerable
-            .Range(3, size - 2), EnumerablePartitionerOptions.NoBuffering)
-            .AsParallel()
-            .Sum(denominator =>
-            {
-                var count = 1L; // 1 / denominator
+        // Farey Sequence (without 0/1 and 1/1)
+        var farey = Phi(size) - 1;
 
-                var half = denominator / 2;
-                var numerators = Enumerable.Range(2, half);
+        return Task.FromResult(farey.ToString());
+    }
 
-                foreach (var numerator in numerators)
-                {
-                    if (numerator > half)
-                    {
-                        break;
-                    }
+    /// <summary>
+    /// Totient summatory function.
+    /// </summary>
+    public static long Phi(int n)
+    {
+        var sum = 0L;
+        for (int i = 1; i <= n; i++)
+        {
+            sum += EulersTotient(i);
+        }
 
-                    if (NumberHelper.GCD(numerator, denominator) == 1)
-                    {
-                        count++;
-                    }
-                }
+        return sum;
+    }
 
-                return count;
-            });
+    public static int EulersTotient(int n)
+    {
+        // Euler's product formula
+        var factors = n.PrimeFactors().Distinct();
+        var product = new Fraction(n, 1);
+        foreach (var factor in factors)
+        {
+            product *= Fraction.One - new Fraction(1, factor, false);
+        }
 
-        count *= 2;
-        count++;
-
-        return Task.FromResult(count.ToString());
+        return product.ToInt32();
     }
 }
