@@ -105,7 +105,7 @@ public static class NumberHelper
     }
 
     /// <summary>
-    /// Returns non distinct prime factors of a number. If number is a prime - returns itself.
+    /// Returns distinct prime factors of a number. If number is a prime - returns itself.
     /// </summary>
     /// <typeparam name="T">Type of number.</typeparam>
     /// <param name="n">Number to be factorized</param>
@@ -114,9 +114,15 @@ public static class NumberHelper
         where T : INumber<T>
     {
         var two = T.CreateChecked(2);
+        var twoReturned = false; // ensure distinct
         while (n % two == T.Zero)
         {
-            yield return two;
+            if (!twoReturned)
+            {
+                yield return two;
+                twoReturned = true;
+            }
+
             n /= two;
         }
 
@@ -127,9 +133,15 @@ public static class NumberHelper
         for (var i = three; i <= sqrt; i += two)
         {
             // While i divides n, return i and divide n
+            var iReturned = false; // ensure distinct
             while (n % i == T.Zero)
             {
-                yield return i;
+                if (!iReturned)
+                {
+                    yield return i;
+                    iReturned = true;
+                }
+
                 n /= i;
             }
         }

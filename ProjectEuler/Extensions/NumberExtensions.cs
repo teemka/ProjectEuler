@@ -36,7 +36,7 @@ public static class NumberExtensions
     }
 
     /// <summary>
-    /// Returns non distinct prime factors of a number. If number is a prime - returns itself.
+    /// Returns distinct prime factors of a number. If number is a prime - returns itself.
     /// </summary>
     /// <typeparam name="T">Type of number.</typeparam>
     /// <param name="n">Number to be factorized</param>

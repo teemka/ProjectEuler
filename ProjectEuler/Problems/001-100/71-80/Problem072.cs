@@ -38,7 +38,7 @@ public class Problem072 : IProblem
     public static int EulersTotient(int n)
     {
         // Euler's product formula
-        var factors = n.PrimeFactors().Distinct();
+        var factors = n.PrimeFactors();
         var product = new Fraction(n, 1);
         foreach (var factor in factors)
         {

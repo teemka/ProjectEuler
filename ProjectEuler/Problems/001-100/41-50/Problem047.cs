@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Problems._001_100._41_50;
+﻿using System.Diagnostics;
+
+namespace ProjectEuler.Problems._001_100._41_50;
 
 /// <summary>
 /// https://projecteuler.net/problem=47
@@ -21,7 +23,7 @@ public class Problem047 : IProblem
         foreach (var number in numbers)
         {
             var factors = ((long)number).PrimeFactors();
-            if (factors.Distinct().Count() == primeFactorsCount)
+            if (factors.Count() == primeFactorsCount)
             {
                 output.Add(number);
             }
