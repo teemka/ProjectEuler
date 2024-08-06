@@ -1,4 +1,5 @@
 ﻿using ProjectEuler.Problems._001_100._71_80;
+using ProjectEuler.Tests.Helpers;
 
 namespace ProjectEuler.Tests.Problems._001_100._71_80;
 
@@ -21,7 +22,7 @@ public class Problem072Tests : ProblemTestBase
         result.Should().Be(expected);
     }
 
-    public static readonly IEnumerable<object[]> Eulers = A000010.Select((x, i) => new object[] { i + 1, x });
+    public static readonly TheoryData<int, int> Eulers = A000010.Select((x, i) => (i + 1, x)).ToTheoryData();
 
     [Theory]
     [MemberData(nameof(Eulers))]
@@ -30,7 +31,7 @@ public class Problem072Tests : ProblemTestBase
         Problem072.EulersTotient(n).Should().Be(expected);
     }
 
-    public static readonly IEnumerable<object[]> Phis = A005728.Select((x, i) => new object[] { i, x });
+    public static readonly TheoryData<int, int> Phis = A005728.Select((x, i) => (i, x)).ToTheoryData();
 
     [Theory]
     [MemberData(nameof(Phis))]
