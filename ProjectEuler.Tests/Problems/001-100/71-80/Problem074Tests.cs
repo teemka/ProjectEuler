@@ -15,11 +15,10 @@ public class Problem074Tests : ProblemTestBase
     public void Should_CalculateExampleLength(int input, int expected)
     {
         // Act
-        var chain = new List<long>();
-        Problem074.FillChain(chain, input);
+        var result = new Problem074().Rec(input);
 
         // Assert
-        chain.Count.Should().Be(expected);
+        result.Should().Be(expected);
     }
 
     [Theory]

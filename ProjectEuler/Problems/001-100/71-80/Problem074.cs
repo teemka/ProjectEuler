@@ -6,6 +6,8 @@
 /// </summary>
 internal sealed class Problem074 : IProblem
 {
+    private readonly Dictionary<long, long> cache = [];
+
     public Task<string> CalculateAsync(string[] args)
     {
         if (!int.TryParse(args.FirstOrDefault(), out var limit))
@@ -14,21 +16,52 @@ internal sealed class Problem074 : IProblem
         }
 
         var count = 0;
-        var chain = new List<long>();
-
         for (var i = 0L; i < limit; i++)
         {
-            FillChain(chain, i);
+            var l = this.Rec(i);
 
-            if (chain.Count == 60)
+            if (l == 60)
             {
                 count++;
             }
-
-            chain.Clear();
         }
 
         return Task.FromResult(count.ToString());
+    }
+
+    public long Rec(long n)
+    {
+        if (this.cache.TryGetValue(n, out var v))
+        {
+            return v;
+        }
+
+        var known = n switch
+        {
+            169 => 3,
+            871 => 2,
+            872 => 2,
+            1454 => 3,
+            _ => 0,
+        };
+
+        if (known != 0)
+        {
+            return known;
+        }
+
+        var next = DigitFactorial(n);
+
+        if (next == n)
+        {
+            this.cache[n] = v;
+            return 1;
+        }
+
+        v = this.Rec(next) + 1;
+
+        this.cache[n] = v;
+        return v;
     }
 
     public static void FillChain(List<long> chain, long n)
