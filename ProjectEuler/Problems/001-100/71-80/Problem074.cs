@@ -18,7 +18,7 @@ internal sealed class Problem074 : IProblem
         var count = 0;
         for (var i = 0L; i < limit; i++)
         {
-            var l = this.Rec(i);
+            var l = this.ChainLength(i);
 
             if (l == 60)
             {
@@ -29,7 +29,7 @@ internal sealed class Problem074 : IProblem
         return Task.FromResult(count.ToString());
     }
 
-    public long Rec(long n)
+    public long ChainLength(long n)
     {
         if (this.cache.TryGetValue(n, out var v))
         {
@@ -58,24 +58,10 @@ internal sealed class Problem074 : IProblem
             return 1;
         }
 
-        v = this.Rec(next) + 1;
+        v = this.ChainLength(next) + 1;
 
         this.cache[n] = v;
         return v;
-    }
-
-    public static void FillChain(List<long> chain, long n)
-    {
-        while (true)
-        {
-            chain.Add(n);
-            n = DigitFactorial(n);
-
-            if (chain.Contains(n))
-            {
-                break;
-            }
-        }
     }
 
     public static long DigitFactorial(long n) =>

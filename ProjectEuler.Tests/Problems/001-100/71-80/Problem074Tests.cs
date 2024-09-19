@@ -15,7 +15,7 @@ public class Problem074Tests : ProblemTestBase
     public void Should_CalculateExampleLength(int input, int expected)
     {
         // Act
-        var result = new Problem074().Rec(input);
+        var result = new Problem074().ChainLength(input);
 
         // Assert
         result.Should().Be(expected);
