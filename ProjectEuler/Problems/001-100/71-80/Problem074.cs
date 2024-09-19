@@ -31,37 +31,37 @@ internal sealed class Problem074 : IProblem
 
     public long ChainLength(long n)
     {
-        if (this.cache.TryGetValue(n, out var v))
+        if (this.cache.TryGetValue(n, out var cached))
         {
-            return v;
+            return cached;
         }
 
-        var known = n switch
+        var knownLoops = n switch
         {
-            169 => 3,
-            871 => 2,
-            872 => 2,
-            1454 => 3,
+            169 => 3, // 169 -> 363601 -> 1454 -> 169
+            871 => 2, // 871 -> 45361 -> 871
+            872 => 2, // 872 -> 45362 -> 872
+            1454 => 3, // 1454 -> 169 -> 363601 -> 1454
             _ => 0,
         };
 
-        if (known != 0)
+        if (knownLoops != 0)
         {
-            return known;
+            return knownLoops;
         }
 
         var next = DigitFactorial(n);
 
         if (next == n)
         {
-            this.cache[n] = v;
+            this.cache[n] = n;
             return 1;
         }
 
-        v = this.ChainLength(next) + 1;
+        cached = this.ChainLength(next) + 1;
 
-        this.cache[n] = v;
-        return v;
+        this.cache[n] = cached;
+        return cached;
     }
 
     public static long DigitFactorial(long n) =>
