@@ -63,6 +63,13 @@ public static class NumberExtensions
         where T : IBinaryInteger<T>
     {
         var ten = T.CreateChecked(10);
+
+        if (n == T.Zero)
+        {
+            yield return T.Zero;
+            yield break;
+        }
+
         while (n != T.Zero)
         {
             (n, var remainder) = T.DivRem(n, ten);
