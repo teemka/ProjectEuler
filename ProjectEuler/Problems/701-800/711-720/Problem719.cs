@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ProjectEuler.Problems._701_800._711_720;
+﻿namespace ProjectEuler.Problems._701_800._711_720;
 
 /// <summary>
 /// https://projecteuler.net/problem=719

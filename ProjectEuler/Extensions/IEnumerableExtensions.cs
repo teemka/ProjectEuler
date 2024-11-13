@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace ProjectEuler.Extensions;
+﻿namespace ProjectEuler.Extensions;
 
 internal static class IEnumerableExtensions
 {

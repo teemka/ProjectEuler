@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace ProjectEuler.Problems._001_100._41_50;
+﻿namespace ProjectEuler.Problems._001_100._41_50;
 
 /// <summary>
 /// https://projecteuler.net/problem=47
