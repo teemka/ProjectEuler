@@ -8,8 +8,6 @@ public class Problem064Tests : ProblemTestBase
 
     public override string Answer => "1322";
 
-    // https://github.com/dotnet/roslyn-analyzers/issues/7033
-#pragma warning disable CA1861 // Avoid constant arrays as arguments
     [Theory]
     [InlineData(2, 1, new[] { 2 })]
     [InlineData(3, 1, new[] { 1, 2 })]
@@ -22,7 +20,6 @@ public class Problem064Tests : ProblemTestBase
     [InlineData(12, 3, new[] { 2, 6 })]
     [InlineData(13, 3, new[] { 1, 1, 1, 1, 6 })]
     [InlineData(23, 4, new[] { 1, 3, 1, 8 })]
-#pragma warning restore CA1861 // Avoid constant arrays as arguments
     public void Should_ExpandExamples(int power, int expectedFirstInteger, int[] expectedPeriod)
     {
         // Act
