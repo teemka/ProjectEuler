@@ -18,7 +18,7 @@ public class Problem066Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        result.Should().Be("5");
+        Assert.Equal("5", result);
     }
 
     [Theory]
@@ -33,6 +33,6 @@ public class Problem066Tests : ProblemTestBase
         var result = Problem066.IsEquationSolved(d, x, y);
 
         // Assert
-        result.Should().BeTrue();
+        Assert.True(result);
     }
 }

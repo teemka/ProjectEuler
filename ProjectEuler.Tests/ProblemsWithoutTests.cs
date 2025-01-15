@@ -20,6 +20,6 @@ public class ProblemsWithoutTests
             .Select(x => x.Name[..^5])
             .Order();
 
-        problems.Except(tests).Should().BeEmpty();
+        Assert.Empty(problems.Except(tests));
     }
 }

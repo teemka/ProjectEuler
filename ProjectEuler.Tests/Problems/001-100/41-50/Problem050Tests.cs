@@ -17,6 +17,6 @@ public class Problem050Tests : ProblemTestBase
         var result = Problem050.MaxSum(limit);
 
         // Assert
-        result.Should().Be(expected);
+        Assert.Equal(expected, result);
     }
 }

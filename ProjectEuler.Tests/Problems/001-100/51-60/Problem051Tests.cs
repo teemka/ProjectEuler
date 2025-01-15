@@ -20,7 +20,7 @@ public class Problem051Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        result.Should().Be(expected);
+        Assert.Equal(expected, result);
     }
 
     [Fact]
@@ -28,13 +28,13 @@ public class Problem051Tests : ProblemTestBase
     {
         // Arrange
         var prime = "13";
-        var expected = new[] { "*3", "1*", "**" };
+        HashSet<string> expected = ["*3", "1*", "**"];
 
         // Act
-        var wildcards = Problem051.MakeWildcards(prime);
+        var wildcards = Problem051.MakeWildcards(prime).ToHashSet();
 
         // Assert
-        wildcards.Should().BeEquivalentTo(expected);
+        Assert.Equal(expected, wildcards);
     }
 
     [Fact]
@@ -42,12 +42,12 @@ public class Problem051Tests : ProblemTestBase
     {
         // Arrange
         var prime = "123";
-        var expected = new[] { "*23", "**3", "1*3", "*2*", "1**", "12*", "***" };
+        HashSet<string> expected = ["*23", "**3", "1*3", "*2*", "1**", "12*", "***"];
 
         // Act
-        var wildcards = Problem051.MakeWildcards(prime);
+        var wildcards = Problem051.MakeWildcards(prime).ToHashSet();
 
         // Assert
-        wildcards.Should().BeEquivalentTo(expected);
+        Assert.Equal(expected, wildcards);
     }
 }

@@ -28,6 +28,6 @@ public class Problem057Tests : ProblemTestBase
         fraction += Fraction.One;
 
         // Assert
-        fraction.Should().Be(expected);
+        Assert.Equal(expected, fraction);
     }
 }

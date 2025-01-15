@@ -22,7 +22,7 @@ public class Problem719Tests : ProblemTestBase
         var result = Problem719.TrySplit(sqrt, number);
 
         // Assert
-        result.Should().BeTrue();
+        Assert.True(result);
     }
 
     [Theory]
@@ -36,7 +36,7 @@ public class Problem719Tests : ProblemTestBase
         var result = Problem719.TrySplit(sqrt, number);
 
         // Assert
-        result.Should().BeFalse();
+        Assert.False(result);
     }
 
     [Fact]
@@ -49,6 +49,6 @@ public class Problem719Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        result.Should().Be("41333");
+        Assert.Equal("41333", result);
     }
 }

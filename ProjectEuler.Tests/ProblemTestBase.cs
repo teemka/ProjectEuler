@@ -13,6 +13,6 @@ public abstract class ProblemTestBase
         var result = await this.Problem.CalculateAsync([]);
 
         // Assert
-        result.Should().Be(this.Answer);
+        Assert.Equal(this.Answer, result);
     }
 }

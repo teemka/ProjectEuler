@@ -20,6 +20,6 @@ public class Problem005Tests : ProblemTestBase
         var result = Problem005.IsEvenlyDivisible(number, divisors);
 
         // Assert
-        result.Should().BeTrue();
+        Assert.True(result);
     }
 }

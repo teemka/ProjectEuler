@@ -26,7 +26,7 @@ public class Problem064Tests : ProblemTestBase
         var (firstInteger, period) = Problem064.SquareRootPeriod(power);
 
         // Assert
-        firstInteger.Should().Be(expectedFirstInteger);
-        period.Should().BeEquivalentTo(expectedPeriod);
+        Assert.Equal(expectedFirstInteger, firstInteger);
+        Assert.Equal(expectedPeriod, period);
     }
 }

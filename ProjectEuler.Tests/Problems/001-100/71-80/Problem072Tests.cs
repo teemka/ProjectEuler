@@ -19,7 +19,7 @@ public class Problem072Tests : ProblemTestBase
     {
         var result = await this.Problem.CalculateAsync([arg]);
 
-        result.Should().Be(expected);
+        Assert.Equal(expected, result);
     }
 
     public static readonly TheoryData<int, int> Eulers = A000010.Select((x, i) => (i + 1, x)).ToTheoryData();
@@ -28,7 +28,9 @@ public class Problem072Tests : ProblemTestBase
     [MemberData(nameof(Eulers))]
     public void Should_CalculateEuler(int n, int expected)
     {
-        Problem072.EulersTotient(n).Should().Be(expected);
+        var result = Problem072.EulersTotient(n);
+
+        Assert.Equal(expected, result);
     }
 
     public static readonly TheoryData<int, int> Phis = A005728.Select((x, i) => (i, x)).ToTheoryData();
@@ -37,6 +39,8 @@ public class Problem072Tests : ProblemTestBase
     [MemberData(nameof(Phis))]
     public void Should_CalculatePhi(int n, int expected)
     {
-        Problem072.Phi(n).Should().Be(expected);
+        var result = Problem072.Phi(n);
+
+        Assert.Equal(expected, result);
     }
 }

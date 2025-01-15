@@ -18,6 +18,6 @@ public class Problem060Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        result.Should().Be("792");
+        Assert.Equal("792", result);
     }
 }
