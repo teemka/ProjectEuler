@@ -12,18 +12,21 @@ public class Problem112Tests : ProblemTestBase
     public async Task Should_CalculateExample()
     {
         var answer = await new Problem112().CalculateAsync(["0.9"]);
-        answer.Should().Be("21780");
+
+        Assert.Equal("21780", answer);
     }
 
     [Theory]
-    [InlineData(12345, false, "is increasing")]
-    [InlineData(134468, false, "is increasing")]
-    [InlineData(54321, false, "is decreasing")]
-    [InlineData(66420, false, "is decreasing")]
-    [InlineData(155349, true, "is bouncy")]
-    [InlineData(21780, true, "is bouncy")]
-    public void Should_CheckIsBouncy(int number, bool expectedResult, string because)
+    [InlineData(12345, false)]
+    [InlineData(134468, false)]
+    [InlineData(54321, false)]
+    [InlineData(66420, false)]
+    [InlineData(155349, true)]
+    [InlineData(21780, true)]
+    public void Should_CheckIsBouncy(int number, bool expected)
     {
-        Problem112.IsBouncy(number).Should().Be(expectedResult, because);
+        var result = Problem112.IsBouncy(number);
+
+        Assert.Equal(expected, result);
     }
 }

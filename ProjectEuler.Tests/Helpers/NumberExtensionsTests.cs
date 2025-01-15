@@ -10,7 +10,7 @@ public class NumberExtensionsTests
     [InlineData(987654321)]
     public void Should_BePandigital(int number)
     {
-        number.IsPandigital().Should().BeTrue();
+        Assert.True(number.IsPandigital());
     }
 
     [Theory]
@@ -19,7 +19,7 @@ public class NumberExtensionsTests
     [InlineData(100000000001)]
     public void Should_BePalindrome(long number)
     {
-        number.IsPalindrome().Should().BeTrue();
+        Assert.True(number.IsPalindrome());
     }
 
     [Theory]
@@ -29,6 +29,6 @@ public class NumberExtensionsTests
     [InlineData(100000000000)]
     public void Should_NotBePalindrome(long number)
     {
-        number.IsPalindrome().Should().BeFalse();
+        Assert.False(number.IsPalindrome());
     }
 }

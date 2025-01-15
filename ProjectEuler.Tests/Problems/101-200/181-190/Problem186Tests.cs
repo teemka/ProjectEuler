@@ -17,8 +17,8 @@ public class Problem186Tests : ProblemTestBase
         var lfg = new Problem186.LaggedFibonacciGenerator();
         var numbers = lfg.Skip(2 * (recNr - 1)).Take(2).ToArray();
 
-        numbers.Should().HaveCount(2);
-        numbers[0].Should().Be(caller);
-        numbers[1].Should().Be(called);
+        Assert.Equal(2, numbers.Length);
+        Assert.Equal(caller, numbers[0]);
+        Assert.Equal(called, numbers[1]);
     }
 }

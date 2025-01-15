@@ -13,6 +13,6 @@ public class Problem073Tests : ProblemTestBase
     {
         var result = await this.Problem.CalculateAsync(["8"]);
 
-        result.Should().Be("3");
+        Assert.Equal("3", result);
     }
 }

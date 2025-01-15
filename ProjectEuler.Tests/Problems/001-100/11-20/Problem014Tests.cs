@@ -11,12 +11,12 @@ public class Problem014Tests : ProblemTestBase
     [Theory]
     [InlineData(13, 10)]
     [InlineData(837799, 525)]
-    public void Should_SolveExample(int start, int count)
+    public void Should_SolveExample(int start, int expected)
     {
         // Act
         var result = new Problem014().CollatzCount(start);
 
         // Assert
-        result.Should().Be(count);
+        Assert.Equal(expected, result);
     }
 }

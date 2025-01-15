@@ -14,17 +14,17 @@ public class SieveOfErasthotenesTests
         var primes = sieve.Take(78498).ToArray();
 
         // Assert
-        primes.Should().HaveCount(78498);
-        primes.Should().HaveElementAt(0, 2);
-        primes.Should().HaveElementAt(78497, 999983);
+        Assert.Equal(78498, primes.Length);
+        Assert.Equal(2, primes[0]);
+        Assert.Equal(999983, primes[78497]);
 
-        sieve.IsPrime(2).Should().BeTrue();
-        sieve.IsPrime(3).Should().BeTrue();
-        sieve.IsPrime(4).Should().BeFalse();
-        sieve.IsPrime(5).Should().BeTrue();
-        sieve.IsPrime(6).Should().BeFalse();
-        sieve.IsPrime(7).Should().BeTrue();
-        sieve.IsPrime(999983).Should().BeTrue();
+        Assert.True(sieve.IsPrime(2));
+        Assert.True(sieve.IsPrime(3));
+        Assert.False(sieve.IsPrime(4));
+        Assert.True(sieve.IsPrime(5));
+        Assert.False(sieve.IsPrime(6));
+        Assert.True(sieve.IsPrime(7));
+        Assert.True(sieve.IsPrime(999983));
     }
 
     [Fact]
@@ -37,8 +37,8 @@ public class SieveOfErasthotenesTests
         var primes = sieve.Take(148933).ToArray();
 
         // Assert
-        primes.Should().HaveCount(148933);
-        primes.Should().HaveElementAt(78498, 1000003);
-        primes.Should().HaveElementAt(148932, 1999993);
+        Assert.Equal(148933, primes.Length);
+        Assert.Equal(1000003, primes[78498]);
+        Assert.Equal(1999993, primes[148932]);
     }
 }

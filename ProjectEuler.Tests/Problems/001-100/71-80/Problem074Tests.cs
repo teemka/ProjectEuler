@@ -18,7 +18,7 @@ public class Problem074Tests : ProblemTestBase
         var result = new Problem074().ChainLength(input);
 
         // Assert
-        result.Should().Be(expected);
+        Assert.Equal(expected, result);
     }
 
     [Theory]
@@ -29,6 +29,8 @@ public class Problem074Tests : ProblemTestBase
     [InlineData(1454, 169)]
     public void Should_CalculateDigitFactorial(int input, int expected)
     {
-        Problem074.DigitFactorial(input).Should().Be(expected);
+        var result = Problem074.DigitFactorial(input);
+
+        Assert.Equal(expected, result);
     }
 }

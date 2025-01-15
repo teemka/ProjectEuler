@@ -13,6 +13,6 @@ public class Problem107Tests : ProblemTestBase
     {
         var exampleLines = await File.ReadAllLinesAsync("p107_network_example.txt");
         var result = Problem107.Solve(exampleLines);
-        result.Should().Be(150);
+        Assert.Equal(150, result);
     }
 }
