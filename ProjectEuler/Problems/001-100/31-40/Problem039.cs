@@ -10,9 +10,9 @@ public class Problem039 : IProblem
     {
         var rightTriangles = new List<RightTriangle>();
 
-        for (int i = 1; i <= 1000; i++)
+        for (var i = 1; i <= 1000; i++)
         {
-            for (int j = i; j <= 1000; j++)
+            for (var j = i; j <= 1000; j++)
             {
                 if (i + j > 1000)
                 {
@@ -45,12 +45,8 @@ public class Problem039 : IProblem
 
     private readonly struct RightTriangle(int a, int b, int c)
     {
-        public readonly int A = a;
-        public readonly int B = b;
-        public readonly int C = c;
-
         public int Perimeter { get; } = a + b + c;
 
-        public override string ToString() => $"{this.A}, {this.B}, {this.C}";
+        public override string ToString() => $"{a}, {b}, {c}";
     }
 }

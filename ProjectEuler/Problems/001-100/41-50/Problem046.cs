@@ -47,13 +47,13 @@ public class Problem046 : IProblem
         }
     }
 
-    private static bool CheckGoldbachsOtherConjecture(long curentNumber)
+    private static bool CheckGoldbachsOtherConjecture(long currentNumber)
     {
         // check from the last prime
-        for (int i = Primes.Count - 1; i >= 0; i--)
+        for (var i = Primes.Count - 1; i >= 0; i--)
         {
             var prime = Primes[i];
-            var rest = curentNumber - prime;
+            var rest = currentNumber - prime;
 
             if (double.IsInteger(Math.Sqrt(rest / 2)))
             {

@@ -27,10 +27,10 @@ public class Problem050 : IProblem
 
         var maxSum = 0L;
         var maxConsecutiveCount = 0;
-        for (int i = 0; i < arr.Length - 1; i++)
+        for (var i = 0; i < arr.Length - 1; i++)
         {
             var sum = arr[i];
-            for (int j = i + 1; j < arr.Length - i; j++)
+            for (var j = i + 1; j < arr.Length - i; j++)
             {
                 sum += arr[j];
 

@@ -9,25 +9,25 @@
 /// </summary>
 public class Problem035 : IProblem
 {
-    private readonly SieveOfErasthotenes sieve = new(1_000_000);
+    private readonly SieveOfErasthotenes sieve = new();
 
     public Task<string> CalculateAsync(string[] args)
     {
-        var circuralPrimes = this.sieve.GetEnumerated().Where(IsCircuralPrime).ToArray();
+        var circularPrimes = this.sieve.GetEnumerated().Where(IsCircularPrime).ToArray();
 
-        bool IsCircuralPrime(int n)
+        var result = circularPrimes.Length;
+
+        return Task.FromResult(result.ToString());
+
+        bool IsCircularPrime(int n)
         {
             var number = n.ToString();
-            string src = number + number;
+            var src = number + number;
             return Enumerable
                 .Range(0, number.Length)
                 .Select(x => src.Substring(x, number.Length))
                 .Select(int.Parse)
                 .All(this.sieve.Contains);
         }
-
-        var result = circuralPrimes.Length;
-
-        return Task.FromResult(result.ToString());
     }
 }

@@ -13,7 +13,7 @@ public class Problem061 : IProblem
             lastRow = int.Parse(args[0]);
         }
 
-        var origin = new long[][]
+        var origin = new[]
         {
             FourDigit(Sequences.TriangleNumbers()),
             FourDigit(Sequences.SquareNumbers()),
@@ -23,7 +23,7 @@ public class Problem061 : IProblem
             FourDigit(Sequences.OctagonalNumbers()),
         };
 
-        foreach (var numbers in origin.Take(lastRow).GetPermutations().Select(x => x.ToArray()))
+        foreach (var numbers in origin.Take(lastRow).ToList().GetPermutations().Select(x => x.ToArray()))
         {
             // Init DFS
             var discovered = new HashSet<Address2d>();

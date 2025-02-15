@@ -11,8 +11,8 @@ public class Problem040 : IProblem
 
         IEnumerable<int> Extract()
         {
-            int index = 1;
-            for (int i = 0; i < 7; i++)
+            var index = 1;
+            for (var i = 0; i < 7; i++)
             {
                 yield return number[index - 1].ToInt();
                 index *= 10;

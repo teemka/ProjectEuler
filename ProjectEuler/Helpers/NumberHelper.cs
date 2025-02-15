@@ -158,7 +158,7 @@ public static class NumberHelper
     {
         k = Math.Min(k, n - k);
         double result = 1;
-        for (int i = 1; i < k + 1; i++)
+        for (var i = 1; i < k + 1; i++)
         {
             result *= (n + 1 - i) / (double)i;
         }
@@ -171,9 +171,9 @@ public static class NumberHelper
         var arr = Enumerable.Range(1, n - 1).ToArray();
         var table = new long[n + 1];
         table[0] = 1;
-        for (int i = 0; i < arr.Length; i++)
+        for (var i = 0; i < arr.Length; i++)
         {
-            for (int j = arr[i]; j <= n; j++)
+            for (var j = arr[i]; j <= n; j++)
             {
                 table[j] += table[j - arr[i]];
             }

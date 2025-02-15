@@ -6,12 +6,7 @@
 public class Problem077 : IProblem
 {
     private readonly Dictionary<(int N, int Index), int> cache = [];
-    private readonly int[] primes;
-
-    public Problem077()
-    {
-        this.primes = new SieveOfErasthotenes(1_000).GetEnumerated().ToArray();
-    }
+    private readonly int[] primes = new SieveOfErasthotenes(1_000).GetEnumerated().ToArray();
 
     public Task<string> CalculateAsync(string[] args)
     {
@@ -42,7 +37,7 @@ public class Problem077 : IProblem
             return summations;
         }
 
-        for (int i = index; i < this.primes.Length; i++)
+        for (var i = index; i < this.primes.Length; i++)
         {
             var prime = this.primes[i];
             var val = n - prime;

@@ -18,7 +18,7 @@ public class Problem029 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var range = Enumerable.Range(2, 99);
+        var range = Enumerable.Range(2, 99).ToArray();
         var seq = range.CartesianProduct(range).Select(x => BigInteger.Pow(x.A, x.B)).Distinct().ToArray();
         return Task.FromResult(seq.Length.ToString());
     }

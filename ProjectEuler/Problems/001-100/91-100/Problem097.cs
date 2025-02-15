@@ -8,7 +8,7 @@ public class Problem097 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         long x = 1;
-        for (int i = 0; i < 7_830_457; i++)
+        for (var i = 0; i < 7_830_457; i++)
         {
             x *= 2;
             x %= 10_000_000_000;

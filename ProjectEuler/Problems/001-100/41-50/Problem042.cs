@@ -10,9 +10,9 @@ public class Problem042 : IProblem
         var textFile = await File.ReadAllTextAsync("Problems/001-100/41-50/Problem042_words.txt");
         var words = textFile.Split(',').Select(x => x[1..^1]);
 
-        var triangleNumbers = Enumerable.Range(1, 100).Select(x => NumberHelper.TriangleNumber(x)).ToHashSet();
+        var triangleNumbers = Enumerable.Range(1, 100).Select(NumberHelper.TriangleNumber).ToHashSet();
 
-        var count = words.Select(CalculateAlphabeticalSumUppercase).Where(x => triangleNumbers.Contains(x)).Count();
+        var count = words.Select(CalculateAlphabeticalSumUppercase).Count(x => triangleNumbers.Contains(x));
 
         return count.ToString();
     }

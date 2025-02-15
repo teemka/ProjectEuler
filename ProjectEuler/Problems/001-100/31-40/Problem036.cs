@@ -11,7 +11,7 @@ public class Problem036 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        long sum = Enumerable.Range(1, 999_999)
+        var sum = Enumerable.Range(1, 999_999)
             .Where(x => x.IsPalindrome() && Convert.ToString(x, 2).IsPalindrome())
             .Select(x => (long)x)
             .Sum();

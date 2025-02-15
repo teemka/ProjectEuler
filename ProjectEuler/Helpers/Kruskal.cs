@@ -5,7 +5,7 @@
 /// </summary>
 public static class Kruskal
 {
-    public static HashSet<Edge> CalculateMst(IEnumerable<Vertex> graph)
+    public static HashSet<Edge> CalculateMst(IReadOnlyCollection<Vertex> graph)
     {
         var trees = new DisjointSet<Vertex>();
 

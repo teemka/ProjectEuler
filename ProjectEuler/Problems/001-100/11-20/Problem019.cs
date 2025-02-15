@@ -9,7 +9,7 @@ public class Problem019 : IProblem
     {
         var date = new DateTime(1901, 1, 1);
         var end = new DateTime(2000, 12, 31);
-        int sundayCount = 0;
+        var sundayCount = 0;
         while (date < end)
         {
             if (date.DayOfWeek == DayOfWeek.Sunday)

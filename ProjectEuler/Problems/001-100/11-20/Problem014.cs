@@ -21,7 +21,7 @@ public class Problem014 : IProblem
 
     public Task<string> CalculateAsync(string[] args)
     {
-        var (start, count) = Enumerable.Range(1, 999_999)
+        var (start, _) = Enumerable.Range(1, 999_999)
             .Select(x => (start: x, count: this.CollatzCount(x)))
             .MaxBy(x => x.count);
 

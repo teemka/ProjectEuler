@@ -10,10 +10,10 @@ public class Problem107 : IProblem
     {
         var vertices = lines.Select(x => new Kruskal.Vertex()).ToArray();
 
-        for (int i = 0; i < lines.Length; i++)
+        for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i].Split(",");
-            for (int j = 0; j < i; j++)
+            for (var j = 0; j < i; j++)
             {
                 if (!int.TryParse(line[j], out var value))
                 {

@@ -12,8 +12,8 @@ public static class ArrayHelper
             throw new ArgumentOutOfRangeException(nameof(n), "Row number is out of range");
         }
 
-        int[] vector = new int[length];
-        for (int i = 0; i < length; i++)
+        var vector = new int[length];
+        for (var i = 0; i < length; i++)
         {
             vector[i] = array[n, i];
         }
@@ -31,8 +31,8 @@ public static class ArrayHelper
             throw new ArgumentOutOfRangeException(nameof(n), "Column number is out of range");
         }
 
-        int[] vector = new int[heigth];
-        for (int i = 0; i < heigth; i++)
+        var vector = new int[heigth];
+        for (var i = 0; i < heigth; i++)
         {
             vector[i] = array[i, n];
         }
@@ -43,14 +43,14 @@ public static class ArrayHelper
     public static int[] GetDiagonal(this int[,] array, int n = 0)
     {
         var length = array.GetLength(0);
-        var heigth = array.GetLength(1);
+        var height = array.GetLength(1);
 
         if (n > 0 && n > length)
         {
             throw new ArgumentOutOfRangeException(nameof(n), "Length is out of range");
         }
 
-        if (n < 0 && n > heigth)
+        if (n < 0 && n > height)
         {
             throw new ArgumentOutOfRangeException(nameof(n), "Height is out of range");
         }
@@ -64,12 +64,12 @@ public static class ArrayHelper
 
         if (n < 0)
         {
-            j = -1 * n;
+            j = -n;
         }
 
-        var vector = new int[Math.Min(heigth - j, length - i)];
-        int k = 0;
-        while (i < length && j < heigth)
+        var vector = new int[Math.Min(height - j, length - i)];
+        var k = 0;
+        while (i < length && j < height)
         {
             vector[k] = array[j, i];
             i++;
@@ -104,11 +104,11 @@ public static class ArrayHelper
 
         if (n < 0)
         {
-            j = -1 * n;
+            j = -n;
         }
 
         var vector = new int[Math.Min(heigth - j, i + 1)];
-        int k = 0;
+        var k = 0;
         while (i >= 0 && j < heigth)
         {
             vector[k] = array[j, i];

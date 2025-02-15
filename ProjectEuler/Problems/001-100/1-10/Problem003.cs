@@ -8,7 +8,7 @@ public class Problem003 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        long largestFactor = NumberHelper.PrimeFactors(600851475143).Last();
+        var largestFactor = NumberHelper.PrimeFactors(600851475143).Last();
         return Task.FromResult(largestFactor.ToString());
     }
 }

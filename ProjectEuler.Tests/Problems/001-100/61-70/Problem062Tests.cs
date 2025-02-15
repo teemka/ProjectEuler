@@ -4,9 +4,9 @@ namespace ProjectEuler.Tests.Problems._001_100._61_70;
 
 public class Problem062Tests : ProblemTestBase
 {
-    public override IProblem Problem => new Problem062();
+    protected override IProblem Problem => new Problem062();
 
-    public override string Answer => "127035954683";
+    protected override string Answer => "127035954683";
 
     [Fact]
     public async Task Should_SolveExample()

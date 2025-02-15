@@ -23,7 +23,7 @@ public class Problem027 : IProblem
     private static int MaximumNumberOfPrimes(long a, long b)
     {
         long Equation(long n) => (n * n) + (a * n) + b;
-        int i = 0;
+        var i = 0;
         while (Equation(i).IsPrime())
         {
             i++;

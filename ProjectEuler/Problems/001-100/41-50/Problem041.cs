@@ -19,14 +19,6 @@ public class Problem041 : IProblem
         // So the greatest possible is 7-digit
         var primes = new SieveOfErasthotenes(9_999_999).GetEnumerated().Reverse().ToArray();
 
-        foreach (var prime in primes)
-        {
-            if (((int)prime).IsPandigital())
-            {
-                return prime;
-            }
-        }
-
-        return 0;
+        return primes.FirstOrDefault(prime => prime.IsPandigital());
     }
 }

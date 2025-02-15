@@ -13,8 +13,11 @@ public class Problem031 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var coins = new int[] { 1, 2, 5, 10, 20, 50, 100, 200 };
-        int amount = 200;
+        var coins = new[] { 1, 2, 5, 10, 20, 50, 100, 200 };
+        const int amount = 200;
+
+        var result = Ways(amount, coins.Length - 1);
+        return Task.FromResult(result.ToString());
 
         int Ways(int target, int avc)
         {
@@ -23,7 +26,7 @@ public class Problem031 : IProblem
                 return 1;
             }
 
-            int res = 0;
+            var res = 0;
             while (target >= 0)
             {
                 res += Ways(target, avc - 1);
@@ -32,8 +35,5 @@ public class Problem031 : IProblem
 
             return res;
         }
-
-        var result = Ways(amount, coins.Length - 1);
-        return Task.FromResult(result.ToString());
     }
 }

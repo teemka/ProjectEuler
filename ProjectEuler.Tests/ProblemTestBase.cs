@@ -2,9 +2,9 @@
 
 public abstract class ProblemTestBase
 {
-    public abstract IProblem Problem { get; }
+    protected abstract IProblem Problem { get; }
 
-    public abstract string Answer { get; }
+    protected abstract string Answer { get; }
 
     [Fact]
     public async Task Should_Solve()

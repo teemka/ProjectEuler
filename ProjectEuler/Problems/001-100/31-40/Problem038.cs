@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Problems._001_100._31_40;
+﻿using System.Text;
+
+namespace ProjectEuler.Problems._001_100._31_40;
 
 /// <summary>
 /// https://projecteuler.net/problem=38
@@ -6,27 +8,28 @@
 /// </summary>
 public class Problem038 : IProblem
 {
+    private static readonly StringBuilder StringBuilder = new();
+
     public Task<string> CalculateAsync(string[] args)
     {
-        var pandigitals = "123456789".GetPermutations().Select(x => string.Concat(x)).ToArray();
+        var pandigitals = "123456789".ToList().GetPermutations().Select(x => string.Concat(x));
 
         var output = new List<((long Number, int N) Input, string Pandigital)>();
         foreach (var pandigital in pandigitals)
         {
             var pandigitalNumber = long.Parse(pandigital);
-            for (int length = 1; length < 9; length++)
+            for (var length = 1; length < 9; length++)
             {
                 var number = long.Parse(pandigital[..length]);
-                int n = 2;
+                var n = 2;
                 while (true)
                 {
                     var multiple = CreateMultiple(number, n);
-                    var s = multiple.ToString();
-                    if (s == pandigital)
+                    if (multiple == pandigital)
                     {
-                        output.Add(((number, n), s));
+                        output.Add(((number, n), pandigital));
                     }
-                    else if (multiple > pandigitalNumber)
+                    else if (long.Parse(multiple) > pandigitalNumber)
                     {
                         break;
                     }
@@ -41,11 +44,14 @@ public class Problem038 : IProblem
         return Task.FromResult(maxPandigital);
     }
 
-    private static long CreateMultiple(long number, int n)
+    private static string CreateMultiple(long number, int n)
     {
-        var multiples = Enumerable.Range(1, n)
-            .Select(x => number * x);
-        var multiplesAsStrings = multiples.Select(x => x.ToString());
-        return long.Parse(string.Concat(multiplesAsStrings));
+        StringBuilder.Clear();
+        for (var i = 1; i <= n; i++)
+        {
+            StringBuilder.Append(number * i);
+        }
+
+        return StringBuilder.ToString();
     }
 }

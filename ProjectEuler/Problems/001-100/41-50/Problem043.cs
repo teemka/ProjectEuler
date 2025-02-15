@@ -20,6 +20,7 @@ public class Problem043 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         var sum = "0123456789"
+            .ToCharArray()
             .GetPermutations()
             .Select(x => string.Concat(x))
             .Where(HasThisProperty)

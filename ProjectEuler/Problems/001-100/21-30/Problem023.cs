@@ -22,7 +22,7 @@ public class Problem023 : IProblem
 
     private static IEnumerable<int> NonSummable()
     {
-        int limit = 28123;
+        const int limit = 28123;
         var abundantNumbers = Enumerable.Range(1, limit).Where(x => IsAbundant(x)).ToArray();
 
         var sums = new HashSet<int>();
@@ -40,7 +40,7 @@ public class Problem023 : IProblem
             }
         }
 
-        for (int i = 1; i < limit; i++)
+        for (var i = 1; i < limit; i++)
         {
             if (!sums.Contains(i))
             {

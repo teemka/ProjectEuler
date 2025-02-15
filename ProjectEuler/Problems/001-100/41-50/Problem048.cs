@@ -9,13 +9,13 @@ public class Problem048 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        long result = 0;
-        long modulo = 10000000000;
+        var result = 0L;
+        const long modulo = 10000000000;
 
-        for (int i = 1; i <= 1000; i++)
+        for (var i = 1; i <= 1000; i++)
         {
             long temp = i;
-            for (int j = 1; j < i; j++)
+            for (var j = 1; j < i; j++)
             {
                 temp *= i;
                 if (temp >= long.MaxValue / 1000)

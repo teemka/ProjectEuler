@@ -22,7 +22,7 @@ public class Problem012 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         long i = 1;
-        long sum = i;
+        var sum = i;
         while (true)
         {
             if (sum.Divisors().Count > 500)
