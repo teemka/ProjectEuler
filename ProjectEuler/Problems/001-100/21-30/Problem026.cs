@@ -14,24 +14,24 @@
 /// 1/10 = 0.1
 /// Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle.It can be seen that 1/7 has a 6-digit recurring cycle.
 ///
-/// Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
+/// Find the value of d &lt; 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 /// </summary>
 public class Problem026 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        int sequenceLength = 0;
+        var sequenceLength = 0;
 
-        for (int i = 1000; i > 1; i--)
+        for (var i = 1000; i > 1; i--)
         {
             if (sequenceLength >= i)
             {
                 break;
             }
 
-            int[] foundRemainders = new int[i];
-            int value = 1;
-            int position = 0;
+            var foundRemainders = new int[i];
+            var value = 1;
+            var position = 0;
 
             while (foundRemainders[value] == 0 && value != 0)
             {

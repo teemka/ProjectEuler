@@ -15,7 +15,7 @@ public class Problem020 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         var factorial = BigInteger.One;
-        for (int i = 1; i <= 100; i++)
+        for (var i = 1; i <= 100; i++)
         {
             factorial *= i;
         }

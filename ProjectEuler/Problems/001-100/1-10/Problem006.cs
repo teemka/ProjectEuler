@@ -12,16 +12,16 @@ public class Problem006 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        int arithmeticSeries = ArithmeticSeries(1, 1, 100);
-        int arithmeticSeriesSquared = (int)Math.Pow(arithmeticSeries, 2);
-        int sumOfSquares = SumOfSquares(100);
-        int difference = arithmeticSeriesSquared - sumOfSquares;
+        var arithmeticSeries = ArithmeticSeries(1, 1, 100);
+        var arithmeticSeriesSquared = (int)Math.Pow(arithmeticSeries, 2);
+        var sumOfSquares = SumOfSquares(100);
+        var difference = arithmeticSeriesSquared - sumOfSquares;
         return Task.FromResult(difference.ToString());
     }
 
     private static int ArithmeticSeries(int start, int commonDifference, int count)
     {
-        int end = start + ((count - 1) * commonDifference);
+        var end = start + ((count - 1) * commonDifference);
         return count * (start + end) / 2;
     }
 

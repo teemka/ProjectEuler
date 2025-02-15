@@ -15,7 +15,7 @@ public class Problem034 : IProblem
     {
         // 9! = 362880. Sum of factorials of digits of 9,999,999 is 7*9! = 2,540,160
         var curiousNumbers = Enumerable.Range(3, 2_540_160)
-            .Select(x => (x, sumOfDigitFactorials: x.GetDigits().Sum(d => Factorial(d))))
+            .Select(x => (x, sumOfDigitFactorials: x.GetDigits().Sum(Factorial)))
             .Where(x => x.x == x.sumOfDigitFactorials)
             .ToArray();
 

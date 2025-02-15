@@ -18,7 +18,7 @@ public class Problem066 : IProblem
         }
 
         BigInteger max = 0;
-        int dOfMax = 0;
+        var dOfMax = 0;
         for (var d = 2; d <= limit; d++)
         {
             var (first, period) = Problem064.SquareRootPeriod(d);

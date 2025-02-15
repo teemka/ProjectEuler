@@ -16,7 +16,7 @@ public class Problem186 : IProblem
 
     public Problem186()
     {
-        foreach (int number in Enumerable.Range(0, NetworkSize))
+        foreach (var number in Enumerable.Range(0, NetworkSize))
         {
             this.network.Add(number);
         }
@@ -24,11 +24,11 @@ public class Problem186 : IProblem
 
     public Task<string> CalculateAsync(string[] args)
     {
-        int count = 0;
+        var count = 0;
         while (true)
         {
-            int caller = this.lfg.Next();
-            int called = this.lfg.Next();
+            var caller = this.lfg.Next();
+            var called = this.lfg.Next();
 
             if (caller == called)
             {
@@ -58,7 +58,7 @@ public class Problem186 : IProblem
             this.k++;
             if (this.k <= 55)
             {
-                long value = (100003 - (200003 * this.k) + (300007 * (long)Math.Pow(this.k, 3))) % 1000000;
+                var value = (100003 - (200003 * this.k) + (300007 * (long)Math.Pow(this.k, 3))) % 1000000;
 
                 this.prev[Index(this.k)] = (int)value;
             }

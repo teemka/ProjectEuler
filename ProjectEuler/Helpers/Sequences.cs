@@ -6,12 +6,12 @@ public static class Sequences
 {
     public static IEnumerable<int> SpiralDiagonal()
     {
-        int current = 1;
-        int diff = 2;
+        var current = 1;
+        var diff = 2;
         yield return current;
         while (true)
         {
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 current += diff;
                 yield return current;
@@ -96,14 +96,13 @@ public static class Sequences
     public static IEnumerable<T> Fibonacci<T>()
         where T : INumber<T>
     {
-        T prev = T.One;
-        T current = T.One;
-        T temp;
+        var prev = T.One;
+        var current = T.One;
         yield return prev;
         yield return current;
         while (true)
         {
-            temp = current;
+            var temp = current;
             current += prev;
             yield return current;
             prev = temp;

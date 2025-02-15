@@ -2,10 +2,10 @@
 
 public static class Dijkstra
 {
-    public static (Dictionary<Vertex, long> Dist, Dictionary<Vertex, Vertex?> Prev) Calculate(IEnumerable<Vertex> graph, Vertex root)
+    public static (Dictionary<Vertex, long> Dist, Dictionary<Vertex, Vertex?> Prev) Calculate(IReadOnlyCollection<Vertex> graph, Vertex root)
     {
         var queue = new PriorityQueue<Vertex, long>();
-        var dist = graph.ToDictionary(v => v, v => long.MaxValue);
+        var dist = graph.ToDictionary(v => v, _ => long.MaxValue);
         var prev = new Dictionary<Vertex, Vertex?>
         {
             [root] = null,
@@ -13,17 +13,19 @@ public static class Dijkstra
         dist[root] = root.Value;
         queue.EnqueueRange(graph.Select(v => (v, dist[v])));
 
-        while (queue.TryDequeue(out var u, out var value))
+        while (queue.TryDequeue(out var u, out _))
         {
             foreach (var v in u.Neighbours)
             {
                 var alt = dist[u] + v.Value;
-                if (alt < dist[v])
+                if (alt >= dist[v])
                 {
-                    dist[v] = alt;
-                    prev[v] = u;
-                    queue.Enqueue(v, 0);
+                    continue;
                 }
+
+                dist[v] = alt;
+                prev[v] = u;
+                queue.Enqueue(v, 0);
             }
         }
 

@@ -4,9 +4,9 @@ namespace ProjectEuler.Tests.Problems._701_800._721_730;
 
 public class Problem719Tests : ProblemTestBase
 {
-    public override IProblem Problem => new Problem719();
+    protected override IProblem Problem => new Problem719();
 
-    public override string Answer => "128088830547982";
+    protected override string Answer => "128088830547982";
 
     [Theory]
     [InlineData(81)]

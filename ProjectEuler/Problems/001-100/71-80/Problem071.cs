@@ -25,10 +25,10 @@ public class Problem071 : IProblem
         var target = new Fraction(3, 7);
         var best = new Fraction(1, size);
 
-        for (int denominator = size; denominator > 1; denominator--)
+        for (var denominator = size; denominator > 1; denominator--)
         {
             var start = (int)(denominator * (double)target);
-            for (int numerator = start; numerator < size; numerator++)
+            for (var numerator = start; numerator < size; numerator++)
             {
                 var current = new Fraction(numerator, denominator, normalize: false);
                 if (current >= target)

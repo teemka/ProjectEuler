@@ -99,8 +99,8 @@ internal class SieveOfErasthotenes : IPrimes
 
     private void Grow(int newSize)
     {
-        Debug.Assert(newSize > this.sieve.Length, "New size is smaller than the previous");
         Debug.Assert(newSize > 0, "New size probably overflowed");
+        Debug.Assert(newSize > this.sieve.Length, "New size is smaller than the previous");
 
         var oldSize = this.sieve.Length;
         Array.Resize(ref this.sieve, newSize);

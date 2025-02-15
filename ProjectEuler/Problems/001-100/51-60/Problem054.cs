@@ -20,8 +20,8 @@ public class Problem054 : IProblem
     {
         var textFile = await File.ReadAllTextAsync("Problems/001-100/51-60/Problem054_poker.txt");
 
-        int player1WinsCount = 0;
-        int player2WinsCount = 0;
+        var player1WinsCount = 0;
+        var player2WinsCount = 0;
 
         var rounds = textFile.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToArray();
         foreach (var round in rounds)
@@ -45,7 +45,7 @@ public class Problem054 : IProblem
                 }
                 else
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (var i = 0; i < 5; i++)
                     {
                         if (player1Hand.OrderedCards[i].Value > player2Hand.OrderedCards[i].Value)
                         {
@@ -96,7 +96,7 @@ public class Problem054 : IProblem
 
         public Figure CalculateValue(out Card highestCard, out int highestValueInFigure)
         {
-            bool isSameSuit = this.Cards.All(x => x.Color == this.Cards[0].Color);
+            var isSameSuit = this.Cards.All(x => x.Color == this.Cards[0].Color);
 
             var isStraight = this.OrderedCards
                 .Zip(this.OrderedCards.Skip(1))

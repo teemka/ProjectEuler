@@ -40,7 +40,7 @@ public class Problem069 : IProblem
 
     private void PopulatePhis(int size)
     {
-        for (int n = 1; n <= size; n++)
+        for (var n = 1; n <= size; n++)
         {
             if (this.phiByN.ContainsKey(n))
             {
@@ -50,7 +50,7 @@ public class Problem069 : IProblem
             // 1 is always relatively prime
             // so start the loop from two
             var phi = 1;
-            for (int i = 2; i < n; i++)
+            for (var i = 2; i < n; i++)
             {
                 var gcd = NumberHelper.GCD(i, n);
                 if (gcd == 1)

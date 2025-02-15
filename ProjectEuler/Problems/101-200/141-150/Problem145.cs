@@ -7,13 +7,13 @@ public class Problem145 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        if (!int.TryParse(args.FirstOrDefault(), out int limit))
+        if (!int.TryParse(args.FirstOrDefault(), out var limit))
         {
             limit = 100_000_000; // there are no 9-digit solutions
         }
 
-        int count = 0;
-        for (int i = 1; i < limit; i += 2)
+        var count = 0;
+        for (var i = 1; i < limit; i += 2)
         {
             if (IsReversible(i))
             {
@@ -31,6 +31,6 @@ public class Problem145 : IProblem
         var reverse = value.Reverse();
 
         var sum = reverse + value;
-        return sum.GetDigits().All(x => x % 2 == 1);
+        return sum.GetDigits().All(int.IsOddInteger);
     }
 }

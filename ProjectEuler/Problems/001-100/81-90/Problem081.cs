@@ -8,17 +8,17 @@ public class Problem081 : IProblem
 {
     public async Task<string> CalculateAsync(string[] args)
     {
-        var size = 80;
+        const int size = 80;
         var lines = await File.ReadAllLinesAsync("Problems/001-100/81-90/p081_matrix.txt");
 
         var graph = new List<Dijkstra.Vertex>();
         var arr = new Dijkstra.Vertex[size, size];
 
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             var numbers = lines[i].Split(",").Select(int.Parse).ToArray();
 
-            for (int j = 0; j < size; j++)
+            for (var j = 0; j < size; j++)
             {
                 var vertex = new Dijkstra.Vertex(numbers[j]);
                 arr[i, j] = vertex;
@@ -26,9 +26,9 @@ public class Problem081 : IProblem
             }
         }
 
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
-            for (int j = 0; j < size; j++)
+            for (var j = 0; j < size; j++)
             {
                 if (i < size - 1)
                 {

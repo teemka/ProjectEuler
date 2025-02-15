@@ -68,11 +68,4 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
     public IEnumerator<T> GetEnumerator() => this.sizes.Keys.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => this.sizes.Keys.GetEnumerator();
-
-    private struct Element(T parent, int size)
-    {
-        public T Parent { get; set; } = parent;
-
-        public int Size { get; set; } = size;
-    }
 }

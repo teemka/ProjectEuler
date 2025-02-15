@@ -9,7 +9,7 @@ public class Problem001 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        int sum = Enumerable.Range(1, 999).Where(x => x % 3 == 0 || x % 5 == 0).Sum();
+        var sum = Enumerable.Range(1, 999).Where(x => x % 3 == 0 || x % 5 == 0).Sum();
         return Task.FromResult(sum.ToString());
     }
 }

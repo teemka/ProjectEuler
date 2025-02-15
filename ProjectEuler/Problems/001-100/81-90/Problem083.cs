@@ -14,11 +14,11 @@ public class Problem083 : IProblem
         var graph = new List<Dijkstra.Vertex>();
         var arr = new Dijkstra.Vertex[size, size];
 
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             var numbers = lines[i].Split(",").Select(int.Parse).ToArray();
 
-            for (int j = 0; j < size; j++)
+            for (var j = 0; j < size; j++)
             {
                 var vertex = new Dijkstra.Vertex(numbers[j]);
                 arr[i, j] = vertex;
@@ -26,9 +26,9 @@ public class Problem083 : IProblem
             }
         }
 
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
-            for (int j = 0; j < size; j++)
+            for (var j = 0; j < size; j++)
             {
                 // Up
                 if (i > 0)

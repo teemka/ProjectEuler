@@ -8,32 +8,35 @@ public class Problem044 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        static long Result()
-        {
-            var pentagonalNumbers = Sequences.PentagonalNumbers();
-            var discovered = new HashSet<long>();
+        var result = Calculate();
+        return Task.FromResult(result.ToString());
+    }
 
-            foreach (var p in pentagonalNumbers)
+    private static long Calculate()
+    {
+        var pentagonalNumbers = Sequences.PentagonalNumbers();
+        var discovered = new HashSet<long>();
+
+        foreach (var p in pentagonalNumbers)
+        {
+            foreach (var pk in discovered)
             {
-                foreach (var pk in discovered)
+                var pj = p - pk;
+                if (!discovered.Contains(pj))
                 {
-                    var pj = p - pk;
-                    if (discovered.Contains(pj))
-                    {
-                        var d = pk - pj;
-                        if (discovered.Contains(d))
-                        {
-                            return d;
-                        }
-                    }
+                    continue;
                 }
 
-                discovered.Add(p);
+                var d = pk - pj;
+                if (discovered.Contains(d))
+                {
+                    return d;
+                }
             }
 
-            return 0;
+            discovered.Add(p);
         }
 
-        return Task.FromResult($"{Result()}");
+        return 0;
     }
 }

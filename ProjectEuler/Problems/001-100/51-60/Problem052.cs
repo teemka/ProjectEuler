@@ -11,10 +11,10 @@ public class Problem052 : IProblem
         long number = 1;
         while (true)
         {
-            string numberSorted = NumberWithSortedDigits(number);
-            for (int i = 2; i < 7; i++)
+            var numberSorted = NumberWithSortedDigits(number);
+            for (var i = 2; i < 7; i++)
             {
-                long temp = i * number;
+                var temp = i * number;
                 if (NumberWithSortedDigits(temp) != numberSorted)
                 {
                     break;

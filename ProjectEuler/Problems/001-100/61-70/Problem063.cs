@@ -9,13 +9,13 @@ public class Problem063 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        int expBase = 1;
-        int count = 0;
+        var expBase = 1;
+        var count = 0;
 
         // only take numbers under 10 into account
         while (expBase < 10)
         {
-            int exp = 1;
+            var exp = 1;
             while (true)
             {
                 var result = BigInteger.Pow(expBase, exp);

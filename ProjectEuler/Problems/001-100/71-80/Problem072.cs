@@ -27,7 +27,7 @@ public class Problem072 : IProblem
     public static long Phi(int n)
     {
         var sum = 0L;
-        for (int i = 1; i <= n; i++)
+        for (var i = 1; i <= n; i++)
         {
             sum += EulersTotient(i);
         }

@@ -7,10 +7,10 @@ public class Problem053 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        int count = 0;
-        for (int n = 23; n < 101; n++)
+        var count = 0;
+        for (var n = 23; n < 101; n++)
         {
-            for (int r = 1; r < n / 2; r++)
+            for (var r = 1; r < n / 2; r++)
             {
                 var result = NumberHelper.BinomialCoefficient(n, r);
 

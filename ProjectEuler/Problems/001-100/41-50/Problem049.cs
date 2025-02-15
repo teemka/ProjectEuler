@@ -14,7 +14,6 @@ public class Problem049 : IProblem
         var fourDigitPrimes = new SieveOfErasthotenes(10_000)
             .GetEnumerated()
             .SkipWhile(x => x < 1000)
-            .Select(x => (int)x)
             .ToArray();
 
         var groups = fourDigitPrimes
@@ -34,7 +33,7 @@ public class Problem049 : IProblem
             }
         }
 
-        var result = string.Concat(output.Where(x => x[0] != 1487).First().Select(x => x.ToString()));
+        var result = string.Concat(output.First(x => x[0] != 1487).Select(x => x.ToString()));
 
         return Task.FromResult(result);
     }
@@ -42,8 +41,8 @@ public class Problem049 : IProblem
     private static bool IsArithmeticProgression(IEnumerable<int> sequence)
     {
         var arr = sequence.ToArray();
-        int d = arr[1] - arr[0];
-        for (int i = 2; i < arr.Length; i++)
+        var d = arr[1] - arr[0];
+        for (var i = 2; i < arr.Length; i++)
         {
             if (arr[i] - arr[i - 1] != d)
             {
@@ -62,7 +61,7 @@ public class Problem049 : IProblem
         }
         else
         {
-            for (int i = 0; i < list.Count - count + 1; i++)
+            for (var i = 0; i < list.Count - count + 1; i++)
             {
                 var perms = GetPerms(list.Skip(i + 1).ToArray(), count - 1);
                 foreach (var perm in perms)

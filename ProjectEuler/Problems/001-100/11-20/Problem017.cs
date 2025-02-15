@@ -21,8 +21,8 @@ public class Problem017 : IProblem
 
         var interpreters = new List<Interpreter>
         {
-            new ThousandsIterpreter(),
-            new HundredsIterpreter(),
+            new ThousandsInterpreter(),
+            new HundredsInterpreter(),
             new TensInterpreter(),
         };
 
@@ -73,7 +73,7 @@ public class Problem017 : IProblem
 
         public virtual void Interpret(Context context)
         {
-            int n = context.Number;
+            var n = context.Number;
             var quotient = Math.DivRem(n, this.Multiplier, out n);
             if (quotient > 0)
             {
@@ -84,14 +84,14 @@ public class Problem017 : IProblem
         }
     }
 
-    private class ThousandsIterpreter : Interpreter
+    private class ThousandsInterpreter : Interpreter
     {
         protected override int Multiplier => 1000;
 
         protected override string MultiplierName => "thousand";
     }
 
-    private class HundredsIterpreter : Interpreter
+    private class HundredsInterpreter : Interpreter
     {
         protected override int Multiplier => 100;
 
@@ -106,7 +106,7 @@ public class Problem017 : IProblem
 
         public override void Interpret(Context context)
         {
-            int n = context.Number;
+            var n = context.Number;
             if (n == 0)
             {
                 return; // do nothing

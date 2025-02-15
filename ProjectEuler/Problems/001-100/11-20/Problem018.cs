@@ -28,12 +28,12 @@ public class Problem018 : IProblem
         var vertices = new Dijkstra.Vertex[lines.Length][];
         vertices[0] = [root];
         var edges = vertices.Take(lines.Length - 1).Zip(lines.Skip(1), (v, l) => (vertices: v, line: l)).ToArray();
-        for (int i = 0; i < edges.Length; i++)
+        for (var i = 0; i < edges.Length; i++)
         {
             var edge = edges[i];
             var parsed = edge.line.Split(" ").Select(int.Parse).Select(x => new Dijkstra.Vertex(100 - x)).ToArray();
 
-            for (int j = 0; j < edge.vertices.Length; j++)
+            for (var j = 0; j < edge.vertices.Length; j++)
             {
                 edge.vertices[j].Neighbours.Add(parsed[j]);
                 edge.vertices[j].Neighbours.Add(parsed[j + 1]);

@@ -16,7 +16,7 @@ public class Problem055 : IProblem
 
     private static bool IsLychrelNumber(BigInteger number, int iterations = 50)
     {
-        for (int i = 0; i < iterations; i++)
+        for (var i = 0; i < iterations; i++)
         {
             number += BigInteger.Parse(number.ToString().Reverse().Concat());
 

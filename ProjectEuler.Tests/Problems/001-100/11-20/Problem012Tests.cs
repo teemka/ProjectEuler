@@ -4,7 +4,7 @@ namespace ProjectEuler.Tests.Problems._001_100._11_20;
 
 public class Problem012Tests : ProblemTestBase
 {
-    public override IProblem Problem => new Problem012();
+    protected override IProblem Problem => new Problem012();
 
-    public override string Answer => "76576500";
+    protected override string Answer => "76576500";
 }
