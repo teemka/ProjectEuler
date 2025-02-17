@@ -18,12 +18,7 @@ public class Problem030 : IProblem
         var range = Enumerable.Range(start, end - start);
         foreach (var number in range)
         {
-            var sum = 0;
-            foreach (var digitChar in number.ToString())
-            {
-                var digit = int.Parse(digitChar.ToString());
-                sum += (int)Math.Pow(digit, length);
-            }
+            var sum = number.GetDigits().Sum(digit => (int)Math.Pow(digit, length));
 
             if (sum == number)
             {
