@@ -10,12 +10,9 @@ public class Problem027 : IProblem
         var aCandidates = Enumerable.Range(-999, 1999);
         var bCandidates = Enumerable.Range(-1000, 2001);
 
-        var result = aCandidates.CartesianProduct(bCandidates)
-            .Select(x => (x.A, x.B, max: MaximumNumberOfPrimes(x.A, x.B)))
-            .OrderByDescending(x => x.max)
-            .ToList();
-
-        var max = result.First();
+        var max = aCandidates.CartesianProduct(bCandidates)
+            .Select(x => (x.A, x.B, Max: MaximumNumberOfPrimes(x.A, x.B)))
+            .MaxBy(x => x.Max);
 
         return Task.FromResult((max.A * max.B).ToString());
     }
