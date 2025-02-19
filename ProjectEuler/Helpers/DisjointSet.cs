@@ -27,12 +27,13 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
 
     public T FindParent(T x)
     {
-        if (this.parents[x].Equals(x))
+        var parent = this.parents[x];
+        if (EqualityComparer<T>.Default.Equals(x, parent))
         {
             return x;
         }
 
-        return this.parents[x] = this.FindParent(this.parents[x]);
+        return this.parents[x] = this.FindParent(parent);
     }
 
     public int GetSize(T item) => this.sizes[this.FindParent(item)];
@@ -44,7 +45,7 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
         y = this.FindParent(y);
 
         // x and y are already in the same set
-        if (x.Equals(y))
+        if (EqualityComparer<T>.Default.Equals(x, y))
         {
             return;
         }
@@ -62,8 +63,6 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
         // Update the size of x
         this.sizes[x] += this.sizes[y];
     }
-
-    public bool Contains(T item) => this.sizes.ContainsKey(item);
 
     public IEnumerator<T> GetEnumerator() => this.sizes.Keys.GetEnumerator();
 
