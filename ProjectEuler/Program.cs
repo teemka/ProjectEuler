@@ -14,31 +14,35 @@ await using var sp = new ServiceCollection()
     .AddTransient<ProblemExecutor>()
     .BuildServiceProvider();
 
-var problems = sp.GetProblemsByNumber();
-
 if (args[0] == "--all")
 {
-    await Parallel.ForEachAsync(problems.Values, async (p, ct) => await ExecuteProblem(p));
+    await Parallel.ForEachAsync(
+        sp.GetServices<IProblem>(),
+        async (p, ct) => await ExecuteProblem(p));
+
+    return;
 }
-else if (int.TryParse(args[0], out var problemNumber))
+
+if (int.TryParse(args[0], out var problemNumber))
 {
-    if (!problems.TryGetValue(problemNumber, out var problem))
+    var problem = sp.GetKeyedService<IProblem>(problemNumber);
+
+    if (problem is null)
     {
         Console.WriteLine($"Problem{problemNumber:000} is not implemented. Implemented problems:");
-        foreach (var p in problems)
+        foreach (var p in sp.GetServices<IProblem>())
         {
-            Console.WriteLine(p.Value.GetType().Name);
+            Console.WriteLine(p.GetType().Name);
         }
 
         return;
     }
 
     await ExecuteProblem(problem);
+    return;
 }
-else
-{
-    Console.WriteLine("Command not known");
-}
+
+Console.WriteLine($"Command '{args[0]}' not known");
 
 Task ExecuteProblem(IProblem problem) => sp
     .GetRequiredService<ProblemExecutor>()
