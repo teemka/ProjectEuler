@@ -22,16 +22,13 @@ internal static partial class DependencyInjection
         foreach (var problemType in problemTypes)
         {
             services.AddTransient(typeof(IProblem), problemType);
+            services.AddKeyedTransient(typeof(IProblem), problemType.GetProblemNumber(), problemType);
         }
 
         return services;
     }
 
-    internal static IDictionary<int, IProblem> GetProblemsByNumber(this IServiceProvider sp) => sp
-        .GetServices<IProblem>()
-        .ToDictionary(
-            x => int.Parse(x.GetType().Name.Substring(7, 3)),
-            x => x);
+    private static int GetProblemNumber(this Type type) => int.Parse(type.Name.Substring(7, 3));
 
     [GeneratedRegex("^Problem\\d{3}$")]
     private static partial Regex ProblemRegex();

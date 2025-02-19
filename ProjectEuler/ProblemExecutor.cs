@@ -10,10 +10,10 @@ public class ProblemExecutor(ILogger<ProblemExecutor> logger)
         var problemName = problem.GetType().Name;
         logger.LogInformation("Starting execution of {Problem}", problemName);
 
-        var sw = Stopwatch.StartNew();
-
+        var start = Stopwatch.GetTimestamp();
         var solution = await problem.CalculateAsync(args);
-        sw.Stop();
-        logger.LogInformation("{Problem} solved in {Elapsed}. Solution: {solution}", problemName, sw.Elapsed, solution);
+        var elapsed = Stopwatch.GetElapsedTime(start);
+
+        logger.LogInformation("{Problem} solved in {Elapsed}. Solution: {solution}", problemName, elapsed, solution);
     }
 }
