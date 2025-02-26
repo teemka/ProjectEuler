@@ -14,12 +14,10 @@ public class Problem034 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         // 9! = 362880. Sum of factorials of digits of 9,999,999 is 7*9! = 2,540,160
-        var curiousNumbers = Enumerable.Range(3, 2_540_160)
+        var result = Enumerable.Range(3, 2_540_160)
             .Select(x => (x, sumOfDigitFactorials: x.GetDigits().Sum(Factorial)))
             .Where(x => x.x == x.sumOfDigitFactorials)
-            .ToArray();
-
-        var result = curiousNumbers.Sum(x => x.x);
+            .Sum(x => x.x);
 
         return Task.FromResult(result.ToString());
     }
