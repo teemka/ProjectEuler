@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Extensions;
+﻿using System.Numerics;
+
+namespace ProjectEuler.Extensions;
 
 internal static class IEnumerableExtensions
 {
@@ -27,7 +29,7 @@ internal static class IEnumerableExtensions
         return sequence.SelectMany(_ => other, (a, b) => (a, b));
     }
 
-    internal static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IList<T> list)
+    internal static IEnumerable<IEnumerable<T>> GetLexicographicPermutations<T>(this IList<T> list)
     {
         if (list.Count == 0)
         {
@@ -41,12 +43,35 @@ internal static class IEnumerableExtensions
             var copy = list.ToList();
             copy.RemoveAt(index);
 
-            foreach (var permutationOfRemainder in copy.GetPermutations())
+            foreach (var permutationOfRemainder in copy.GetLexicographicPermutations())
             {
                 yield return item.Concat(permutationOfRemainder);
             }
 
             index++;
+        }
+    }
+
+    internal static IEnumerable<IList<T>> GetPermutations<T>(this IList<T> list)
+    {
+        return list.GetPermutations(0);
+    }
+
+    private static IEnumerable<IList<T>> GetPermutations<T>(this IList<T> list, int startIndex)
+    {
+        if (list.Count == startIndex)
+        {
+            yield return list;
+        }
+
+        for (var i = startIndex; i < list.Count; i++)
+        {
+            (list[i], list[startIndex]) = (list[startIndex], list[i]);
+            foreach (var permutation in list.GetPermutations(startIndex + 1))
+            {
+                yield return permutation;
+            }
+            (list[i], list[startIndex]) = (list[startIndex], list[i]);
         }
     }
 
@@ -70,5 +95,54 @@ internal static class IEnumerableExtensions
                 yield return item;
             }
         }
+    }
+
+    public static T ToNumberFromDigits<T>(this IList<T> digits)
+        where T : IBinaryInteger<T>
+    {
+        return digits.ToNumberFromDigits(0, digits.Count);
+    }
+
+    public static T ToNumberFromDigits<T>(this IList<T> digits, int startIndex, int length)
+        where T : IBinaryInteger<T>
+    {
+        if (startIndex > digits.Count || length > digits.Count - startIndex)
+        {
+            ThrowArgumentOutOfRange(digits, startIndex, length);
+        }
+
+        if (length == 0)
+        {
+            return T.Zero;
+        }
+
+        var ten = T.CreateChecked(10);
+        var endIndex = startIndex + length;
+        var sum = digits[endIndex - 1];
+
+        var multiplier = ten;
+        for (var i = endIndex - 2; i >= startIndex; i--)
+        {
+            var digit = digits[i];
+            sum += multiplier * digit;
+            multiplier *= ten;
+        }
+
+        return sum;
+    }
+
+    private static void ThrowArgumentOutOfRange<T>(IList<T> digits, int startIndex, int length)
+        where T : IBinaryInteger<T>
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(startIndex);
+
+        if (startIndex > digits.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startIndex), "Start index is greater than the number of elements.");
+        }
+
+        ArgumentOutOfRangeException.ThrowIfNegative(length);
+
+        throw new ArgumentOutOfRangeException(nameof(length), "Length is greater than the number of elements.");
     }
 }
