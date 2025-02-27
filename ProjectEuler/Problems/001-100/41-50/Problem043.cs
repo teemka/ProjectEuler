@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Problems._001_100._41_50;
+﻿using System.Runtime.InteropServices;
+
+namespace ProjectEuler.Problems._001_100._41_50;
 
 /// <summary>
 /// The number, 1406357289, is a 0 to 9 pandigital number because it is made up of each of the digits 0 to 9 in some order, but it also has a rather interesting sub-string divisibility property.
@@ -20,30 +22,29 @@ public class Problem043 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         var sum = "0123456789"
-            .ToCharArray()
+            .Select(x => (long)x.ToInt())
+            .ToList()
             .GetPermutations()
-            .Select(x => string.Concat(x))
             .Where(HasThisProperty)
-            .Select(long.Parse)
+            .Select(x => x.ToNumberFromDigits())
             .Sum();
 
         return Task.FromResult(sum.ToString());
     }
 
-    private static bool HasThisProperty(string number)
+    private static bool HasThisProperty(IList<long> number)
     {
-        return IsSubspanDivisible(number, 1, 4, 2) &&
-               IsSubspanDivisible(number, 2, 5, 3) &&
-               IsSubspanDivisible(number, 3, 6, 5) &&
-               IsSubspanDivisible(number, 4, 7, 7) &&
-               IsSubspanDivisible(number, 5, 8, 11) &&
-               IsSubspanDivisible(number, 6, 9, 13) &&
-               IsSubspanDivisible(number, 7, 10, 17);
+        return IsSubspanDivisible(number, 1, 2) &&
+               IsSubspanDivisible(number, 2, 3) &&
+               IsSubspanDivisible(number, 3, 5) &&
+               IsSubspanDivisible(number, 4, 7) &&
+               IsSubspanDivisible(number, 5, 11) &&
+               IsSubspanDivisible(number, 6, 13) &&
+               IsSubspanDivisible(number, 7, 17);
 
-        static bool IsSubspanDivisible(ReadOnlySpan<char> number, Index start, Index end, int modulo)
+        static bool IsSubspanDivisible(IList<long> number, int startIndex, int modulo)
         {
-            var d1 = number[start..end];
-            return int.Parse(d1) % modulo == 0;
+            return number.ToNumberFromDigits(startIndex, length: 3) % modulo == 0;
         }
     }
 }
