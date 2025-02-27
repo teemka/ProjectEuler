@@ -67,10 +67,12 @@ internal static class IEnumerableExtensions
         for (var i = startIndex; i < list.Count; i++)
         {
             (list[i], list[startIndex]) = (list[startIndex], list[i]);
+
             foreach (var permutation in list.GetPermutations(startIndex + 1))
             {
                 yield return permutation;
             }
+
             (list[i], list[startIndex]) = (list[startIndex], list[i]);
         }
     }
