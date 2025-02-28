@@ -1,4 +1,6 @@
-﻿namespace ProjectEuler.Problems._001_100._71_80;
+﻿using System.Runtime.InteropServices;
+
+namespace ProjectEuler.Problems._001_100._71_80;
 
 /// <summary>
 /// https://projecteuler.net/problem=75
@@ -6,19 +8,25 @@
 /// </summary>
 public class Problem075 : IProblem
 {
-    private static readonly int UpperLimit = 750_000;
-
     public Task<string> CalculateAsync(string[] args)
     {
-        var rightTriangles = new List<RightTriangle>();
+        if (!int.TryParse(args.FirstOrDefault(), out var limit))
+        {
+            limit = 1_500_000;
+        }
 
-        var range = Enumerable.Range(1, UpperLimit).Select(x => (long)x);
-        var squares = SquaresSequence().Take(UpperLimit).ToArray();
+# if DEBUG
+        var rightTriangles = new List<RightTriangle>();
+#else
+        Dictionary<long, int> countByPerimeter = new();
+#endif
+
+
+        var range = Enumerable.Range(1, limit / 2).Select(x => (long)x);
 
         foreach (var a in range)
         {
-            var a2 = (long)Math.Pow(a, 2);
-            var limit = a2 / 2;
+            var a2 = a * a;
             var b = a;
             while (true)
             {
@@ -28,14 +36,14 @@ public class Problem075 : IProblem
                 }
 
                 var legsSum = a + b;
-                if (legsSum > 1_500_000)
+                if (legsSum > limit)
                 {
                     break;
                 }
 
-                var b2 = (long)Math.Pow(b, 2);
+                var b2 = b * b;
                 var hypotenuse = Math.Sqrt(a2 + b2);
-                if (hypotenuse + legsSum > 1_500_000)
+                if (hypotenuse + legsSum > limit)
                 {
                     break;
                 }
@@ -43,42 +51,39 @@ public class Problem075 : IProblem
                 var hypCeiling = Math.Ceiling(hypotenuse);
                 if (hypCeiling != hypotenuse)
                 {
-                    var candidateB = squares[(int)hypCeiling];
-                    b = b <= candidateB ? b + 1 : candidateB;
+                    b++;
                     continue;
                 }
 
                 var rightTriangle = new RightTriangle(a, b, (long)hypotenuse);
+# if DEBUG
                 rightTriangles.Add(rightTriangle);
+#else
+                ref var count = ref CollectionsMarshal.GetValueRefOrAddDefault(countByPerimeter, rightTriangle.Perimeter, out _);
+                count++;
+#endif
                 b++;
             }
         }
 
-        var singularIntRighTriangles = rightTriangles
+        var result = 0;
+#if DEBUG
+        var singularIntRightTriangles = rightTriangles
             .GroupBy(x => x.Perimeter)
             .Where(x => x.Count() == 1)
             .ToArray();
+        result = singularIntRightTriangles.Length;
+#else
+        result = countByPerimeter.Count(x => x.Value == 1);
+#endif
 
-        return Task.FromResult(singularIntRighTriangles.Length.ToString());
-    }
-
-    private static IEnumerable<long> SquaresSequence(long n = 1)
-    {
-        while (true)
-        {
-            yield return (long)Math.Pow(n, 2);
-            n++;
-        }
+        return Task.FromResult(result.ToString());
     }
 
     private readonly struct RightTriangle(long a, long b, long c)
     {
-        public readonly long A = a;
-        public readonly long B = b;
-        public readonly long C = c;
-
         public long Perimeter { get; } = a + b + c;
 
-        public override string ToString() => $"{this.A}, {this.B}, {this.C}";
+        public override string ToString() => $"{a}, {b}, {c}";
     }
 }
