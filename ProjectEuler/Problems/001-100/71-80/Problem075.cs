@@ -15,75 +15,67 @@ public class Problem075 : IProblem
             limit = 1_500_000;
         }
 
-# if DEBUG
-        var rightTriangles = new List<RightTriangle>();
-#else
-        Dictionary<long, int> countByPerimeter = new();
-#endif
+        var rightTriangles = new HashSet<RightTriangle>();
 
-
-        var range = Enumerable.Range(1, limit / 2).Select(x => (long)x);
-
-        foreach (var a in range)
+        // TODO: check the limit
+        // Use Euclid's formula to generate triplets
+        for (var n = 1; n < Math.Sqrt(limit); n++)
         {
-            var a2 = a * a;
-            var b = a;
-            while (true)
+            for (var m = n + 1;; m++)
             {
-                if (b > limit)
+                if (NumberHelper.GCD(m, n) != 1)
                 {
-                    break;
-                }
-
-                var legsSum = a + b;
-                if (legsSum > limit)
-                {
-                    break;
-                }
-
-                var b2 = b * b;
-                var hypotenuse = Math.Sqrt(a2 + b2);
-                if (hypotenuse + legsSum > limit)
-                {
-                    break;
-                }
-
-                var hypCeiling = Math.Ceiling(hypotenuse);
-                if (hypCeiling != hypotenuse)
-                {
-                    b++;
                     continue;
                 }
 
-                var rightTriangle = new RightTriangle(a, b, (long)hypotenuse);
-# if DEBUG
+                var rightTriangle = CreateRightTriangle(m, n);
+
+                if (rightTriangle.CalculatePerimeter() > limit)
+                {
+                    break;
+                }
                 rightTriangles.Add(rightTriangle);
-#else
-                ref var count = ref CollectionsMarshal.GetValueRefOrAddDefault(countByPerimeter, rightTriangle.Perimeter, out _);
-                count++;
-#endif
-                b++;
+
+                // Create multiples
+                for (var k = 2;; k++)
+                {
+                    var multiple = rightTriangle.CreateMultiple(k);
+
+                    if (multiple.CalculatePerimeter() > limit)
+                    {
+                        break;
+                    }
+                    rightTriangles.Add(multiple);
+                }
             }
         }
 
-        var result = 0;
-#if DEBUG
-        var singularIntRightTriangles = rightTriangles
-            .GroupBy(x => x.Perimeter)
-            .Where(x => x.Count() == 1)
-            .ToArray();
-        result = singularIntRightTriangles.Length;
-#else
-        result = countByPerimeter.Count(x => x.Value == 1);
-#endif
+        var result = rightTriangles
+            .Select(x => x.CalculatePerimeter())
+            .GroupBy(x => x)
+            .Count(x => x.Count() == 1);
 
         return Task.FromResult(result.ToString());
     }
 
-    private readonly struct RightTriangle(long a, long b, long c)
+    private static RightTriangle CreateRightTriangle(int m, int n)
     {
-        public long Perimeter { get; } = a + b + c;
+        var a = m * m - n * n;
+        var b = 2 * m * n;
+        var c = m * m + n * n;
 
-        public override string ToString() => $"{a}, {b}, {c}";
+        if (a > b)
+        {
+            (a, b) = (b, a);
+        }
+
+        return new(a, b, c);
+    }
+
+    private readonly record struct RightTriangle(int A, int B, int C)
+    {
+        public int CalculatePerimeter() => this.A + this.B + this.C;
+
+        public RightTriangle CreateMultiple(int k) => new(this.A * k, this.B * k, this.C * k);
     }
 }
