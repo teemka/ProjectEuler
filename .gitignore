@@ -11,3 +11,8 @@ launchSettings.json
 
 # Rider files
 .idea/
+
+# Artifacts
+TestResults/
+Coverage/
+
