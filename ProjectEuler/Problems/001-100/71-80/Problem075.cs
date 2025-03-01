@@ -15,34 +15,28 @@ public class Problem075 : IProblem
             limit = 1_500_000;
         }
 
-        var rightTriangles = new HashSet<RightTriangle>();
+        var rightTriangles = new List<RightTriangle>();
 
         // Use Euclid's formula to generate triplets
-        for (var n = 1; ; n++)
+        for (var n = 1; n < Math.Sqrt((double)limit / 2); n++)
         {
-            for (var m = n + 1; ; m++)
+            for (var m = n + 1; m < Math.Sqrt((double)limit / 2) ; m++)
             {
                 if (NumberHelper.GCD(m, n) != 1)
                 {
                     continue;
                 }
 
-                var rightTriangle = CreateRightTriangle(m, n);
-
-                if (rightTriangle.CalculatePerimeter() > limit)
+                // not both odd
+                if (!int.IsOddInteger(m + n))
                 {
-                    if (m == n + 1)
-                    {
-                        goto OutOfTheLoop;
-                    }
-
-                    break;
+                    continue;
                 }
 
-                rightTriangles.Add(rightTriangle);
+                var rightTriangle = CreateRightTriangle(m, n);
 
                 // Create multiples
-                for (var k = 2; ; k++)
+                for (var k = 1; ; k++)
                 {
                     var multiple = rightTriangle.CreateMultiple(k);
 
@@ -55,8 +49,6 @@ public class Problem075 : IProblem
                 }
             }
         }
-
-        OutOfTheLoop:
 
         var result = rightTriangles
             .Select(x => x.CalculatePerimeter())
