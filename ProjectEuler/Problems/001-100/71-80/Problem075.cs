@@ -17,9 +17,8 @@ public class Problem075 : IProblem
 
         var rightTriangles = new HashSet<RightTriangle>();
 
-        // TODO: check the limit
         // Use Euclid's formula to generate triplets
-        for (var n = 1; n < Math.Sqrt(limit); n++)
+        for (var n = 1; ; n++)
         {
             for (var m = n + 1; ; m++)
             {
@@ -32,6 +31,11 @@ public class Problem075 : IProblem
 
                 if (rightTriangle.CalculatePerimeter() > limit)
                 {
+                    if (m == n + 1)
+                    {
+                        goto OutOfTheLoop;
+                    }
+
                     break;
                 }
 
@@ -51,6 +55,8 @@ public class Problem075 : IProblem
                 }
             }
         }
+
+        OutOfTheLoop:
 
         var result = rightTriangles
             .Select(x => x.CalculatePerimeter())
