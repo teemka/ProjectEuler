@@ -21,7 +21,7 @@ public class Problem075 : IProblem
         // Use Euclid's formula to generate triplets
         for (var n = 1; n < Math.Sqrt(limit); n++)
         {
-            for (var m = n + 1;; m++)
+            for (var m = n + 1; ; m++)
             {
                 if (NumberHelper.GCD(m, n) != 1)
                 {
@@ -34,10 +34,11 @@ public class Problem075 : IProblem
                 {
                     break;
                 }
+
                 rightTriangles.Add(rightTriangle);
 
                 // Create multiples
-                for (var k = 2;; k++)
+                for (var k = 2; ; k++)
                 {
                     var multiple = rightTriangle.CreateMultiple(k);
 
@@ -45,6 +46,7 @@ public class Problem075 : IProblem
                     {
                         break;
                     }
+
                     rightTriangles.Add(multiple);
                 }
             }
