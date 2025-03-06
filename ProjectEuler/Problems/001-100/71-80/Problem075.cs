@@ -17,7 +17,7 @@ public class Problem075 : IProblem
         // Use Euclid's formula to generate triplets
         for (var n = 1; n < Math.Sqrt((double)limit / 2); n++)
         {
-            for (var m = n + 1; m < Math.Sqrt((double)limit / 2) ; m++)
+            for (var m = n + 1; m < Math.Sqrt((double)limit / 2); m++)
             {
                 // Numbers are coprime
                 if (NumberHelper.GCD(m, n) != 1)
