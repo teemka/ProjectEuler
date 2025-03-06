@@ -1,10 +1,7 @@
-﻿using System.Runtime.InteropServices;
-
-namespace ProjectEuler.Problems._001_100._71_80;
+﻿namespace ProjectEuler.Problems._001_100._71_80;
 
 /// <summary>
 /// https://projecteuler.net/problem=75
-/// Answer:
 /// </summary>
 public class Problem075 : IProblem
 {
@@ -15,67 +12,56 @@ public class Problem075 : IProblem
             limit = 1_500_000;
         }
 
-        var rightTriangles = new List<RightTriangle>();
+        var perimeters = new List<int>();
 
         // Use Euclid's formula to generate triplets
         for (var n = 1; n < Math.Sqrt((double)limit / 2); n++)
         {
             for (var m = n + 1; m < Math.Sqrt((double)limit / 2) ; m++)
             {
+                // Numbers are coprime
                 if (NumberHelper.GCD(m, n) != 1)
                 {
                     continue;
                 }
 
-                // not both odd
-                if (!int.IsOddInteger(m + n))
+                // Exactly one of them is even (sum is not even)
+                if (int.IsEvenInteger(m + n))
                 {
                     continue;
                 }
 
-                var rightTriangle = CreateRightTriangle(m, n);
+                var perimeter = CalculateRightTrianglePerimeter(m, n);
 
                 // Create multiples
                 for (var k = 1; ; k++)
                 {
-                    var multiple = rightTriangle.CreateMultiple(k);
+                    var multiple = perimeter * k;
 
-                    if (multiple.CalculatePerimeter() > limit)
+                    if (multiple > limit)
                     {
                         break;
                     }
 
-                    rightTriangles.Add(multiple);
+                    perimeters.Add(multiple);
                 }
             }
         }
 
-        var result = rightTriangles
-            .Select(x => x.CalculatePerimeter())
+        var result = perimeters
             .GroupBy(x => x)
             .Count(x => x.Count() == 1);
 
         return Task.FromResult(result.ToString());
     }
 
-    private static RightTriangle CreateRightTriangle(int m, int n)
+    private static int CalculateRightTrianglePerimeter(int m, int n)
     {
+        // Euclid's formula
         var a = m * m - n * n;
         var b = 2 * m * n;
         var c = m * m + n * n;
 
-        if (a > b)
-        {
-            (a, b) = (b, a);
-        }
-
-        return new(a, b, c);
-    }
-
-    private readonly record struct RightTriangle(int A, int B, int C)
-    {
-        public int CalculatePerimeter() => this.A + this.B + this.C;
-
-        public RightTriangle CreateMultiple(int k) => new(this.A * k, this.B * k, this.C * k);
+        return a + b + c;
     }
 }
