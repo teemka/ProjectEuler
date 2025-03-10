@@ -96,16 +96,14 @@ public static class Sequences
     public static IEnumerable<T> Fibonacci<T>()
         where T : INumber<T>
     {
-        var prev = T.One;
-        var current = T.One;
-        yield return prev;
-        yield return current;
+        var a = T.One;
+        var b = T.One;
+        yield return a;
+        yield return b;
         while (true)
         {
-            var temp = current;
-            current += prev;
-            yield return current;
-            prev = temp;
+            (a, b) = (b, a + b);
+            yield return b;
         }
     }
 }
