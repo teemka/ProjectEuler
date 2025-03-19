@@ -8,28 +8,28 @@ namespace ProjectEuler.Problems._001_100._31_40;
 /// </summary>
 public class Problem038 : IProblem
 {
-    private static readonly StringBuilder StringBuilder = new();
+    private readonly StringBuilder sb = new();
 
     public Task<string> CalculateAsync(string[] args)
     {
-        var pandigitals = "123456789".ToList().GetPermutations().Select(x => string.Concat(x));
+        var pandigitals = "123456789".Select(x => (long)x.ToInt()).ToList().GetPermutations();
 
-        var output = new List<((long Number, int N) Input, string Pandigital)>();
+        var output = new List<long>();
         foreach (var pandigital in pandigitals)
         {
-            var pandigitalNumber = long.Parse(pandigital);
+            var pandigitalNumber = pandigital.ToNumberFromDigits();
             for (var length = 1; length < 9; length++)
             {
-                var number = long.Parse(pandigital[..length]);
+                var number = pandigital.ToNumberFromDigits(0, length);
                 var n = 2;
                 while (true)
                 {
-                    var multiple = CreateMultiple(number, n);
-                    if (multiple == pandigital)
+                    var multiple = this.CreateMultiple(number, n);
+                    if (multiple == pandigitalNumber)
                     {
-                        output.Add(((number, n), pandigital));
+                        output.Add(pandigitalNumber);
                     }
-                    else if (long.Parse(multiple) > pandigitalNumber)
+                    else if (multiple > pandigitalNumber)
                     {
                         break;
                     }
@@ -39,19 +39,19 @@ public class Problem038 : IProblem
             }
         }
 
-        var (_, maxPandigital) = output.MaxBy(x => x.Pandigital);
+        var maxPandigital = output.Max();
 
-        return Task.FromResult(maxPandigital);
+        return Task.FromResult(maxPandigital.ToString());
     }
 
-    private static string CreateMultiple(long number, int n)
+    public long CreateMultiple(long number, int n)
     {
-        StringBuilder.Clear();
+        this.sb.Clear();
         for (var i = 1; i <= n; i++)
         {
-            StringBuilder.Append(number * i);
+            this.sb.Append(number * i);
         }
 
-        return StringBuilder.ToString();
+        return long.Parse(this.sb.ToString());
     }
 }
