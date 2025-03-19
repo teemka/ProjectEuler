@@ -44,9 +44,10 @@ public class Problem112 : IProblem
 
         var isIncreasing = true;
         var isDecreasing = true;
-        var pairs = n.Zip(n.Skip(1));
-        foreach (var (first, second) in pairs)
+
+        for (var i = 0; i < n.Length - 1; i++)
         {
+            var (first, second) = (n[i], n[i + 1]);
             if (isIncreasing && first > second)
             {
                 isIncreasing = false;
