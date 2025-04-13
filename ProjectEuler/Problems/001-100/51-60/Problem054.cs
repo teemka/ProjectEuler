@@ -2,7 +2,7 @@
 
 public class Problem054 : IProblem
 {
-    private enum Figure
+    public enum Figure
     {
         HighCard,
         OnePair,
@@ -16,116 +16,85 @@ public class Problem054 : IProblem
         RoyalFlush,
     }
 
+    public enum Color
+    {
+        Clubs,
+        Diamonds,
+        Hearts,
+        Spades,
+    }
+
     public async Task<string> CalculateAsync(string[] args)
     {
-        var textFile = await File.ReadAllTextAsync("Problems/001-100/51-60/Problem054_poker.txt");
+        var lines = await File.ReadAllLinesAsync("Problems/001-100/51-60/Problem054_poker.txt");
+        var rounds = lines.Select(line => line.Split(" ").Select(x => new Card(x[0], x[1])).ToArray()).ToArray();
 
         var player1WinsCount = 0;
-        var player2WinsCount = 0;
 
-        var rounds = textFile.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToArray();
         foreach (var round in rounds)
         {
-            var cards = round.Split(" ").Select(x => new Card(x[0], x[1])).ToArray();
-            var player1Hand = new Hand(cards.Take(5).ToArray());
-            var player2Hand = new Hand(cards.Skip(5).ToArray());
-            if (player1Hand.Figure > player2Hand.Figure)
+            var player1Hand = new Hand(round[..5]);
+            var player2Hand = new Hand(round[5..]);
+
+            var result = player1Hand.CompareTo(player2Hand);
+
+            if (result > 0)
             {
                 player1WinsCount++;
-            }
-            else if (player1Hand.Figure == player2Hand.Figure)
-            {
-                if (player1Hand.HighestValueInFigure > player2Hand.HighestValueInFigure)
-                {
-                    player1WinsCount++;
-                }
-                else if (player1Hand.HighestValueInFigure < player2Hand.HighestValueInFigure)
-                {
-                    player2WinsCount++;
-                }
-                else
-                {
-                    for (var i = 0; i < 5; i++)
-                    {
-                        if (player1Hand.OrderedCards[i].Value > player2Hand.OrderedCards[i].Value)
-                        {
-                            player1WinsCount++;
-                            break;
-                        }
-                        else if (player1Hand.OrderedCards[i].Value == player2Hand.OrderedCards[i].Value)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            player2WinsCount++;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                player2WinsCount++;
             }
         }
 
         return player1WinsCount.ToString();
     }
 
-    private class Hand
+    public class Hand : IComparable<Hand>
     {
+        private readonly Card[] orderedCards;
+        private readonly Card[][] groupedCards;
+
         public Hand(Card[] cards)
         {
-            this.Cards = cards;
-            this.OrderedCards = [.. cards.OrderByDescending(x => x.Value)];
-            this.Figure = this.CalculateValue(out var hc, out var hvif);
-            this.HighestCard = hc;
-            this.HighestValueInFigure = hvif;
+            if (cards.Length != 5)
+            {
+                throw new ArgumentException("Hand must have 5 cards", nameof(cards));
+            }
+
+            if (cards.Distinct().Count() != cards.Length)
+            {
+                throw new ArgumentException("Cards must be distinct", nameof(cards));
+            }
+
+            this.orderedCards = [.. cards.OrderByDescending(x => x.Value)];
+            this.groupedCards = this.orderedCards.GroupBy(x => x.Value).OrderByDescending(x => x.Count()).Select(x => x.ToArray()).ToArray();
+            this.Figure = this.CalculateFigure();
         }
-
-        public Card[] Cards { get; }
-
-        public Card[] OrderedCards { get; }
 
         public Figure Figure { get; }
 
-        public int HighestValueInFigure { get; }
-
-        public Card HighestCard { get; }
-
-        public Figure CalculateValue(out Card highestCard, out int highestValueInFigure)
+        private Figure CalculateFigure()
         {
-            var isSameSuit = this.Cards.All(x => x.Color == this.Cards[0].Color);
+            var isSameSuit = this.orderedCards.Select(x => x.Color).Distinct().Count() == 1;
 
-            var isStraight = this.OrderedCards
-                .Zip(this.OrderedCards.Skip(1))
+            var isStraight = this.orderedCards
+                .Zip(this.orderedCards.Skip(1))
                 .All(pair => pair.First.Value - 1 == pair.Second.Value);
 
-            highestCard = this.OrderedCards.First();
-            highestValueInFigure = highestCard.Value;
-
-            var groupsByValue = this.Cards.GroupBy(x => x.Value);
             if (isSameSuit && isStraight)
             {
-                if (highestCard.Value == 14)
-                {
-                    return Figure.RoyalFlush;
-                }
-
-                return Figure.StraightFlush;
+                var highestCard = this.orderedCards[0];
+                return highestCard.Value == 14
+                    ? Figure.RoyalFlush
+                    : Figure.StraightFlush;
             }
 
-            var groups = this.Cards.GroupBy(x => x.Value).OrderByDescending(x => x.Count());
-            var highestGroupCount = groups.Select(x => x.Count()).First();
-            if (highestGroupCount == 4)
+            var highestGroup = this.groupedCards[0];
+            if (highestGroup.Length == 4)
             {
-                highestValueInFigure = groups.Take(1).SelectMany(x => x).First().Value;
                 return Figure.FourOfAKind;
             }
 
-            var secondHighestGroupCount = groups.Select(x => x.Count()).Skip(1).First();
-            if (highestGroupCount == 3 && secondHighestGroupCount == 2)
+            var secondHighestGroup = this.groupedCards[1];
+            if (highestGroup.Length == 3 && secondHighestGroup.Length == 2)
             {
                 return Figure.FullHouse;
             }
@@ -140,31 +109,57 @@ public class Problem054 : IProblem
                 return Figure.Straight;
             }
 
-            if (highestGroupCount == 3)
+            return highestGroup.Length switch
             {
-                highestValueInFigure = groups.Take(1).SelectMany(x => x).First().Value;
-                return Figure.ThreeOfAKind;
+                3 => Figure.ThreeOfAKind,
+                2 when secondHighestGroup.Length == 2 => Figure.TwoPairs,
+                2 => Figure.OnePair,
+                _ => Figure.HighCard,
+            };
+        }
+
+        public int CompareTo(Hand? other)
+        {
+            if (other == null)
+            {
+                return 1;
             }
 
-            if (highestGroupCount == 2 && secondHighestGroupCount == 2)
+            var figureCompare = this.Figure.CompareTo(other.Figure);
+            if (figureCompare != 0)
             {
-                highestValueInFigure = groups.Take(2).SelectMany(x => x).OrderByDescending(x => x.Value).First().Value;
-                return Figure.TwoPairs;
+                return figureCompare;
             }
 
-            if (highestGroupCount == 2)
+            for (var i = 0; i < this.groupedCards.Length; i++)
             {
-                highestValueInFigure = groups.Take(1).SelectMany(x => x).First().Value;
-                return Figure.OnePair;
+                var thisCard = this.groupedCards[i][0];
+                var otherCard = other.groupedCards[i][0];
+
+                var result = thisCard.Value.CompareTo(otherCard.Value);
+                if (result != 0)
+                {
+                    return result;
+                }
             }
 
-            return Figure.HighCard;
+            return 0;
         }
     }
 
-    private class Card(char value, char color)
+    public record Card
     {
-        public int Value { get; } = value switch
+        public Card(char value, char color)
+        {
+            this.Value = ParseValue(value);
+            this.Color = ParseColor(color);
+        }
+
+        public int Value { get; }
+
+        public Color Color { get; }
+
+        private static int ParseValue(char value) => value switch
         {
             'T' => 10,
             'J' => 11,
@@ -174,6 +169,13 @@ public class Problem054 : IProblem
             _ => int.Parse(value.ToString()),
         };
 
-        public char Color { get; } = color;
+        private static Color ParseColor(char color) => color switch
+        {
+            'C' => Color.Clubs,
+            'D' => Color.Diamonds,
+            'H' => Color.Hearts,
+            'S' => Color.Spades,
+            _ => throw new ArgumentException("Invalid color"),
+        };
     }
 }
