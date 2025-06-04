@@ -1,6 +1,8 @@
-﻿
-namespace ProjectEuler.Problems._001_100._81_90;
+﻿namespace ProjectEuler.Problems._001_100._81_90;
 
+/// <summary>
+/// https://projecteuler.net/problem=85
+/// </summary>
 public class Problem085 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
@@ -11,10 +13,10 @@ public class Problem085 : IProblem
         }
 
         var closestArea = 0;
-        var closest = int.MaxValue;
-        for (int i = 1; i < 1000; i++)
+        var closest = long.MaxValue;
+        for (int i = 1; i < 100; i++)
         {
-            for (int j = 1; j < 1000; j++)
+            for (int j = 1; j < 100; j++)
             {
                 var squares = GetSquares(i, j);
                 if (squares > target)
@@ -33,19 +35,6 @@ public class Problem085 : IProblem
         return Task.FromResult(closestArea.ToString());
     }
 
-    public static int GetSquares(int x, int y)
-    {
-        var sum = 0;
-        for (int i = 1; i <= x; i++)
-        {
-            for (int j = 1; j <= y; j++)
-            {
-                var a = x - i + 1;
-                var b = y - j + 1;
-                sum += a * b;
-            }
-        }
-
-        return sum;
-    }
+    public static long GetSquares(int x, int y) =>
+        NumberHelper.TriangleNumber(x) * NumberHelper.TriangleNumber(y);
 }
