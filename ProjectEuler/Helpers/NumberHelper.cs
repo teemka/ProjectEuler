@@ -68,6 +68,11 @@ public static class NumberHelper
         return a == 0 ? b : a;
     }
 
+    /// <summary>
+    /// Get the nth triangle number.
+    /// </summary>
+    /// <param name="n">The nth number.</param>
+    /// <returns>Value of the number.</returns>
     public static long TriangleNumber(int n)
     {
         // We can safely assume the triangle number is an integer because one of n or n+1 is even
