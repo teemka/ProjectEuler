@@ -11,7 +11,7 @@ internal class Problem096 : IProblem
     {
         var lines = await File.ReadAllLinesAsync("Problems/001-100/91-100/p096_sudoku.txt");
         var sudokus = lines.Chunk(10)
-            .Select(chunk => chunk.Skip(1).Select(line => line.ToCharArray().Select(c => c - '0').ToArray()).ToArray())
+            .Select(chunk => chunk.Skip(1).Select(line => line.Select(c => c.ToInt()).ToArray()).ToArray())
             .Select(grid => new Sudoku(grid))
             .ToList();
 
@@ -130,16 +130,23 @@ public class Sudoku
                         continue;
                     }
 
+                    if (this.squares[sqRow][sqCol].Contains(number))
+                    {
+                        this.RemovPossibility(number, row, col);
+                        unavailable[i][j] = true;
+                        continue;
+                    }
+
                     if (this.columns[col].Contains(number))
                     {
-                        this.possibleNumbers[i][j].Remove(number);
+                        this.RemovPossibility(number, row, col);
                         unavailable[i][j] = true;
                         continue;
                     }
 
                     if (this.rows[row].Contains(number))
                     {
-                        this.possibleNumbers[i][j].Remove(number);
+                        this.RemovPossibility(number, row, col);
                         unavailable[i][j] = true;
                         continue;
                     }
@@ -148,7 +155,7 @@ public class Sudoku
                     {
                         if (origin.SqRow != sqRow || origin.SqCol != sqCol)
                         {
-                            this.possibleNumbers[i][j].Remove(number);
+                            this.RemovPossibility(number, row, col);
                             unavailable[i][j] = true;
                             continue;
                         }
@@ -158,13 +165,25 @@ public class Sudoku
                     {
                         if (origin2.SqRow != sqRow || origin2.SqCol != sqCol)
                         {
-                            this.possibleNumbers[i][j].Remove(number);
+                            this.RemovPossibility(number, row, col);
                             unavailable[i][j] = true;
                             continue;
                         }
                     }
                 }
             }
+
+            //for (int row = 0; row < 9; row++)
+            //{
+            //    for (int col = 0; col < 9; col++)
+            //    {
+            //        if (this.possibleNumbers[row][col].Count == 1)
+            //        {
+            //            var onlyNumber = this.possibleNumbers[row][col].First();
+            //            this.CellSolved(onlyNumber, row, col);
+            //        }
+            //    }
+            //}
 
             int availableCount = CountAvailable(unavailable);
 
@@ -179,14 +198,9 @@ public class Sudoku
                             continue;
                         }
 
-                        this.solvedCells++;
                         var row = i + sqRow * 3;
                         var col = j + sqCol * 3;
-                        this.possibleNumbers[row][col].Clear();
-                        this.Grid[row][col] = number;
-                        this.rows[row].Add(number);
-                        this.columns[col].Add(number);
-                        this.squares[sqRow][sqCol].Add(number);
+                        this.CellSolved(number, row, col);
                     }
                 }
             }
@@ -220,6 +234,21 @@ public class Sudoku
                 number = 1;
             }
         }
+    }
+
+    private void RemovPossibility(int number, int i, int j)
+    {
+        this.possibleNumbers[i][j].Remove(number);
+    }
+
+    private void CellSolved(int number, int row, int col)
+    {
+        this.solvedCells++;
+        this.possibleNumbers[row][col].Clear();
+        this.Grid[row][col] = number;
+        this.rows[row].Add(number);
+        this.columns[col].Add(number);
+        this.squares[row / 3][col / 3].Add(number);
     }
 
     private readonly List<(int Row, int Col)> taken = new(3);
