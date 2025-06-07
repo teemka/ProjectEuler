@@ -3,9 +3,9 @@ using System.Diagnostics;
 
 namespace ProjectEuler;
 
-public class ProblemExecutor(ILogger<ProblemExecutor> logger)
+internal class ProblemExecutor(ILogger<ProblemExecutor> logger)
 {
-    public async Task CalculateProblem(string[] args, IProblem problem)
+    internal async Task CalculateProblem(string[] args, IProblem problem)
     {
         var problemName = problem.GetType().Name;
         logger.LogInformation("Starting execution of {Problem}", problemName);
@@ -14,6 +14,6 @@ public class ProblemExecutor(ILogger<ProblemExecutor> logger)
         var solution = await problem.CalculateAsync(args);
         var elapsed = Stopwatch.GetElapsedTime(start);
 
-        logger.LogInformation("{Problem} solved in {Elapsed}. Solution: {solution}", problemName, elapsed, solution);
+        logger.LogInformation("{Problem} solved in {Elapsed}. Solution: {Solution}", problemName, elapsed, solution);
     }
 }
