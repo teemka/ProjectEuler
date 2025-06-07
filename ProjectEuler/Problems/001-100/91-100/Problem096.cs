@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 
 namespace ProjectEuler.Problems._001_100._91_100;
 
@@ -15,437 +14,157 @@ internal class Problem096 : IProblem
             .Select(chunk => Sudoku.Parse(chunk.Skip(1)))
             .ToList();
 
-        var i = 0;
+        var sum = 0;
         foreach (var sudoku in sudokus)
         {
-            //Console.WriteLine(sudoku);
             sudoku.Solve();
-            Console.WriteLine($"Sudoku #{++i}:");
-            Console.WriteLine(sudoku);
-            Console.WriteLine();
+            sum += sudoku.Grid[0].Take(3).ToArray().ToNumberFromDigits();
         }
 
-        return "Dupa";
+        return sum.ToString();
     }
 }
 
 public class Sudoku
 {
-    private readonly List<((int Row, int Col) Coordinates, int Number)> solveHistory = [];
-    private readonly HashSet<int>[] rows = new HashSet<int>[9];
-    private readonly HashSet<int>[] columns = new HashSet<int>[9];
-    private readonly Dictionary<int, (int SqRow, int SqCol)>[] inducedRows = new Dictionary<int, (int SqRow, int SqCol)>[9];
-    private readonly Dictionary<int, (int SqRow, int SqCol)>[] inducedColumns = new Dictionary<int, (int SqRow, int SqCol)>[9];
-    private readonly HashSet<int>[][] squares = new HashSet<int>[3][];
-    public readonly HashSet<int>[][] possibleNumbers = new HashSet<int>[9][];
-    private int solvedCells;
-
     public Sudoku(int[][] grid)
     {
         this.Grid = grid;
-
-        for (int i = 0; i < 9; i++)
-        {
-            this.rows[i] = [];
-            this.columns[i] = [];
-            this.inducedRows[i] = [];
-            this.inducedColumns[i] = [];
-            this.possibleNumbers[i] = new HashSet<int>[9];
-            for (int j = 0; j < 9; j++)
-            {
-                this.possibleNumbers[i][j] = [];
-            }
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            this.squares[i] = new HashSet<int>[3];
-            for (int j = 0; j < 3; j++)
-            {
-                this.squares[i][j] = [];
-            }
-        }
-
-        for (int i = 0; i < 9; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                var value = this.Grid[i][j];
-                if (value == 0)
-                {
-                    for (int k = 1; k <= 9; k++)
-                    {
-                        this.possibleNumbers[i][j].Add(k);
-                    }
-
-                    continue;
-                }
-
-                this.solvedCells++;
-                this.rows[i].Add(value);
-                this.columns[j].Add(value);
-                this.squares[i / 3][j / 3].Add(value);
-            }
-        }
     }
 
-    public int[][] Grid { get; }
+    public int[][] Grid { get; private set; }
 
     public void Solve()
     {
-        var tries = 1_000_000;
-        bool[][] unavailable = new bool[3][];
-        for (int i = 0; i < 3; i++)
+        Backtrack(this, Root(this));
+    }
+
+    private static void Backtrack(Sudoku sudoku, Candidate[] candidates)
+    {
+        if (Reject(sudoku, candidates))
         {
-            unavailable[i] = new bool[3];
+            return;
         }
 
-        var sqRow = 0;
-        var sqCol = 0;
-        var number = 1;
-        while (true)
+        if (Accept(sudoku, candidates))
         {
-            //if (this.squares[sqRow][sqCol].Contains(number))
-            //{
-            //    goto Increment;
-            //}
+            var solved = sudoku.Apply(candidates);
+            sudoku.Grid = solved.Grid;
+            return;
+        }
 
-            // Reset
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    unavailable[i][j] = false;
-                }
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    var row = i + sqRow * 3;
-                    var col = j + sqCol * 3;
-                    var value = this.Grid[row][col];
-                    if (value != 0)
-                    {
-                        unavailable[i][j] = true;
-                        //continue;
-                    }
-
-                    if (this.squares[sqRow][sqCol].Contains(number))
-                    {
-                        this.RemovePossibility(number, row, col);
-                        unavailable[i][j] = true;
-                    }
-
-                    if (this.columns[col].Contains(number))
-                    {
-                        this.RemovePossibility(number, row, col);
-                        unavailable[i][j] = true;
-                    }
-
-                    if (this.rows[row].Contains(number))
-                    {
-                        this.RemovePossibility(number, row, col);
-                        unavailable[i][j] = true;
-                    }
-
-                    if (this.inducedColumns[col].TryGetValue(number, out var origin))
-                    {
-                        if (origin.SqRow != sqRow || origin.SqCol != sqCol)
-                        {
-                            this.RemovePossibility(number, row, col);
-                            unavailable[i][j] = true;
-                        }
-                    }
-
-                    if (this.inducedRows[row].TryGetValue(number, out var origin2))
-                    {
-                        if (origin2.SqRow != sqRow || origin2.SqCol != sqCol)
-                        {
-                            this.RemovePossibility(number, row, col);
-                            unavailable[i][j] = true;
-                        }
-                    }
-                }
-            }
-
-            for (int row = 0; row < 9; row++)
-            {
-                for (int col = 0; col < 9; col++)
-                {
-                    if (this.possibleNumbers[row][col].Count == 1)
-                    {
-                        var onlyNumber = this.possibleNumbers[row][col].First();
-                        this.CellSolved(onlyNumber, row, col);
-                    }
-                }
-            }
-
-            int availableCount = CountAvailable(unavailable);
-
-            if (availableCount is 2 or 3)
-            {
-                this.CheckSingleRow(unavailable, sqRow, sqCol, number);
-            }
-
-        Increment:
-            if (this.solvedCells == 81)
-            {
-                return;
-            }
-
-            sqCol++;
-            if (sqCol == 3)
-            {
-                sqCol = 0;
-                sqRow++;
-            }
-
-            if (sqRow == 3)
-            {
-                sqRow = 0;
-                number++;
-            }
-
-            if (number > 9)
-            {
-                number = 1;
-
-                this.CheckSinglePossibilitySquare();
-                //var solvedCell = 
-                //    this.CheckSinglePossibilitySquare() ||
-                //    this.CheckSinglePossibilityRow() ||
-                //    this.CheckSinglePossibilityColumn();
-            }
-
-            tries--;
-            if (tries <= 0)
-            {
-                return;
-            }
+        var s = First(sudoku, candidates);
+        while (s is not null)
+        {
+            Backtrack(sudoku, s);
+            s = Next(sudoku, s);
         }
     }
 
-    private readonly Dictionary<int, int> countsSquare = [];
-    private bool CheckSinglePossibilitySquare()
+    public Sudoku Apply(Candidate[] candidates)
     {
-        for (int square = 0; square < 9; square++)
+        // Create a copy of the current Sudoku grid
+        var newGrid = this.Grid.Select(row => row.ToArray()).ToArray();
+        // Place the candidate value in the grid
+        foreach (var candidate in candidates)
         {
-            this.countsSquare.Clear();
-            for (int innerSqure = 0; innerSqure < 9; innerSqure++)
-            {
-                var row = (square / 3) * 3 + innerSqure / 3;
-                var col = (square % 3) * 3 + innerSqure % 3;
-                foreach (var possibleNumber in this.possibleNumbers[row][col])
-                {
-                    if (!this.countsSquare.TryAdd(possibleNumber, 1))
-                    {
-                        this.countsSquare[possibleNumber]++;
-                    }
-                }
-            }
-
-            var found = 0;
-            foreach (var kvp in this.countsSquare)
-            {
-                if (kvp.Value == 1)
-                {
-                    found = kvp.Key;
-                }
-            }
-
-            if (found == 0)
-            {
-                continue;
-            }
-
-            for (int innerSqure = 0; innerSqure < 9; innerSqure++)
-            {
-                var row = (square / 3) * 3 + innerSqure / 3;
-                var col = (square % 3) * 3 + innerSqure % 3;
-                if (!this.possibleNumbers[row][col].Contains(found))
-                {
-                    continue;
-                }
-
-                this.CellSolved(found, row, col);
-                return true;
-            }
+            newGrid[candidate.Row][candidate.Col] = candidate.Value;
         }
 
-        return false;
+        return new Sudoku(newGrid);
     }
 
-    private readonly Dictionary<int, int> countsRow = [];
-    private bool CheckSinglePossibilityRow()
+    private static bool Reject(Sudoku sudoku, Candidate[] candidates)
     {
-        for (int row = 0; row < 9; row++)
+        if (candidates.Length == 0)
         {
-            this.countsRow.Clear();
-            for (int col = 0; col < 9; col++)
-            {
-                foreach (var possibleNumber in this.possibleNumbers[row][col])
-                {
-                    if (!this.countsRow.TryAdd(possibleNumber, 1))
-                    {
-                        this.countsRow[possibleNumber]++;
-                    }
-                }
-            }
-
-            var found = 0;
-            foreach (var kvp in this.countsRow)
-            {
-                if (kvp.Value == 1)
-                {
-                    found = kvp.Key;
-                }
-            }
-
-            if (found == 0)
-            {
-                continue;
-            }
-
-            for (var col = 0; col < 9; col++)
-            {
-                if (!this.possibleNumbers[row][col].Contains(found))
-                {
-                    continue;
-                }
-
-                this.CellSolved(found, row, col);
-                return true;
-            }
+            return false; // No candidates to check
         }
 
-        return false;
-    }
+        var candidate = candidates[^1];
+        sudoku = sudoku.Apply(candidates[..^1]);
 
-    private readonly Dictionary<int, int> countsColumn = [];
-    private bool CheckSinglePossibilityColumn()
-    {
+        // Check row
         for (int col = 0; col < 9; col++)
         {
-            this.countsColumn.Clear();
-            for (int row = 0; row < 9; row++)
+            if (sudoku.Grid[candidate.Row][col] == candidate.Value)
             {
-                foreach (var possibleNumber in this.possibleNumbers[row][col])
-                {
-                    if (!this.countsColumn.TryAdd(possibleNumber, 1))
-                    {
-                        this.countsColumn[possibleNumber]++;
-                    }
-                }
-            }
-
-            var found = 0;
-            foreach (var kvp in this.countsColumn)
-            {
-                if (kvp.Value == 1)
-                {
-                    found = kvp.Key;
-                }
-            }
-
-            if (found == 0)
-            {
-                continue;
-            }
-
-            for (var row = 0; row < 9; row++)
-            {
-                if (!this.possibleNumbers[row][col].Contains(found))
-                {
-                    continue;
-                }
-
-                this.CellSolved(found, row, col);
                 return true;
+            }
+        }
+
+        // Check column
+        for (int row = 0; row < 9; row++)
+        {
+            if (sudoku.Grid[row][candidate.Col] == candidate.Value)
+            {
+                return true;
+            }
+        }
+
+        // Check 3x3 block
+        int blockRow = candidate.Row / 3 * 3;
+        int blockCol = candidate.Col / 3 * 3;
+        for (int row = blockRow; row < blockRow + 3; row++)
+        {
+            for (int col = blockCol; col < blockCol + 3; col++)
+            {
+                if (sudoku.Grid[row][col] == candidate.Value)
+                {
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
-    private void RemovePossibility(int number, int row, int col)
+    private static Candidate[] Root(Sudoku sudoku)
     {
-        this.possibleNumbers[row][col].Remove(number);
+        return [];
     }
 
-    private void CellSolved(int number, int row, int col)
+    private static bool Accept(Sudoku sudoku, Candidate[] candidates)
     {
-        Debug.Assert(this.Grid[row][col] == 0, "Cell should be empty before solving.");
-        Debug.Assert(this.possibleNumbers[row][col].Contains(number), "Number should be a possible number for the cell.");
-        Debug.Assert(!this.squares[row / 3][col / 3].Contains(number), "Number should not be in square.");
-        Debug.Assert(!this.columns[col].Contains(number), "Column is already taken.");
-        Debug.Assert(!this.rows[row].Contains(number), "Row is already taken.");
-        this.solvedCells++;
-        this.possibleNumbers[row][col].Clear();
-        this.Grid[row][col] = number;
-        this.rows[row].Add(number);
-        this.columns[col].Add(number);
-        this.squares[row / 3][col / 3].Add(number);
-        var sqRow = row / 3;
-        var sqCol = col / 3;
-        for (int cell = 0; cell < 9; cell++)
+        sudoku = sudoku.Apply(candidates);
+
+        if (sudoku.Grid.Sum(row => row.Count(cell => cell != 0)) == 81)
         {
-            var cellRow = sqRow * 3 + cell / 3;
-            var cellCol = sqCol * 3 + cell % 3;
-            this.possibleNumbers[cellRow][cellCol].Remove(number);
+            return true;
         }
 
-        this.solveHistory.Add(((row, col), number));
+        return false;
     }
 
-    private readonly List<(int Row, int Col)> taken = new(3);
-    private void CheckSingleRow(bool[][] unavailable, int sqRow, int sqCol, int number)
+    private static Candidate[]? First(Sudoku sudoku, Candidate[] candidates)
     {
-        for (int i = 0; i < 3; i++)
+        sudoku = sudoku.Apply(candidates);
+
+        for (int row = 0; row < 9; row++)
         {
-            for (int j = 0; j < 3; j++)
+            for (int col = 0; col < 9; col++)
             {
-                if (!unavailable[i][j])
+                if (sudoku.Grid[row][col] == 0)
                 {
-                    this.taken.Add((i, j));
+                    return [.. candidates, new(row, col, 1)];
                 }
             }
         }
 
-        var (firstRow, firstCol) = this.taken[0];
-        if (this.taken.All(x => x.Row == firstRow))
-        {
-            var row = firstRow + sqRow * 3;
-            this.inducedRows[row].TryAdd(number, (sqRow, sqCol));
-        }
-
-        if (this.taken.All(x => x.Col == firstCol))
-        {
-            var col = firstCol + sqCol * 3;
-            this.inducedColumns[col].TryAdd(number, (sqRow, sqCol));
-        }
-
-        this.taken.Clear();
+        return null; // No empty cell found
     }
 
-    private static int CountAvailable(bool[][] unavailable)
+    private static Candidate[]? Next(Sudoku sudoku, Candidate[] candidates)
     {
-        var availableCount = 0;
-        for (int i = 0; i < 3; i++)
+        var candidate = candidates.LastOrDefault();
+        if (candidate.Equals(default))
         {
-            for (int j = 0; j < 3; j++)
-            {
-                if (unavailable[i][j])
-                {
-                    continue;
-                }
-
-                availableCount++;
-            }
+            return null;
         }
 
-        return availableCount;
+        return candidate.Value < 9
+            ? [.. candidates[..^1], candidate.NextNumber()]
+            : null;
     }
 
     public static Sudoku Parse(string chunk) => Parse(chunk.Split(Environment.NewLine));
@@ -453,6 +172,15 @@ public class Sudoku
     public static Sudoku Parse(IEnumerable<string> chunk)
     {
         return new([.. chunk.Select(line => line.Select(c => c.ToInt()).ToArray())]);
+    }
+
+    public readonly struct Candidate(int row, int col, int value)
+    {
+        public int Row { get; } = row;
+        public int Col { get; } = col;
+        public int Value { get; } = value;
+        public Candidate NextNumber() => new(this.Row, this.Col, this.Value + 1);
+        public override readonly string ToString() => $"{this.Row},{this.Col}={this.Value}";
     }
 
     public override string ToString()

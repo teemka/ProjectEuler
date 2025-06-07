@@ -7,7 +7,7 @@ public class Problem096Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem096();
 
-    protected override string Answer => "";
+    protected override string Answer => "24702";
 
     [Fact]
     public void Should_SolveSudoku1()
