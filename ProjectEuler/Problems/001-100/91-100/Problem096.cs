@@ -27,7 +27,7 @@ internal class Problem096 : IProblem
 
 public class Sudoku
 {
-    public Sudoku(int[][] grid)
+    private Sudoku(int[][] grid)
     {
         this.Grid = grid;
     }
@@ -36,7 +36,7 @@ public class Sudoku
 
     public void Solve()
     {
-        Backtrack(this, Root(this));
+        Backtrack(this, Root());
     }
 
     private static void Backtrack(Sudoku sudoku, Candidate[] candidates)
@@ -57,15 +57,15 @@ public class Sudoku
         while (s is not null)
         {
             Backtrack(sudoku, s);
-            s = Next(sudoku, s);
+            s = Next(s);
         }
     }
 
-    public Sudoku Apply(Candidate[] candidates)
+    private Sudoku Apply(Candidate[] candidates)
     {
         // Create a copy of the current Sudoku grid
         var newGrid = this.Grid.Select(row => row.ToArray()).ToArray();
-        // Place the candidate value in the grid
+
         foreach (var candidate in candidates)
         {
             newGrid[candidate.Row][candidate.Col] = candidate.Value;
@@ -119,7 +119,7 @@ public class Sudoku
         return false;
     }
 
-    private static Candidate[] Root(Sudoku sudoku)
+    private static Candidate[] Root()
     {
         return [];
     }
@@ -128,12 +128,7 @@ public class Sudoku
     {
         sudoku = sudoku.Apply(candidates);
 
-        if (sudoku.Grid.Sum(row => row.Count(cell => cell != 0)) == 81)
-        {
-            return true;
-        }
-
-        return false;
+        return sudoku.Grid.Sum(row => row.Count(cell => cell != 0)) == 81;
     }
 
     private static Candidate[]? First(Sudoku sudoku, Candidate[] candidates)
@@ -154,7 +149,7 @@ public class Sudoku
         return null; // No empty cell found
     }
 
-    private static Candidate[]? Next(Sudoku sudoku, Candidate[] candidates)
+    private static Candidate[]? Next(Candidate[] candidates)
     {
         var candidate = candidates.LastOrDefault();
         if (candidate.Equals(default))
@@ -174,13 +169,10 @@ public class Sudoku
         return new([.. chunk.Select(line => line.Select(c => c.ToInt()).ToArray())]);
     }
 
-    public readonly struct Candidate(int row, int col, int value)
+    public readonly record struct Candidate(int Row, int Col, int Value)
     {
-        public int Row { get; } = row;
-        public int Col { get; } = col;
-        public int Value { get; } = value;
-        public Candidate NextNumber() => new(this.Row, this.Col, this.Value + 1);
-        public override readonly string ToString() => $"{this.Row},{this.Col}={this.Value}";
+        public Candidate NextNumber() => this with { Value = this.Value + 1 };
+        public override string ToString() => $"{this.Row},{this.Col}={this.Value}";
     }
 
     public override string ToString()
