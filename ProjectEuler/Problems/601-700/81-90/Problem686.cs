@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ProjectEuler.Problems._601_700._81_90;
+﻿namespace ProjectEuler.Problems._601_700._81_90;
 
 /// <summary>
 /// https://projecteuler.net/problem=686
@@ -28,7 +26,8 @@ public class Problem686 : IProblem
         }
     }
 
-    private static int GetFirstDigitsOfPow2(int digits, int exponent) => GetFirstDigitsOfPow(digits, @base: 2, exponent);
+    private static int GetFirstDigitsOfPow2(int digits, int exponent) =>
+        GetFirstDigitsOfPow(digits, @base: 2, exponent);
 
     private static int GetFirstDigitsOfPow(int digits, int @base, int exponent)
     {
