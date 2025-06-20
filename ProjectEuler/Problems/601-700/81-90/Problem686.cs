@@ -10,7 +10,7 @@ public class Problem686 : IProblem
         const int target = 678910;
 
         var count = 0;
-        for (int i = 0;; i++)
+        for (int i = 0; ; i++)
         {
             if (123 != GetFirstDigitsOfPow2(digits: 3, exponent: i))
             {

@@ -47,13 +47,13 @@ public static class NumberExtensions
         return NumberHelper.PrimeFactors(n);
     }
 
-    public static IReadOnlyCollection<T> ProperDivisors<T>(this T number)
+    public static IEnumerable<T> ProperDivisors<T>(this T number)
         where T : INumber<T>
     {
         return NumberHelper.ProperDivisors(number);
     }
 
-    public static IReadOnlyCollection<T> Divisors<T>(this T number)
+    public static IEnumerable<T> Divisors<T>(this T number)
         where T : INumber<T>
     {
         return NumberHelper.Divisors(number);

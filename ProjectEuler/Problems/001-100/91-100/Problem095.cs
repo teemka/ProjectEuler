@@ -5,34 +5,38 @@ public class Problem095 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         List<int> longest = [];
-        for (var i = 1; i <= 1_000_000; i++)
+        for (var i = 1; i <= 20_000; i++) // limit from heuristic
         {
-            if (FindLoop(i, out var chain))
+            if (!FindLoop(i, out var loop))
             {
-                if (chain.Count > longest.Count)
-                {
-                    longest = chain;
-                }
+                continue;
             }
+
+            if (loop.Count <= longest.Count)
+            {
+                continue;
+            }
+
+            longest = loop;
         }
 
         return Task.FromResult(longest.Min().ToString());
     }
 
-    private static bool FindLoop(int number, out List<int> chain)
+    private static bool FindLoop(int number, out List<int> loop)
     {
-        chain = [];
+        loop = [];
         var x = number;
         while (true)
         {
-            if (chain.Contains(x))
+            var index = loop.IndexOf(x);
+            if (index > 0)
             {
-                var start = chain.IndexOf(x);
-                chain = chain[start..];
+                loop = loop[index..];
                 return true; // Loop found
             }
 
-            chain.Add(x);
+            loop.Add(x);
 
             var sum = x.ProperDivisors().Sum();
             if (sum == x)

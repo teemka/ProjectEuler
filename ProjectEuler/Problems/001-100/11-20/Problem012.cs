@@ -25,7 +25,7 @@ public class Problem012 : IProblem
         var sum = i;
         while (true)
         {
-            if (sum.Divisors().Count > 500)
+            if (sum.Divisors().Count() > 500)
             {
                 break;
             }

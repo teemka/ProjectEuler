@@ -4,7 +4,7 @@ namespace ProjectEuler.Helpers;
 
 public static class NumberHelper
 {
-    public static IReadOnlyCollection<T> Divisors<T>(T number)
+    public static IEnumerable<T> Divisors<T>(T number)
         where T : INumber<T>
     {
         var sqrt = number.SqrtViaDouble();
@@ -21,14 +21,13 @@ public static class NumberHelper
         }
 
         end.Reverse();
-        return beginning.Concat(end).Distinct().ToArray();
+        return beginning.Concat(end).Distinct();
     }
 
-    public static IReadOnlyCollection<T> ProperDivisors<T>(T number)
+    public static IEnumerable<T> ProperDivisors<T>(T number)
         where T : INumber<T>
     {
-        var divisors = Divisors(number);
-        return divisors.Take(divisors.Count - 1).ToArray();
+        return Divisors(number).TakeWhile(divisor => divisor < number);
     }
 
     public static T DigitSum<T>(T n)
