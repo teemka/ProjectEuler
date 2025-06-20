@@ -4,30 +4,44 @@ namespace ProjectEuler.Helpers;
 
 public static class NumberHelper
 {
+    /// <summary>
+    /// Get unordered distinct divisors of a given number.
+    /// </summary>
+    /// <param name="number">Given number.</param>
+    /// <typeparam name="T">Type of number.</typeparam>
+    /// <returns>Enumerable of divisors.</returns>
     public static IEnumerable<T> Divisors<T>(T number)
         where T : INumber<T>
     {
         var sqrt = number.SqrtViaDouble();
-        var beginning = new List<T>();
-        var end = new List<T>();
 
         for (var i = T.One; i <= sqrt; i++)
         {
-            if (number % i == T.Zero)
+            if (number % i != T.Zero)
             {
-                beginning.Add(i);
-                end.Add(number / i);
+                continue;
+            }
+
+            yield return i;
+            var complement = number / i;
+            if (i != complement)
+            {
+                yield return complement;
             }
         }
-
-        end.Reverse();
-        return beginning.Concat(end).Distinct();
     }
 
+    /// <summary>
+    /// Get unordered distinct proper divisors of a given number.
+    /// That is divisors without the number itself.
+    /// </summary>
+    /// <param name="number">Given number.</param>
+    /// <typeparam name="T">Type of number.</typeparam>
+    /// <returns>Enumerable of proper divisors.</returns>
     public static IEnumerable<T> ProperDivisors<T>(T number)
         where T : INumber<T>
     {
-        return Divisors(number).TakeWhile(divisor => divisor < number);
+        return Divisors(number).Where(divisor => divisor != number);
     }
 
     public static T DigitSum<T>(T n)
@@ -89,7 +103,8 @@ public static class NumberHelper
         {
             return n > 1;
         }
-        else if (n % 2 == 0 || n % 3 == 0)
+
+        if (n % 2 == 0 || n % 3 == 0)
         {
             return false;
         }
