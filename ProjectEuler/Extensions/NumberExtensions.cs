@@ -9,7 +9,7 @@ public static class NumberExtensions
     /// </summary>
     /// <typeparam name="T">Type of integer.</typeparam>
     /// <param name="value">The number to check.</param>
-    /// <returns>A value indicating if a nubmer is a palindrome.</returns>
+    /// <returns>A value indicating if a number is a palindrome.</returns>
     public static bool IsPalindrome<T>(this T value)
         where T : IBinaryInteger<T>
     {
@@ -25,28 +25,20 @@ public static class NumberExtensions
             digits.All(x => x > 0 && x <= digits.Length);
     }
 
-    /// <summary>
-    /// Checks if number is prime by using 6k ± 1 optimization.
-    /// </summary>
-    /// <param name="n">Number to be tested.</param>
-    /// <returns>value indicating if the number is prime.</returns>
+    /// <inheritdoc cref="NumberHelper.IsPrime"/>
     public static bool IsPrime(this long n)
     {
         return NumberHelper.IsPrime(n);
     }
 
-    /// <summary>
-    /// Returns distinct prime factors of a number. If number is a prime - returns itself.
-    /// </summary>
-    /// <typeparam name="T">Type of number.</typeparam>
-    /// <param name="n">Number to be factorized</param>
-    /// <returns>Lazy executed prime factors</returns>
+    /// <inheritdoc cref="NumberHelper.PrimeFactors{T}"/>
     public static IEnumerable<T> PrimeFactors<T>(this T n)
         where T : INumber<T>
     {
         return NumberHelper.PrimeFactors(n);
     }
 
+    /// <inheritdoc cref="NumberHelper.ProperDivisors{T}"/>
     public static IEnumerable<T> ProperDivisors<T>(this T number)
         where T : INumber<T>
     {
