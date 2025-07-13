@@ -15,4 +15,16 @@ public class NumberHelperTests
         // Assert
         Assert.Equal(expected, divisors);
     }
+
+    [Theory]
+    [InlineData(5, 6)]
+    [InlineData(100, 190569291)]
+    public void Should_GetAllPossibleSummationsOf(int number, int expected)
+    {
+        // Act
+        var result = NumberHelper.AllPossibleSummationsOf(number);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
 }

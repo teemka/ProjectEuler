@@ -185,16 +185,16 @@ public static class NumberHelper
         return (long)result;
     }
 
-    public static long AllPossibleSummationsOf(int n)
+    public static int AllPossibleSummationsOf(int n)
     {
-        var arr = Enumerable.Range(1, n - 1).ToArray();
-        var table = new long[n + 1];
+        var table = new int[n + 1];
         table[0] = 1;
-        for (var i = 0; i < arr.Length; i++)
+        for (var i = 0; i < n - 1; i++)
         {
-            for (var j = arr[i]; j <= n; j++)
+            var i1 = i + 1;
+            for (var j = i1; j <= n; j++)
             {
-                table[j] += table[j - arr[i]];
+                table[j] += table[j - i1];
             }
         }
 
