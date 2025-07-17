@@ -1,18 +1,42 @@
-﻿namespace ProjectEuler.Tests.Problems._001_100._91_100;
+﻿using System.Globalization;
+
+namespace ProjectEuler.Problems._001_100._91_100;
 
 /// <summary>
 /// https://projecteuler.net/problem=93
 /// </summary>
 public class Problem093 : IProblem
 {
+    private static readonly ArithmeticOperation[] Operations =
+    [
+        new Addition(),
+        new Subtraction(),
+        new Multiplication(),
+        new Division(),
+    ];
+
+    private static readonly ArithmeticOperation[][] OperationCombinationsPermutations = Operations
+        .GetCombinationsWithRepetitions(3)
+        .SelectMany(x => x.GetPermutations())
+        .Select(x => x.ToArray())
+        .DistinctBy(x => string.Concat([.. x]))
+        .ToArray();
+
+    private static readonly int[] Orders = [1, 2, 3];
+
+    private static readonly int[][] OrderPermutations = Orders
+        .GetPermutations()
+        .Select(x => x.ToArray())
+        .ToArray();
+
     public Task<string> CalculateAsync(string[] args)
     {
         IList<int> resultDigits = [];
         var max = 0;
-        // (10 4) = 210
+        // (9 4) = 126
         foreach (var digits in Enumerable.Range(1, 9).ToArray().GetCombinations(4))
         {
-            var count = GetResults(digits);
+            var count = CalculateConsecutivePositiveIntegers(digits);
 
             if (count > max)
             {
@@ -21,73 +45,48 @@ public class Problem093 : IProblem
             }
         }
 
-        // Tried
-        // 1256
-        // 2348
-        // 2389
-        return Task.FromResult(string.Join("", resultDigits));
+        return Task.FromResult(string.Concat(resultDigits));
     }
 
-    private static readonly Operation[] Operations =
-    [
-        Addition,
-        Subtraction,
-        Multiplication,
-        Division,
-    ];
-
-    private static readonly int[] Order = [1, 2, 3];
-
-    public static int GetResults(IList<int> digits)
+    public static int CalculateConsecutivePositiveIntegers(IList<int> digitsCombination)
     {
-        var results = new Dictionary<int, List<Expression>>();
+        var results = new HashSet<int>();
         // 4! = 24
-        foreach (var digitPermutation in digits.GetPermutations())
+        foreach (var digits in digitsCombination.GetPermutations())
         {
-            // ((4 3)) = 20
-            foreach (var operationCombination in Operations.GetCombinationsWithRepetitions(3))
+            // 4^3 = 64
+            foreach (var operations in OperationCombinationsPermutations)
             {
                 // 3! = 6
-                foreach (var operationPermutation in operationCombination.GetPermutations())
+                foreach (var order in OrderPermutations)
                 {
-                    // 3! = 6
-                    foreach (var orderPerm in Order.GetPermutations())
-                    {
-                        var finalExpression = GetExpression(digitPermutation, operationPermutation, orderPerm);
-                        var result = finalExpression.Value;
-                        if (result > 0 && double.IsInteger(result))
-                        {
-                            if (!results.TryGetValue((int)result, out var list))
-                            {
-                                list = [];
-                                results.Add((int)result, list);
-                            }
+                    var expression = GetExpression(digits, operations, order);
+                    var result = expression.Value;
 
-                            list.Add(finalExpression);
-                        }
+                    if (double.IsPositive(result) && double.IsInteger(result))
+                    {
+                        results.Add((int)result);
                     }
                 }
             }
         }
 
-        foreach (var kvp in results)
-        {
-            results[kvp.Key] = [.. kvp.Value.DistinctBy(x => x.ToString())];
-        }
+        var ordered = results.Order().ToArray();
 
-        var orderedResults = results.OrderBy(x => x.Key).ToArray();
-        var count = orderedResults.Zip(orderedResults.Skip(1)).TakeWhile(x => x.First.Key == x.Second.Key - 1).Count() + 1;
-        return count;
+        return ordered
+            .Zip(ordered.Skip(1))
+            .TakeWhile(x => x.First == x.Second - 1)
+            .Count();
     }
 
     public static Expression GetExpression(
-        IList<int> digitPermutation,
-        IList<Operation> operationPermutation,
-        IList<int> orderPerm)
+        IList<int> digits,
+        IList<ArithmeticOperation> operations,
+        IList<int> order)
     {
-        var opCp = operationPermutation.ToList();
-        var orderCp = orderPerm.ToList();
-        var expression = digitPermutation.Select(x => new Literal(x)).Cast<Expression>().ToList();
+        var opCp = operations.ToList();
+        var orderCp = order.ToList();
+        var expression = digits.Select(x => new Literal(x)).Cast<Expression>().ToList();
         for (var i = 1; i < 4; i++)
         {
             var index = orderCp.IndexOf(i);
@@ -99,40 +98,49 @@ public class Problem093 : IProblem
             orderCp.RemoveAt(index);
         }
 
-        var finalExpression = expression[0];
-        return finalExpression;
+        return expression[0];
     }
 
-    public delegate double Operation(double left, double right);
-
-    public static double Addition(double a, double b) => a + b;
-    public static double Subtraction(double a, double b) => a - b;
-    public static double Multiplication(double a, double b) => a * b;
-    public static double Division(double a, double b) => a / b;
-
-    private static string ToStringOp(Operation operation)
+    public abstract class ArithmeticOperation
     {
-        if (operation == Addition)
-        {
-            return "+";
-        }
+        public abstract double Operation(double a, double b);
 
-        if (operation == Subtraction)
+        public static ArithmeticOperation Parse(string value) => value switch
         {
-            return "-";
-        }
+            "+" => new Addition(),
+            "-" => new Subtraction(),
+            "*" => new Multiplication(),
+            "/" => new Division(),
+            _ => throw new NotImplementedException(),
+        };
+    }
 
-        if (operation == Multiplication)
-        {
-            return "*";
-        }
+    private sealed class Addition : ArithmeticOperation
+    {
+        public override double Operation(double a, double b) => a + b;
 
-        if (operation == Division)
-        {
-            return "/";
-        }
+        public override string ToString() => "+";
+    }
 
-        return "";
+    private sealed class Subtraction : ArithmeticOperation
+    {
+        public override double Operation(double a, double b) => a - b;
+
+        public override string ToString() => "-";
+    }
+
+    private sealed class Multiplication : ArithmeticOperation
+    {
+        public override double Operation(double a, double b) => a * b;
+
+        public override string ToString() => "*";
+    }
+
+    private sealed class Division : ArithmeticOperation
+    {
+        public override double Operation(double a, double b) => a / b;
+
+        public override string ToString() => "/";
     }
 
     public abstract class Expression
@@ -140,20 +148,17 @@ public class Problem093 : IProblem
         public abstract double Value { get; }
     }
 
-    public class BinaryExpression(Expression left, Expression right, Operation operation) : Expression
+    private class BinaryExpression(Expression left, Expression right, ArithmeticOperation operation) : Expression
     {
-        public override double Value => this.Operation(this.Left.Value, this.Right.Value);
-        public Expression Left { get; } = left;
-        public Expression Right { get; } = right;
-        public Operation Operation { get; } = operation;
+        public override double Value => operation.Operation(left.Value, right.Value);
 
-        public override string ToString() => $"({this.Left}{ToStringOp(this.Operation)}{this.Right})";
+        public override string ToString() => $"({left}{operation}{right})";
     }
 
-    public class Literal(double value) : Expression
+    private class Literal(double value) : Expression
     {
         public override double Value { get; } = value;
 
-        public override string ToString() => this.Value.ToString();
+        public override string ToString() => this.Value.ToString(CultureInfo.InvariantCulture);
     }
 }
