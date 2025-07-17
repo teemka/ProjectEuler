@@ -3,7 +3,7 @@
 /// <summary>
 /// https://projecteuler.net/problem=78
 /// </summary>
-public class Problem078() : IProblem
+public class Problem078 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
