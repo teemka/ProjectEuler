@@ -6,7 +6,13 @@ internal static class CombinationsHelper
     {
         ArgumentNullException.ThrowIfNull(list);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(length);
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(length, list.Count);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(length, list.Count);
+
+        // Short circuit for trivial case
+        if (list.Count == length)
+        {
+            return [[.. list]];
+        }
 
         return list.GetCombinationsInternal(length);
     }
