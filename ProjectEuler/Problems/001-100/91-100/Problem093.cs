@@ -84,21 +84,27 @@ public class Problem093 : IProblem
         IList<ArithmeticOperation> operations,
         IList<int> order)
     {
-        var opCp = operations.ToList();
-        var orderCp = order.ToList();
-        var expression = digits.Select(x => new Literal(x)).Cast<Expression>().ToList();
+        // Create copies
+        operations = [.. operations];
+        order = [.. order];
+
+        var expressions = digits
+            .Select(x => new Literal(x))
+            .Cast<Expression>()
+            .ToList();
+
+        // Build up a tree from the lowest to highest order operation
         for (var i = 1; i < 4; i++)
         {
-            var index = orderCp.IndexOf(i);
+            var index = order.IndexOf(i);
 
-            var e = new BinaryExpression(expression[index], expression[index + 1], opCp[index]);
-            expression[index] = e;
-            expression.RemoveAt(index + 1);
-            opCp.RemoveAt(index);
-            orderCp.RemoveAt(index);
+            expressions[index] = new BinaryExpression(expressions[index], expressions[index + 1], operations[index]);
+            expressions.RemoveAt(index + 1);
+            operations.RemoveAt(index);
+            order.RemoveAt(index);
         }
 
-        return expression[0];
+        return expressions[0];
     }
 
     public abstract class ArithmeticOperation
