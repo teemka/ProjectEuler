@@ -31,15 +31,15 @@ public class Problem093Tests : ProblemTestBase
 
     [Theory]
     [MemberData(nameof(ExpressionTestData))]
-    public void Should_SolveExample_Expression(string numbers, string operations, string order, string expected)
+    public void Should_SolveExample_Expression(string numbersS, string operationsS, string orderS, string expected)
     {
         // Arrange
-        var numbers1 = numbers.Select(x => x.ToInt()).ToList();
-        var operations1 = operations.Select(x => ArithmeticOperation.Parse(x.ToString())).ToList();
-        var order1 = order.Select(x => x.ToInt()).ToList();
+        var numbers = numbersS.Select(x => x.ToInt()).ToList();
+        var operations = operationsS.Select(x => ArithmeticOperation.Parse(x.ToString())).ToList();
+        var order = orderS.Select(x => x.ToInt()).ToList();
 
         // Act
-        var result = GetExpression(numbers1, operations1, order1);
+        var result = GetExpression(numbers, operations, order);
 
         // Assert
         Assert.Equal(expected, result.ToString());
