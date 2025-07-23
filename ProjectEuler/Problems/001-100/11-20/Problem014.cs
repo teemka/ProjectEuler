@@ -35,16 +35,11 @@ public class Problem014 : IProblem
             return count;
         }
 
-        if (n % 2 == 0)
-        {
-            n /= 2;
-        }
-        else
-        {
-            n = (3 * n) + 1;
-        }
+        var next = long.IsEvenInteger(n)
+            ? n / 2
+            : (3 * n) + 1;
 
-        var sum = 1 + this.CollatzCount(n);
+        var sum = 1 + this.CollatzCount(next);
 
         this.cache[n] = sum;
 
