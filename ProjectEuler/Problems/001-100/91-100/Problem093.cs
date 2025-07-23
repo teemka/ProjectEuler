@@ -45,7 +45,7 @@ public class Problem093 : IProblem
             }
         }
 
-        return Task.FromResult(string.Concat(resultDigits));
+        return Task.FromResult(string.Concat(resultDigits.Order()));
     }
 
     public static int CalculateConsecutivePositiveIntegers(IList<int> digitsCombination)

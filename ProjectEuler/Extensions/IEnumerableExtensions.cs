@@ -52,31 +52,6 @@ internal static class IEnumerableExtensions
         }
     }
 
-    internal static IEnumerable<IList<T>> GetPermutations<T>(this IList<T> list)
-    {
-        return list.GetPermutations(0);
-    }
-
-    private static IEnumerable<IList<T>> GetPermutations<T>(this IList<T> list, int startIndex)
-    {
-        if (list.Count == startIndex)
-        {
-            yield return list;
-        }
-
-        for (var i = startIndex; i < list.Count; i++)
-        {
-            (list[i], list[startIndex]) = (list[startIndex], list[i]);
-
-            foreach (var permutation in list.GetPermutations(startIndex + 1))
-            {
-                yield return permutation;
-            }
-
-            (list[i], list[startIndex]) = (list[startIndex], list[i]);
-        }
-    }
-
     private static IEnumerable<T> Concat<T>(this T firstElement, IEnumerable<T> secondSequence)
     {
         yield return firstElement;
