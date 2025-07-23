@@ -3,11 +3,25 @@ using System.Diagnostics;
 
 namespace ProjectEuler.Helpers;
 
-internal class SieveOfErasthotenes : IPrimes
+/// <summary>
+/// Represents an implementation of the Sieve of Eratosthenes algorithm for generating prime numbers.
+/// </summary>
+/// <remarks>
+/// This class provides an efficient way to generate prime numbers up to a specified limit or dynamically
+/// grow the range as needed. It implements the <see cref="IPrimes"/> interface and supports enumeration of prime
+/// numbers. The sieve is initialized with a default upper limit of 1,000,000, but it can grow dynamically if larger
+/// numbers are requested.
+/// <para> The sieve uses a memory-efficient representation where odd numbers are indexed,
+/// and even numbers (except 2) are excluded from the sieve. </para>
+/// <para> This class is not thread-safe.
+/// If multiple threads need to access the same instance, synchronization is required. </para>
+/// </remarks>
+internal sealed class SieveOfErasthotenes : IPrimes
 {
     private const int Offset = 3;
 
-    // true means is composite
+    // Store odd numbers only, so we can use half the memory.
+    // true means number is composite (so not prime).
     private bool[] sieve;
 
     public SieveOfErasthotenes(int upperLimit = 1_000_000)

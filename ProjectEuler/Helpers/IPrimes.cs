@@ -8,5 +8,10 @@
 /// </remarks>
 public interface IPrimes : IEnumerable<int>
 {
+    /// <summary>
+    /// Determines whether the specified number is a prime number.
+    /// </summary>
+    /// <param name="n">The number to check. Must be a non-negative integer.</param>
+    /// <returns><see langword="true"/> if the specified number is a prime number; otherwise, <see langword="false"/>.</returns>
     bool IsPrime(int n);
 }
