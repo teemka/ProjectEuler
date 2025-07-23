@@ -1,6 +1,4 @@
-﻿using System.Buffers;
-
-namespace ProjectEuler.Problems._001_100._91_100;
+﻿namespace ProjectEuler.Problems._001_100._91_100;
 
 /// <summary>
 /// https://projecteuler.net/problem=98
@@ -25,26 +23,29 @@ public sealed class Problem098 : IProblem
             .Select(x => (x[0], x[1]))
             .ToList();
 
+        var letterAssignment = StringHelper.AlphabetUppercase.ToDictionary(x => x, _ => 0);
         var max = 0;
         foreach (var pair in pairs)
         {
-            var letters = pair.Item1.ToHashSet();
+            var letters = pair.Item1.Distinct().ToList();
             var n = letters.Count;
 
             foreach (var combination in Digits.GetCombinations(n).SelectMany(x => x.GetPermutations()))
             {
-                // TODO: Optimize the hot path
-                var assignment = combination
-                    .Zip(letters)
-                    .ToDictionary(x => x.Second, x => x.First);
+                for (var i = 0; i < n; i++)
+                {
+                    var letter = letters[i];
+                    var digit = combination[i];
+                    letterAssignment[letter] = digit;
+                }
 
-                var isNumber1Square = IsSquare(pair.Item1, assignment, out var number1);
+                var isNumber1Square = this.IsSquare(pair.Item1, n, letterAssignment, out var number1);
                 if (!isNumber1Square)
                 {
                     continue;
                 }
 
-                var isNumber2Square = IsSquare(pair.Item2, assignment, out var number2);
+                var isNumber2Square = this.IsSquare(pair.Item2, n, letterAssignment, out var number2);
                 if (!isNumber2Square)
                 {
                     continue;
@@ -57,22 +58,21 @@ public sealed class Problem098 : IProblem
         return max.ToString();
     }
 
-    private static bool IsSquare(string word, Dictionary<char, int> assignment, out int number)
+    private readonly int[] digitsArray = new int[9]; // longest word is 9 letters
+    private bool IsSquare(string word, int n, Dictionary<char, int> assignment, out int number)
     {
-        var array = ArrayPool<int>.Shared.Rent(assignment.Count);
-        for (var i = 0; i < assignment.Count; i++)
+        for (var i = 0; i < n; i++)
         {
-            array[i] = assignment[word[i]];
+            this.digitsArray[i] = assignment[word[i]];
         }
 
-        if (array[0] == 0)
+        if (this.digitsArray[0] == 0)
         {
-            number = 0;
+            number = 0; // leading zeroes are not permitted
             return false;
         }
 
-        number = array.ToNumberFromDigits(0, assignment.Count);
-        ArrayPool<int>.Shared.Return(array);
+        number = this.digitsArray.ToNumberFromDigits(0, n);
         var sqrt = Math.Sqrt(number);
         return double.IsInteger(sqrt);
     }
