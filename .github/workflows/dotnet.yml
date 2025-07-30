@@ -7,7 +7,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    # ubuntu 22.04 includes .NET 9 SDK
+    runs-on: ubuntu-22.04
 
     env:
       # Enable color output from .NET CLI
@@ -16,13 +17,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore -c Release
+
     - name: Test
       run: dotnet test --no-build -v normal -c Release

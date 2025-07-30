@@ -9,14 +9,12 @@ on:
 jobs:
   run-dotnet-format:
 
-    runs-on: ubuntu-latest
+    # ubuntu 22.04 includes .NET 9 SDK
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+
     - name: Run dotnet format
       uses: wearerequired/lint-action@v2
       with:
