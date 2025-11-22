@@ -1,8 +1,8 @@
 ﻿using ProjectEuler.Problems._001_100._71_80;
-using ProjectEuler.Tests.Helpers;
 
 namespace ProjectEuler.Tests.Problems._001_100._71_80;
 
+[InheritsTests]
 public class Problem072Tests : ProblemTestBase
 {
     private static readonly int[] A000010 = [1, 1, 2, 2, 4, 2, 6, 4, 6, 4];
@@ -12,35 +12,35 @@ public class Problem072Tests : ProblemTestBase
 
     protected override string Answer => "303963552391";
 
-    [Theory]
-    [InlineData("8", "21")] // example
-    [InlineData("9", "27")]
+    [Test]
+    [Arguments("8", "21")] // example
+    [Arguments("9", "27")]
     public async Task Should_Calculate(string arg, string expected)
     {
         var result = await this.Problem.CalculateAsync([arg]);
 
-        Assert.Equal(expected, result);
+        await Assert.That(result).IsEqualTo(expected);
     }
 
-    public static readonly TheoryData<int, int> Eulers = A000010.Select((x, i) => (i + 1, x)).ToTheoryData();
+    public static IEnumerable<(int, int)> Eulers() => A000010.Select((x, i) => (i + 1, x));
 
-    [Theory]
-    [MemberData(nameof(Eulers))]
-    public void Should_CalculateEuler(int n, int expected)
+    [Test]
+    [MethodDataSource(nameof(Eulers))]
+    public async Task Should_CalculateEuler(int n, int expected)
     {
         var result = Problem072.EulersTotient(n);
 
-        Assert.Equal(expected, result);
+        await Assert.That(result).IsEqualTo(expected);
     }
 
-    public static readonly TheoryData<int, int> Phis = A005728.Select((x, i) => (i, x)).ToTheoryData();
+    public static IEnumerable<(int, int)> Phis() => A005728.Select((x, i) => (i, x));
 
-    [Theory]
-    [MemberData(nameof(Phis))]
-    public void Should_CalculatePhi(int n, int expected)
+    [Test]
+    [MethodDataSource(nameof(Phis))]
+    public async Task Should_CalculatePhi(int n, int expected)
     {
         var result = Problem072.Phi(n);
 
-        Assert.Equal(expected, result);
+        await Assert.That(result).IsEqualTo(expected);
     }
 }

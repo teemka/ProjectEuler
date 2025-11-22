@@ -1,5 +1,5 @@
 rm -rf Coverage
-rm -rf ProjectEuler.Tests/TestResults
-dotnet test -v normal -c Release --collect:"XPlat Code Coverage"
-reportgenerator -reports:ProjectEuler.Tests/TestResults/**/coverage.cobertura.xml -targetdir:Coverage
+rm -rf ProjectEuler.Tests/bin/Release/net10.0/TestResults
+dotnet run --project ProjectEuler.Tests -c Release --coverage --coverage-output-format xml
+reportgenerator -reports:ProjectEuler.Tests/bin/Release/net10.0/TestResults/*.xml -targetdir:Coverage
 start Coverage/index.html

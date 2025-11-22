@@ -2,18 +2,19 @@
 
 namespace ProjectEuler.Tests.Problems._701_800._721_730;
 
+[InheritsTests]
 public class Problem719Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem719();
 
     protected override string Answer => "128088830547982";
 
-    [Theory]
-    [InlineData(81)]
-    [InlineData(6724)]
-    [InlineData(8281)]
-    [InlineData(9801)]
-    public void Should_Split_ReturnTrue(long number)
+    [Test]
+    [Arguments(81)]
+    [Arguments(6724)]
+    [Arguments(8281)]
+    [Arguments(9801)]
+    public async Task Should_Split_ReturnTrue(long number)
     {
         // Arrange
         var sqrt = (long)Math.Sqrt(number);
@@ -22,12 +23,12 @@ public class Problem719Tests : ProblemTestBase
         var result = Problem719.TrySplit(sqrt, number);
 
         // Assert
-        Assert.True(result);
+        await Assert.That(result).IsTrue();
     }
 
-    [Theory]
-    [InlineData(64)]
-    public void Should_Split_ReturnFalse(long number)
+    [Test]
+    [Arguments(64)]
+    public async Task Should_Split_ReturnFalse(long number)
     {
         // Arrange
         var sqrt = (long)Math.Sqrt(number);
@@ -36,10 +37,10 @@ public class Problem719Tests : ProblemTestBase
         var result = Problem719.TrySplit(sqrt, number);
 
         // Assert
-        Assert.False(result);
+        await Assert.That(result).IsFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task Should_SolveExample()
     {
         // Arrange
@@ -49,6 +50,6 @@ public class Problem719Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        Assert.Equal("41333", result);
+        await Assert.That(result).IsEqualTo("41333");
     }
 }

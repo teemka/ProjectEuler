@@ -2,15 +2,16 @@
 
 namespace ProjectEuler.Tests.Problems._001_100._51_60;
 
+[InheritsTests]
 public class Problem051Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem051();
 
     protected override string Answer => "121313";
 
-    [Theory]
-    [InlineData("6", "13")]
-    [InlineData("7", "56003")]
+    [Test]
+    [Arguments("6", "13")]
+    [Arguments("7", "56003")]
     public async Task Should_SolveExamples(string target, string expected)
     {
         // Arrange
@@ -20,11 +21,11 @@ public class Problem051Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        Assert.Equal(expected, result);
+        await Assert.That(result).IsEqualTo(expected);
     }
 
-    [Fact]
-    public void Should_GenerateWildcards_2Digits()
+    [Test]
+    public async Task Should_GenerateWildcards_2Digits()
     {
         // Arrange
         var prime = "13";
@@ -34,11 +35,11 @@ public class Problem051Tests : ProblemTestBase
         var wildcards = Problem051.MakeWildcards(prime).ToHashSet();
 
         // Assert
-        Assert.Equal(expected, wildcards);
+        await Assert.That(wildcards).IsEquivalentTo(expected);
     }
 
-    [Fact]
-    public void Should_GenerateWildcards_3Digits()
+    [Test]
+    public async Task Should_GenerateWildcards_3Digits()
     {
         // Arrange
         var prime = "123";
@@ -48,6 +49,6 @@ public class Problem051Tests : ProblemTestBase
         var wildcards = Problem051.MakeWildcards(prime).ToHashSet();
 
         // Assert
-        Assert.Equal(expected, wildcards);
+        await Assert.That(wildcards).IsEquivalentTo(expected);
     }
 }

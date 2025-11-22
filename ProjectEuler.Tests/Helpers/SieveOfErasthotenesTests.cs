@@ -1,11 +1,12 @@
 ﻿using ProjectEuler.Helpers;
+using System.Threading.Tasks;
 
 namespace ProjectEuler.Tests.Helpers;
 
 public class SieveOfErasthotenesTests
 {
-    [Fact]
-    public void Should_CalculatePrimes()
+    [Test]
+    public async Task Should_CalculatePrimes()
     {
         // Arrange
         var sieve = new SieveOfErasthotenes(1_000_000);
@@ -14,21 +15,21 @@ public class SieveOfErasthotenesTests
         var primes = sieve.Take(78498).ToArray();
 
         // Assert
-        Assert.Equal(78498, primes.Length);
-        Assert.Equal(2, primes[0]);
-        Assert.Equal(999983, primes[78497]);
+        await Assert.That(primes.Length).IsEqualTo(78498);
+        await Assert.That(primes[0]).IsEqualTo(2);
+        await Assert.That(primes[78497]).IsEqualTo(999983);
 
-        Assert.True(sieve.IsPrime(2));
-        Assert.True(sieve.IsPrime(3));
-        Assert.False(sieve.IsPrime(4));
-        Assert.True(sieve.IsPrime(5));
-        Assert.False(sieve.IsPrime(6));
-        Assert.True(sieve.IsPrime(7));
-        Assert.True(sieve.IsPrime(999983));
+        await Assert.That(sieve.IsPrime(2)).IsTrue();
+        await Assert.That(sieve.IsPrime(3)).IsTrue();
+        await Assert.That(sieve.IsPrime(4)).IsFalse();
+        await Assert.That(sieve.IsPrime(5)).IsTrue();
+        await Assert.That(sieve.IsPrime(6)).IsFalse();
+        await Assert.That(sieve.IsPrime(7)).IsTrue();
+        await Assert.That(sieve.IsPrime(999983)).IsTrue();
     }
 
-    [Fact]
-    public void Should_Grow()
+    [Test]
+    public async Task Should_Grow()
     {
         // Arrange
         var sieve = new SieveOfErasthotenes(1_000_000);
@@ -37,8 +38,8 @@ public class SieveOfErasthotenesTests
         var primes = sieve.Take(148933).ToArray();
 
         // Assert
-        Assert.Equal(148933, primes.Length);
-        Assert.Equal(1000003, primes[78498]);
-        Assert.Equal(1999993, primes[148932]);
+        await Assert.That(primes.Length).IsEqualTo(148933);
+        await Assert.That(primes[78498]).IsEqualTo(1000003);
+        await Assert.That(primes[148932]).IsEqualTo(1999993);
     }
 }

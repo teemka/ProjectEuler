@@ -2,13 +2,14 @@
 
 namespace ProjectEuler.Tests.Problems._001_100._61_70;
 
+[InheritsTests]
 public class Problem069Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem069();
 
     protected override string Answer => "510510";
 
-    [Fact]
+    [Test]
     public async Task Should_SolveExample()
     {
         // Arrange
@@ -18,6 +19,6 @@ public class Problem069Tests : ProblemTestBase
         var result = await this.Problem.CalculateAsync(args);
 
         // Assert
-        Assert.Equal("6", result);
+        await Assert.That(result).IsEqualTo("6");
     }
 }
