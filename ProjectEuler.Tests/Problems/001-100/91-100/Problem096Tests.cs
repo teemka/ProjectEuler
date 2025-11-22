@@ -3,14 +3,15 @@ using ProjectEuler.Problems._001_100._91_100;
 
 namespace ProjectEuler.Tests.Problems._001_100._91_100;
 
+[InheritsTests]
 public class Problem096Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem096();
 
     protected override string Answer => "24702";
 
-    [Fact]
-    public void Should_SolveSudoku1()
+    [Test]
+    public async Task Should_SolveSudoku1()
     {
         // Arrange
         var unsolved = """
@@ -45,11 +46,11 @@ public class Problem096Tests : ProblemTestBase
             695417382
             """;
 
-        Assert.Equal(solved, actual);
+        await Assert.That(actual).IsEquivalentTo(solved);
     }
 
-    [Fact]
-    public void Should_SolveSudoku2()
+    [Test]
+    public async Task Should_SolveSudoku2()
     {
         // Arrange
         var unsolved = """
@@ -84,6 +85,6 @@ public class Problem096Tests : ProblemTestBase
             654812793
             """;
 
-        Assert.Equal(solved, actual);
+        await Assert.That(actual).IsEquivalentTo(solved);
     }
 }

@@ -6,13 +6,13 @@ public abstract class ProblemTestBase
 
     protected abstract string Answer { get; }
 
-    [Fact]
+    [Test]
     public async Task Should_Solve()
     {
         // Act
         var result = await this.Problem.CalculateAsync([]);
 
         // Assert
-        Assert.Equal(this.Answer, result);
+        await Assert.That(result).IsEquivalentTo(this.Answer);
     }
 }

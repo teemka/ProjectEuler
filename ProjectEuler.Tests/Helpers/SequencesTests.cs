@@ -4,51 +4,51 @@ namespace ProjectEuler.Tests.Helpers;
 
 public class SequencesTests
 {
-    [Fact]
-    public void Should_GetFirst5TriangleNumbers()
+    [Test]
+    public async Task Should_GetFirst5TriangleNumbers()
     {
         var triangleNumbers = Sequences.TriangleNumbers().Take(5).ToArray();
 
-        Assert.Equal([1, 3, 6, 10, 15], triangleNumbers);
+        await Assert.That(triangleNumbers).IsEquivalentTo([1L, 3, 6, 10, 15]);
     }
 
-    [Fact]
-    public void Should_GetFirstSquareNumbers()
+    [Test]
+    public async Task Should_GetFirstSquareNumbers()
     {
         var squareNumbers = Sequences.SquareNumbers().Take(5).ToArray();
 
-        Assert.Equal([1, 4, 9, 16, 25], squareNumbers);
+        await Assert.That(squareNumbers).IsEquivalentTo([1L, 4, 9, 16, 25]);
     }
 
-    [Fact]
-    public void Should_GetFirst10PentagonalNumbers()
+    [Test]
+    public async Task Should_GetFirst10PentagonalNumbers()
     {
         var pentagonalNumbers = Sequences.PentagonalNumbers().Take(10).ToArray();
 
-        Assert.Equal([1, 5, 12, 22, 35, 51, 70, 92, 117, 145], pentagonalNumbers);
+        await Assert.That(pentagonalNumbers).IsEquivalentTo([1L, 5, 12, 22, 35, 51, 70, 92, 117, 145]);
     }
 
-    [Fact]
-    public void Should_GetFirst5HexagonalNumbers()
+    [Test]
+    public async Task Should_GetFirst5HexagonalNumbers()
     {
         var hexagonalNumbers = Sequences.HexagonalNumbers().Take(5).ToArray();
 
-        Assert.Equal([1, 6, 15, 28, 45], hexagonalNumbers);
+        await Assert.That(hexagonalNumbers).IsEquivalentTo([1L, 6, 15, 28, 45]);
     }
 
-    [Fact]
-    public void Should_GetFirst5HeptagonalNumbers()
+    [Test]
+    public async Task Should_GetFirst5HeptagonalNumbers()
     {
         var hexagonalNumbers = Sequences.HeptagonalNumbers().Take(5).ToArray();
 
-        Assert.Equal([1, 7, 18, 34, 55], hexagonalNumbers);
+        await Assert.That(hexagonalNumbers).IsEquivalentTo([1L, 7, 18, 34, 55]);
     }
 
-    [Fact]
-    public void Should_GetFirst5OctagonalNumbers()
+    [Test]
+    public async Task Should_GetFirst5OctagonalNumbers()
     {
         var hexagonalNumbers = Sequences.OctagonalNumbers().Take(5).ToArray();
 
-        Assert.Equal([1, 8, 21, 40, 65], hexagonalNumbers);
+        await Assert.That(hexagonalNumbers).IsEquivalentTo([1L, 8, 21, 40, 65]);
     }
 }

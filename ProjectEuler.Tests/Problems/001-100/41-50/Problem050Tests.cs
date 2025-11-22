@@ -2,21 +2,22 @@
 
 namespace ProjectEuler.Tests.Problems._001_100._41_50;
 
+[InheritsTests]
 public class Problem050Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem050();
 
     protected override string Answer => "997651";
 
-    [Theory]
-    [InlineData(100, 41)]
-    [InlineData(1000, 953)]
-    public void Should_SolveExample(int limit, int expected)
+    [Test]
+    [Arguments(100, 41)]
+    [Arguments(1000, 953)]
+    public async Task Should_SolveExample(int limit, int expected)
     {
         // Act
         var result = Problem050.MaxSum(limit);
 
         // Assert
-        Assert.Equal(expected, result);
+        await Assert.That(result).IsEqualTo(expected);
     }
 }
