@@ -1,5 +1,4 @@
 ﻿using ProjectEuler.Helpers;
-using System.Threading.Tasks;
 
 namespace ProjectEuler.Tests.Helpers;
 
