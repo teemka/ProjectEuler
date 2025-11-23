@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._1_10;
+namespace ProjectEuler.Problems._001_100._1_10;
 
 /// <summary>
 /// The sum of the squares of the first ten natural numbers is,

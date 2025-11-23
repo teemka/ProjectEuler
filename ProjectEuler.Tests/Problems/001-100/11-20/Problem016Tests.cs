@@ -1,4 +1,4 @@
-﻿using ProjectEuler.Problems._001_100._11_20;
+using ProjectEuler.Problems._001_100._11_20;
 
 namespace ProjectEuler.Tests.Problems._001_100._11_20;
 

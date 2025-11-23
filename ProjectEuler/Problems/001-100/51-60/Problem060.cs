@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._51_60;
+namespace ProjectEuler.Problems._001_100._51_60;
 
 public class Problem060 : IProblem
 {

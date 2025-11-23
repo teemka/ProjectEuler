@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Extensions;
+namespace ProjectEuler.Extensions;
 
 public static class CharExtensions
 {

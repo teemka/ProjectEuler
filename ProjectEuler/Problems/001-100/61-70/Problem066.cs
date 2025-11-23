@@ -1,4 +1,4 @@
-﻿using Fractions;
+using Fractions;
 using System.Numerics;
 
 namespace ProjectEuler.Problems._001_100._61_70;

@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._21_30;
+namespace ProjectEuler.Problems._001_100._21_30;
 
 /// <summary>
 /// Using names.txt, a 46K text file containing over five-thousand first names, begin by sorting it into alphabetical order.

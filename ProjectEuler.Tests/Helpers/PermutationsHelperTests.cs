@@ -1,4 +1,4 @@
-﻿using ProjectEuler.Helpers;
+using ProjectEuler.Helpers;
 
 namespace ProjectEuler.Tests.Helpers;
 

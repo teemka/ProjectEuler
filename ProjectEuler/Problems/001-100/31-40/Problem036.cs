@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._31_40;
+namespace ProjectEuler.Problems._001_100._31_40;
 
 /// <summary>
 /// The decimal number, 585 = 10010010012 (binary), is palindromic in both bases.

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 
 namespace ProjectEuler.Problems._101_200._181_190;
 
