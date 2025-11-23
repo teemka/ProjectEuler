@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Helpers;
+namespace ProjectEuler.Helpers;
 
 /// <summary>
 /// https://en.wikipedia.org/wiki/Kruskal's_algorithm

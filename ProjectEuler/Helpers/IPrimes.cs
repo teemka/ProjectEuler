@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Helpers;
+namespace ProjectEuler.Helpers;
 
 /// <summary>
 /// An interface to enumerate primes from the begginging

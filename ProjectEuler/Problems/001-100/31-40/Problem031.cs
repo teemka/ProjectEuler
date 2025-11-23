@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._31_40;
+namespace ProjectEuler.Problems._001_100._31_40;
 
 /// <summary>
 /// In England the currency is made up of pound, £, and pence, p, and there are eight coins in general circulation:

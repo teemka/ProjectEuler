@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._11_20;
+namespace ProjectEuler.Problems._001_100._11_20;
 
 /// <summary>
 /// How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?

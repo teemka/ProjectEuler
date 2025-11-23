@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace ProjectEuler.Problems._001_100._31_40;
 

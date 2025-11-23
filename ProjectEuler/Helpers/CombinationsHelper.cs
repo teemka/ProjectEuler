@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Helpers;
+namespace ProjectEuler.Helpers;
 
 internal static class CombinationsHelper
 {

@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._11_20;
+namespace ProjectEuler.Problems._001_100._11_20;
 
 /// <summary>
 /// The following iterative sequence is defined for the set of positive integers:

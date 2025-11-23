@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._601_700._81_90;
+namespace ProjectEuler.Problems._601_700._81_90;
 
 /// <summary>
 /// https://projecteuler.net/problem=686

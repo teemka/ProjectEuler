@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._41_50;
+namespace ProjectEuler.Problems._001_100._41_50;
 
 /// <summary>
 /// The prime 41, can be written as the sum of six consecutive primes:

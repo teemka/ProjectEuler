@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._11_20;
+namespace ProjectEuler.Problems._001_100._11_20;
 
 /// <summary>
 /// In the 20×20 grid below, four numbers along a diagonal line have been marked in red.

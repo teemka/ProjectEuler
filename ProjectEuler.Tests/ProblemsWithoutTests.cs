@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Tests;
+namespace ProjectEuler.Tests;
 
 public class ProblemsWithoutTests
 {

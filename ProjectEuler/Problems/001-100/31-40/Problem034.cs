@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._31_40;
+namespace ProjectEuler.Problems._001_100._31_40;
 
 /// <summary>
 /// 145 is a curious number, as 1! + 4! + 5! = 1 + 24 + 120 = 145.

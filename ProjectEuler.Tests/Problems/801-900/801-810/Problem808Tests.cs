@@ -1,4 +1,4 @@
-﻿using ProjectEuler.Problems._801_900._801_810;
+using ProjectEuler.Problems._801_900._801_810;
 
 namespace ProjectEuler.Tests.Problems._801_900._801_810;
 

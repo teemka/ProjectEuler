@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._41_50;
+namespace ProjectEuler.Problems._001_100._41_50;
 
 /// <summary>
 /// We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once. For example, 2143 is a 4-digit pandigital and is also prime.

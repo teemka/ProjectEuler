@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._41_50;
+namespace ProjectEuler.Problems._001_100._41_50;
 
 /// <summary>
 /// The series, 1^1 + 2^2 + 3^3 + ... + 10^10 = 10405071317.

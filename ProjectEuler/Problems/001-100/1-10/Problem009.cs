@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._1_10;
+namespace ProjectEuler.Problems._001_100._1_10;
 
 /// <summary>
 /// A Pythagorean triplet is a set of three natural numbers, a &lt; b &lt; c, for which,

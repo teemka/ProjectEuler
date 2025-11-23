@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 
 namespace ProjectEuler.Problems._101_200._111_120;
 

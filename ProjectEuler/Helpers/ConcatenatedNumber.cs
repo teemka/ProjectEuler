@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Helpers;
+namespace ProjectEuler.Helpers;
 
 public readonly struct ConcatenatedNumber(int left, int right)
 {

@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._21_30;
+namespace ProjectEuler.Problems._001_100._21_30;
 
 /// <summary>
 /// A unit fraction contains 1 in the numerator. The decimal representation of the unit fractions with denominators 2 to 10 are given:

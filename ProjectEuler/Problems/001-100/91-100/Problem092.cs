@@ -1,4 +1,4 @@
-﻿namespace ProjectEuler.Problems._001_100._91_100;
+namespace ProjectEuler.Problems._001_100._91_100;
 
 /// <summary>
 /// https://projecteuler.net/problem=92

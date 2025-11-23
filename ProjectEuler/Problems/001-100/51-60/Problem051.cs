@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace ProjectEuler.Problems._001_100._51_60;
 
