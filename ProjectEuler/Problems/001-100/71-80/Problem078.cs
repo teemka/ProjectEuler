@@ -5,30 +5,46 @@ namespace ProjectEuler.Problems._001_100._71_80;
 /// </summary>
 public class Problem078 : IProblem
 {
+    private readonly List<int> p = [1];
+
     public Task<string> CalculateAsync(string[] args)
     {
-        const int range = 56_000;
         const int million = 1_000_000;
-        var output = 0;
 
-        var table = new int[range + 1];
-        table[0] = 1;
-        for (var i = 0; i < range - 1; i++)
+        // Use partition function recurrence relation
+        for (var n = 1; ; n++)
         {
-            var i1 = i + 1;
-            for (var j = i1; j <= range; j++)
+            var sum = 0;
+            for (var k = 1; ; k++)
             {
-                table[j] %= million;
-                table[j] += table[j - i1] % million;
+                var sign = int.IsEvenInteger(k) ? -1 : 1;
+
+                var g = k * (3 * k - 1) / 2;
+
+                if (g > n)
+                {
+                    break;
+                }
+
+                sum += sign * this.p[n - g];
+
+                g = k * (3 * k + 1) / 2;
+
+                if (g > n)
+                {
+                    break;
+                }
+
+                sum += sign * this.p[n - g];
             }
 
-            if (table[i] % million == 0)
+            sum %= million;
+            if (sum == 0)
             {
-                output = i;
-                break;
+                return Task.FromResult(n.ToString());
             }
+
+            this.p.Add(sum);
         }
-
-        return Task.FromResult(output.ToString());
     }
 }
