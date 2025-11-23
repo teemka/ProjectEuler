@@ -46,7 +46,7 @@ public class Problem096Tests : ProblemTestBase
             695417382
             """;
 
-        await Assert.That(actual).IsEquivalentTo(solved);
+        await Assert.That(actual).IsEqualTo(solved);
     }
 
     [Test]
@@ -85,6 +85,6 @@ public class Problem096Tests : ProblemTestBase
             654812793
             """;
 
-        await Assert.That(actual).IsEquivalentTo(solved);
+        await Assert.That(actual).IsEqualTo(solved);
     }
 }

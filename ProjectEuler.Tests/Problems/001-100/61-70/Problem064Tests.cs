@@ -1,4 +1,5 @@
 using ProjectEuler.Problems._001_100._61_70;
+using TUnit.Assertions.Enums;
 
 namespace ProjectEuler.Tests.Problems._001_100._61_70;
 
@@ -28,6 +29,6 @@ public class Problem064Tests : ProblemTestBase
 
         // Assert
         await Assert.That(firstInteger).IsEqualTo(expectedFirstInteger);
-        await Assert.That(period).IsEquivalentTo(expectedPeriod);
+        await Assert.That(period).IsEquivalentTo(expectedPeriod, CollectionOrdering.Matching);
     }
 }

@@ -1,4 +1,5 @@
 using ProjectEuler.Helpers;
+using TUnit.Assertions.Enums;
 
 namespace ProjectEuler.Tests.Helpers;
 
@@ -13,7 +14,7 @@ public class NumberHelperTests
         var divisors = NumberHelper.ProperDivisors(number).Order().ToArray();
 
         // Assert
-        await Assert.That(divisors).IsEquivalentTo(expected);
+        await Assert.That(divisors).IsEquivalentTo(expected, CollectionOrdering.Matching);
     }
 
     [Test]
