@@ -1,4 +1,5 @@
 using ProjectEuler.Extensions;
+using TUnit.Assertions.Enums;
 
 namespace ProjectEuler.Tests.Extensions;
 
@@ -19,7 +20,7 @@ public class EnumerableExtensionsTests
             "321",
         ];
 
-        await Assert.That(permutations).IsEquivalentTo(expected);
+        await Assert.That(permutations).IsEquivalentTo(expected, CollectionOrdering.Matching);
     }
 
     [Test]
