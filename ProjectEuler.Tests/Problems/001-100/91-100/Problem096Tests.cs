@@ -11,6 +11,16 @@ public class Problem096Tests : ProblemTestBase
     protected override string Answer => "24702";
 
     [Test]
+    public async Task Should_SolveWithInduction()
+    {
+        var sudokus = await Problem096.ParseData();
+
+        var result = sudokus.Select(x => new SudokuInductionSolver(x).TrySolve());
+
+        await Assert.That(result).Count(x => x).IsEqualTo(41);
+    }
+
+    [Test]
     public async Task Should_SolveSudoku1()
     {
         // Arrange
@@ -29,9 +39,10 @@ public class Problem096Tests : ProblemTestBase
         var sudoku = Sudoku.Parse(unsolved);
 
         // Act
-        sudoku.Solve();
+        var result = new SudokuInductionSolver(sudoku).TrySolve();
 
         // Assert
+        await Assert.That(result).IsTrue();
         var actual = sudoku.ToString();
 
         var solved = """
@@ -68,7 +79,7 @@ public class Problem096Tests : ProblemTestBase
         var sudoku = Sudoku.Parse(unsolved);
 
         // Act
-        sudoku.Solve();
+        new SudokuBacktrackingSolver(sudoku).Solve();
 
         // Assert
         var actual = sudoku.ToString();
