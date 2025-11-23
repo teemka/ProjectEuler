@@ -2,6 +2,7 @@
 
 namespace ProjectEuler.Tests.Problems._801_900._801_810;
 
+[InheritsTests]
 public class Problem808Tests : ProblemTestBase
 {
     protected override IProblem Problem => new Problem808();
