@@ -9,31 +9,32 @@ public class Problem686 : IProblem
     {
         const int target = 678910;
 
-        var count = 0;
-        for (int i = 0; ; i++)
-        {
-            if (123 != GetFirstDigitsOfPow2(digits: 3, exponent: i))
-            {
-                continue;
-            }
+        var result = Calculate(target);
 
-            if (target != ++count)
-            {
-                continue;
-            }
-
-            return Task.FromResult(i.ToString());
-        }
+        return Task.FromResult(result.ToString());
     }
 
-    private static int GetFirstDigitsOfPow2(int digits, int exponent) =>
-        GetFirstDigitsOfPow(digits, @base: 2, exponent);
-
-    private static int GetFirstDigitsOfPow(int digits, int @base, int exponent)
+    public static int Calculate(int n)
     {
-        // Transform the number to 10^x form
-        var decimalExponent = exponent * Math.Log10(@base);
-        var fractionalPart = decimalExponent - (int)decimalExponent;
-        return (int)Math.Pow(10, digits - 1 + fractionalPart);
+        var count = 0;
+        var value = 1.0;
+        for (int i = 1; ; i++)
+        {
+            value *= 2;
+            if (value > 10)
+            {
+                value /= 10;
+            }
+
+            if (value is not >= 1.23 or not < 1.24)
+            {
+                continue;
+            }
+
+            if (n == ++count)
+            {
+                return i;
+            }
+        }
     }
 }
