@@ -110,7 +110,8 @@ public static class NumberHelper
         }
 
         long i = 5;
-        while (i * i <= n)
+        var sqrt = Math.Sqrt(n);
+        while (i <= sqrt)
         {
             if (n % i == 0 || n % (i + 2) == 0)
             {
