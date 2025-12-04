@@ -28,4 +28,23 @@ public class NumberHelperTests
         // Assert
         await Assert.That(result).IsEqualTo(expected);
     }
+
+    [Test]
+    [Arguments(2, new[] { 2 })]
+    [Arguments(3, new[] { 3 })]
+    [Arguments(4, new[] { 2 })]
+    [Arguments(6, new[] { 2, 3 })]
+    [Arguments(21, new[] { 3, 7 })]
+    [Arguments(60, new[] { 2, 3, 5 })]
+    [Arguments(72, new[] { 2, 3 })]
+    [Arguments(429, new[] { 3, 11, 13 })]
+    [Arguments(725, new[] { 5, 29 })]
+    public async Task Should_GetPrimeFactors(int number, int[] expected)
+    {
+        // Act
+        var divisors = NumberHelper.PrimeFactors(number).Order().ToArray();
+
+        // Assert
+        await Assert.That(divisors).IsEquivalentTo(expected, CollectionOrdering.Matching);
+    }
 }
