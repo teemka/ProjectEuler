@@ -38,7 +38,15 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
 
     public int GetSize(T item) => this.sizes[this.FindParent(item)];
 
-    public void Union(T x, T y)
+    /// <summary>
+    /// Union sets by size.
+    /// </summary>
+    /// <remarks>After a successful union, both elements will belong to the same set. This method does not
+    /// modify the sets if the elements are already in the same set.</remarks>
+    /// <param name="x">The first element whose set will be merged.</param>
+    /// <param name="y">The second element whose set will be merged.</param>
+    /// <returns>true if the sets were merged; otherwise, false if both elements were already in the same set.</returns>
+    public bool Union(T x, T y)
     {
         // Replace nodes by roots
         x = this.FindParent(x);
@@ -47,7 +55,7 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
         // x and y are already in the same set
         if (EqualityComparer<T>.Default.Equals(x, y))
         {
-            return;
+            return false;
         }
 
         // If necessary, rename variables to ensure that
@@ -62,6 +70,8 @@ public class DisjointSet<T> : IReadOnlyCollection<T>
 
         // Update the size of x
         this.sizes[x] += this.sizes[y];
+
+        return true;
     }
 
     public IEnumerator<T> GetEnumerator() => this.sizes.Keys.GetEnumerator();

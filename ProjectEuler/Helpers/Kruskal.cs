@@ -24,10 +24,9 @@ public static class Kruskal
 
         foreach (var edge in edges)
         {
-            if (trees.FindParent(edge.V1) != trees.FindParent(edge.V2))
+            if (trees.Union(edge.V1, edge.V2))
             {
                 output.Add(edge);
-                trees.Union(trees.FindParent(edge.V1), trees.FindParent(edge.V2));
             }
         }
 
