@@ -17,7 +17,7 @@ public class Problem096Tests : ProblemTestBase
 
         var result = sudokus.Select(x => new SudokuInductionSolver(x).TrySolve());
 
-        await Assert.That(result).Count(x => x).IsEqualTo(41);
+        await Assert.That(result).Count(x => x.IsTrue()).IsEqualTo(41);
     }
 
     [Test]
