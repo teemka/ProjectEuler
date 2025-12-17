@@ -9,17 +9,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      # Enable color output from .NET CLI
-      DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: true
-      TERM: xterm
-
     steps:
     - uses: actions/checkout@v6
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: 10.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
