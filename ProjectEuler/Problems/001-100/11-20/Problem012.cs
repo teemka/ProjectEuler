@@ -23,13 +23,8 @@ public class Problem012 : IProblem
     {
         long i = 1;
         var sum = i;
-        while (true)
+        while (sum.Divisors().Count() <= 500)
         {
-            if (sum.Divisors().Count() > 500)
-            {
-                break;
-            }
-
             i++;
             sum += i;
         }

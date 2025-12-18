@@ -19,6 +19,6 @@ public class Problem042 : IProblem
 
     private static int CalculateAlphabeticalSumUppercase(string word)
     {
-        return word.Select(c => c.ToAlphabeticalPositionUppercase()).Sum();
+        return word.Sum(c => c.ToAlphabeticalPositionUppercase());
     }
 }

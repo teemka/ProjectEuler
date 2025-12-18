@@ -25,7 +25,7 @@ public class Problem186 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         var count = 0;
-        while (true)
+        do
         {
             var caller = this.lfg.Next();
             var called = this.lfg.Next();
@@ -38,12 +38,8 @@ public class Problem186 : IProblem
 
             count++;
             this.network.Union(caller, called);
-
-            if (this.network.GetSize(PMNumber) / (double)NetworkSize >= 0.99)
-            {
-                break;
-            }
         }
+        while (this.network.GetSize(PMNumber) / (double)NetworkSize < 0.99);
 
         return Task.FromResult(count.ToString());
     }

@@ -24,7 +24,7 @@ public class Problem096Tests : ProblemTestBase
     public async Task Should_SolveSudoku1()
     {
         // Arrange
-        var unsolved = """
+        const string unsolved = """
             003020600
             900305001
             001806400
@@ -45,7 +45,7 @@ public class Problem096Tests : ProblemTestBase
         await Assert.That(result).IsTrue();
         var actual = sudoku.ToString();
 
-        var solved = """
+        const string solved = """
             483921657
             967345821
             251876493
@@ -64,7 +64,7 @@ public class Problem096Tests : ProblemTestBase
     public async Task Should_SolveSudoku2()
     {
         // Arrange
-        var unsolved = """
+        const string unsolved = """
             200080300
             060070084
             030500209
@@ -84,7 +84,7 @@ public class Problem096Tests : ProblemTestBase
         // Assert
         var actual = sudoku.ToString();
 
-        var solved = """
+        const string solved = """
             245981376
             169273584
             837564219

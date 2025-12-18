@@ -18,7 +18,7 @@ if (args[0] == "--all")
 {
     await Parallel.ForEachAsync(
         sp.GetServices<IProblem>(),
-        async (p, ct) => await ExecuteProblem(p));
+        async (p, _) => await ExecuteProblem(p));
 
     return;
 }

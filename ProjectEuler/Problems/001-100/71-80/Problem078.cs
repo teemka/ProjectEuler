@@ -19,7 +19,7 @@ public class Problem078 : IProblem
             {
                 var sign = int.IsEvenInteger(k) ? -1 : 1;
 
-                var g = k * (3 * k - 1) / 2;
+                var g = k * ((3 * k) - 1) / 2;
 
                 if (g > n)
                 {
@@ -28,7 +28,7 @@ public class Problem078 : IProblem
 
                 sum += sign * this.p[n - g];
 
-                g = k * (3 * k + 1) / 2;
+                g = k * ((3 * k) + 1) / 2;
 
                 if (g > n)
                 {

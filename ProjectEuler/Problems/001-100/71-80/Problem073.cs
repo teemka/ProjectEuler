@@ -18,7 +18,7 @@ internal class Problem073 : IProblem
         // Use Farey Sequence
         for (var denominator = 3; denominator <= size; denominator++)
         {
-            for (var numerator = denominator / 3 + 1; numerator <= denominator / 2; numerator++)
+            for (var numerator = (denominator / 3) + 1; numerator <= denominator / 2; numerator++)
             {
                 if (NumberHelper.GCD(numerator, denominator) == 1)
                 {

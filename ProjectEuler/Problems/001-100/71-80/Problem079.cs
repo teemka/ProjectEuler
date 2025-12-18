@@ -11,7 +11,7 @@ public class Problem079 : IProblem
         var textFile = await File.ReadAllTextAsync("Problems/001-100/71-80/Problem079_keylog.txt");
         var entries = textFile.Split("\n", StringSplitOptions.RemoveEmptyEntries);
         var digits = entries.SelectMany(x => x).Distinct();
-        var values = digits.ToDictionary(x => x, x => (int?)null);
+        var values = digits.ToDictionary(x => x, _ => (int?)null);
         foreach (var entry in entries)
         {
             var pairs = entry.Zip(entry.Skip(1));
