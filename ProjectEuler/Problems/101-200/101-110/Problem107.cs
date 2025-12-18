@@ -8,7 +8,7 @@ public class Problem107 : IProblem
 {
     public static int Solve(string[] lines)
     {
-        var vertices = lines.Select(x => new Kruskal.Vertex()).ToArray();
+        var vertices = lines.Select(_ => new Kruskal.Vertex()).ToArray();
 
         for (var i = 0; i < lines.Length; i++)
         {

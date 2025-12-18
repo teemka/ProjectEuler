@@ -68,13 +68,11 @@ public static class ArrayHelper
         }
 
         var vector = new int[Math.Min(height - j, length - i)];
-        var k = 0;
-        while (i < length && j < height)
+        for (var k = 0; i < length && j < height; k++)
         {
             vector[k] = array[j, i];
             i++;
             j++;
-            k++;
         }
 
         return vector;
@@ -108,13 +106,11 @@ public static class ArrayHelper
         }
 
         var vector = new int[Math.Min(heigth - j, i + 1)];
-        var k = 0;
-        while (i >= 0 && j < heigth)
+        for (var k = 0; i >= 0 && j < heigth; k++)
         {
             vector[k] = array[j, i];
             i--;
             j++;
-            k++;
         }
 
         return vector;

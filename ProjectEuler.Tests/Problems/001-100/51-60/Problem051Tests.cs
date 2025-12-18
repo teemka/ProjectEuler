@@ -28,7 +28,7 @@ public class Problem051Tests : ProblemTestBase
     public async Task Should_GenerateWildcards_2Digits()
     {
         // Arrange
-        var prime = "13";
+        const string prime = "13";
         HashSet<string> expected = ["*3", "1*", "**"];
 
         // Act
@@ -42,7 +42,7 @@ public class Problem051Tests : ProblemTestBase
     public async Task Should_GenerateWildcards_3Digits()
     {
         // Arrange
-        var prime = "123";
+        const string prime = "123";
         HashSet<string> expected = ["*23", "**3", "1*3", "*2*", "1**", "12*", "***"];
 
         // Act

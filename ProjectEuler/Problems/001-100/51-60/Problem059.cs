@@ -37,12 +37,12 @@ public partial class Problem059(ILogger<Problem059> logger) : IProblem
 
         this.logger.LogInformation("The password is '{Password}'", password);
 
-        return text.Select(x => (int)x).Sum().ToString();
+        return text.Sum(x => x).ToString();
     }
 
     private static IEnumerable<string> PossiblePasswords()
     {
-        var alphabet = StringHelper.AlphabetLowercase;
+        const string alphabet = StringHelper.AlphabetLowercase;
         foreach (var i in alphabet)
         {
             foreach (var j in alphabet)

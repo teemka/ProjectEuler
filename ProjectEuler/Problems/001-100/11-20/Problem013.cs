@@ -114,8 +114,7 @@ public class Problem013 : IProblem
         var numbers = input.Split(Environment.NewLine);
         var sumOfFirstTenDigits = numbers
             .Select(x => x[..11])
-            .Select(long.Parse)
-            .Sum();
+            .Sum(long.Parse);
 
         var firstTenDigits = sumOfFirstTenDigits.ToString()[..10];
         return Task.FromResult(firstTenDigits);

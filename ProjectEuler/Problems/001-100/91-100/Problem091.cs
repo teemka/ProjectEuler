@@ -38,9 +38,9 @@ public class Problem091 : IProblem
 
                         // Calculate the lengths of the sides of the triangle
                         // Skip square root (they will be squared later)
-                        var a = y1 * y1 + x1 * x1; // simplified from zero
-                        var b = y2 * y2 + x2 * x2; // simplified from zero
-                        var c = (y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1);
+                        var a = (y1 * y1) + (x1 * x1); // simplified from zero
+                        var b = (y2 * y2) + (x2 * x2); // simplified from zero
+                        var c = ((y2 - y1) * (y2 - y1)) + ((x2 - x1) * (x2 - x1));
 
                         // Ensure a <= b <= c
                         if (a > b)

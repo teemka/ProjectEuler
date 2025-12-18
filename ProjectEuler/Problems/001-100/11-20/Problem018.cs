@@ -52,7 +52,7 @@ public class Problem018 : IProblem
         var target = vertices[^1].MinBy(x => dist[x])!;
 
         var path = Dijkstra.RecreatePath(prev, target).Reverse();
-        var distance = path.Select(x => 100 - x.Value).Sum();
+        var distance = path.Sum(x => 100 - x.Value);
 
         return distance.ToString();
     }

@@ -11,7 +11,7 @@ public class Problem017 : IProblem
     public Task<string> CalculateAsync(string[] args)
     {
         var names = Enumerable.Range(1, 1000).Select(PrintNumber);
-        var sum = names.Select(x => x.Replace(" ", string.Empty).Replace("-", string.Empty).Length).Sum();
+        var sum = names.Sum(x => x.Replace(" ", string.Empty).Replace("-", string.Empty).Length);
         return Task.FromResult(sum.ToString());
     }
 

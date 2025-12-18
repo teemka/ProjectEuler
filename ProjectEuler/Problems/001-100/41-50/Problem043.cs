@@ -26,8 +26,7 @@ public class Problem043 : IProblem
             .ToList()
             .GetPermutations()
             .Where(HasThisProperty)
-            .Select(x => x.ToNumberFromDigits())
-            .Sum();
+            .Sum(x => x.ToNumberFromDigits());
 
         return Task.FromResult(sum.ToString());
     }

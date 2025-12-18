@@ -58,9 +58,9 @@ public class Problem075 : IProblem
     private static int CalculateRightTrianglePerimeter(int m, int n)
     {
         // Euclid's formula
-        var a = m * m - n * n;
+        var a = (m * m) - (n * n);
         var b = 2 * m * n;
-        var c = m * m + n * n;
+        var c = (m * m) + (n * n);
 
         return a + b + c;
     }

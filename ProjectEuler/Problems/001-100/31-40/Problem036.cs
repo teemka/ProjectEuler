@@ -13,8 +13,7 @@ public class Problem036 : IProblem
     {
         var sum = Enumerable.Range(1, 999_999)
             .Where(x => x.IsPalindrome() && Convert.ToString(x, 2).IsPalindrome())
-            .Select(x => (long)x)
-            .Sum();
+            .Sum(x => (long)x);
 
         return Task.FromResult(sum.ToString());
     }

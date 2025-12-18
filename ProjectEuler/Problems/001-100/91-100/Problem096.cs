@@ -169,8 +169,8 @@ public class SudokuInductionSolver
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    var row = i + sqRow * 3;
-                    var col = j + sqCol * 3;
+                    var row = i + (sqRow * 3);
+                    var col = j + (sqCol * 3);
                     var value = this.Sudoku.Grid[row][col];
                     if (value != 0)
                     {
@@ -271,8 +271,8 @@ public class SudokuInductionSolver
             this.countsSquare.Clear();
             for (int innerSqure = 0; innerSqure < 9; innerSqure++)
             {
-                var row = (square / 3) * 3 + innerSqure / 3;
-                var col = (square % 3) * 3 + innerSqure % 3;
+                var row = (square / 3 * 3) + (innerSqure / 3);
+                var col = (square % 3 * 3) + (innerSqure % 3);
                 foreach (var possibleNumber in this.possibleNumbers[row][col])
                 {
                     if (!this.countsSquare.TryAdd(possibleNumber, 1))
@@ -298,8 +298,8 @@ public class SudokuInductionSolver
 
             for (int innerSqure = 0; innerSqure < 9; innerSqure++)
             {
-                var row = (square / 3) * 3 + innerSqure / 3;
-                var col = (square % 3) * 3 + innerSqure % 3;
+                var row = (square / 3 * 3) + (innerSqure / 3);
+                var col = (square % 3 * 3) + (innerSqure % 3);
                 if (!this.possibleNumbers[row][col].Contains(found))
                 {
                     continue;
@@ -337,8 +337,8 @@ public class SudokuInductionSolver
         var sqCol = col / 3;
         for (int cell = 0; cell < 9; cell++)
         {
-            var cellRow = sqRow * 3 + cell / 3;
-            var cellCol = sqCol * 3 + cell % 3;
+            var cellRow = (sqRow * 3) + (cell / 3);
+            var cellCol = (sqCol * 3) + (cell % 3);
             this.possibleNumbers[cellRow][cellCol].Remove(number);
         }
     }
@@ -361,13 +361,13 @@ public class SudokuInductionSolver
         var (firstRow, firstCol) = this.taken[0];
         if (this.taken.All(x => x.Row == firstRow))
         {
-            var row = firstRow + sqRow * 3;
+            var row = firstRow + (sqRow * 3);
             this.inducedRows[row].TryAdd(number, (sqRow, sqCol));
         }
 
         if (this.taken.All(x => x.Col == firstCol))
         {
-            var col = firstCol + sqCol * 3;
+            var col = firstCol + (sqCol * 3);
             this.inducedColumns[col].TryAdd(number, (sqRow, sqCol));
         }
 

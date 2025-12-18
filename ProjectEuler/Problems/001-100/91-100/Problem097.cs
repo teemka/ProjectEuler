@@ -15,7 +15,7 @@ public class Problem097 : IProblem
         }
 
         x *= 28433;
-        x += 1;
+        x++;
 
         var last10digits = x.ToString()[^10..];
         return Task.FromResult(last10digits);
