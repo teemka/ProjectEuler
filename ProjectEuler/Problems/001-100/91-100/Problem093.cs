@@ -79,7 +79,7 @@ public class Problem093 : IProblem
             .Count();
     }
 
-    public static Expression GetExpression(
+    public static IExpression GetExpression(
         IList<int> digits,
         IList<ArithmeticOperation> operations,
         IList<int> order)
@@ -90,7 +90,7 @@ public class Problem093 : IProblem
 
         var expressions = digits
             .Select(x => new Literal(x))
-            .Cast<Expression>()
+            .Cast<IExpression>()
             .ToList();
 
         // Build up a tree from the lowest to highest order operation
@@ -149,21 +149,21 @@ public class Problem093 : IProblem
         public override string ToString() => "/";
     }
 
-    public abstract class Expression
+    public interface IExpression
     {
-        public abstract double Value { get; }
+        double Value { get; }
     }
 
-    private class BinaryExpression(Expression left, Expression right, ArithmeticOperation operation) : Expression
+    private sealed class BinaryExpression(IExpression left, IExpression right, ArithmeticOperation operation) : IExpression
     {
-        public override double Value => operation.Operation(left.Value, right.Value);
+        public double Value => operation.Operation(left.Value, right.Value);
 
         public override string ToString() => $"({left}{operation}{right})";
     }
 
-    private class Literal(double value) : Expression
+    private sealed class Literal(double value) : IExpression
     {
-        public override double Value { get; } = value;
+        public double Value { get; } = value;
 
         public override string ToString() => this.Value.ToString(CultureInfo.InvariantCulture);
     }

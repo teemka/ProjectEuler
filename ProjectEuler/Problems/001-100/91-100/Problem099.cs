@@ -28,7 +28,7 @@ public class Problem099 : IProblem
     /// <summary>
     /// https://www.quora.com/How-do-we-compare-numbers-with-big-exponents-and-different-bases-for-example-how-do-we-compare-3-210-and-17-140
     /// </summary>
-    private class LogExponentComparer : IComparer<(int Base, int Exponent)>
+    private sealed class LogExponentComparer : IComparer<(int Base, int Exponent)>
     {
         public int Compare((int Base, int Exponent) x, (int Base, int Exponent) y)
         {

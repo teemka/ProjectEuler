@@ -28,7 +28,7 @@ public class Problem049 : IProblem
             {
                 if (IsArithmeticProgression(perm))
                 {
-                    output.Add(perm.ToList());
+                    output.Add([.. perm]);
                 }
             }
         }

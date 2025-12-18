@@ -10,7 +10,7 @@ public class Problem055 : IProblem
 {
     public Task<string> CalculateAsync(string[] args)
     {
-        var result = Enumerable.Range(1, 10000).Where(x => IsLychrelNumber(x)).Count();
+        var result = Enumerable.Range(1, 10000).Count(x => IsLychrelNumber(x));
         return Task.FromResult(result.ToString());
     }
 

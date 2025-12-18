@@ -26,9 +26,9 @@ public class Problem061 : IProblem
         foreach (var numbers in origin.Take(lastRow).ToList().GetPermutations().Select(x => x.ToArray()))
         {
             // Init DFS
-            var discovered = new HashSet<Address2d>();
-            var stack = new Stack<Address2d>();
-            var prev = new Dictionary<Address2d, Address2d>();
+            var discovered = new HashSet<Address2D>();
+            var stack = new Stack<Address2D>();
+            var prev = new Dictionary<Address2D, Address2D>();
 
             // Add first row as sources
             for (var j = 0; j < numbers[0].Length; j++)
@@ -51,7 +51,7 @@ public class Problem061 : IProblem
                 if (i == lastRow)
                 {
                     var path = RecreatePath(prev, address).Reverse().ToArray();
-                    var sourceAddress = path.First();
+                    var sourceAddress = path[0];
                     var nextNumber = numbers[0][sourceAddress.J];
                     var left = nextNumber.ToString()[..2];
 
@@ -75,7 +75,7 @@ public class Problem061 : IProblem
                     // the left part of the next number then they are neighbours
                     if (right == left)
                     {
-                        var neighbour = new Address2d(i, j);
+                        var neighbour = new Address2D(i, j);
                         prev[neighbour] = address;
                         stack.Push(neighbour);
                     }
@@ -86,7 +86,7 @@ public class Problem061 : IProblem
         throw new Exception("Solution not found");
     }
 
-    private static IEnumerable<Address2d> RecreatePath(Dictionary<Address2d, Address2d> prev, Address2d target)
+    private static IEnumerable<Address2D> RecreatePath(Dictionary<Address2D, Address2D> prev, Address2D target)
     {
         yield return target;
         var next = target;
@@ -102,5 +102,5 @@ public class Problem061 : IProblem
         .TakeWhile(x => x < 10_000)
         .ToArray();
 
-    private readonly record struct Address2d(int I, int J);
+    private readonly record struct Address2D(int I, int J);
 }

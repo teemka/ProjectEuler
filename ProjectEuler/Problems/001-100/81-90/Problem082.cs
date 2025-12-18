@@ -65,7 +65,7 @@ public class Problem082 : IProblem
             arr[i, size - 1].Neighbours.Add(target);
         }
 
-        var (dist, prev) = Dijkstra.Calculate(graph, root);
+        var (dist, _) = Dijkstra.Calculate(graph, root);
         return dist[target].ToString();
     }
 }

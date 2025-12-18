@@ -30,12 +30,12 @@ public class Problem064 : IProblem
     internal static (int FirstInteger, IReadOnlyCollection<int> Period) SquareRootPeriod(int number)
     {
         var sqrt = Math.Sqrt(number);
-        var firstInteger = (int)Math.Floor(sqrt);
-
-        if (sqrt == firstInteger)
+        if (double.IsInteger(sqrt))
         {
-            return (firstInteger, Array.Empty<int>());
+            return ((int)sqrt, Array.Empty<int>());
         }
+
+        var firstInteger = (int)Math.Floor(sqrt);
 
         var set = new HashSet<(int Digit, int NumeratorTerm, int Denominator)>();
         var period = new List<int>();

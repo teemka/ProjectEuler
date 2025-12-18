@@ -34,9 +34,14 @@ internal class Problem096 : IProblem
     }
 }
 
-public class Sudoku(int[][] grid)
+public class Sudoku
 {
-    public int[][] Grid { get; } = grid;
+    internal Sudoku(int[][] grid)
+    {
+        this.Grid = grid;
+    }
+
+    public int[][] Grid { get; }
 
     public static Sudoku Parse(string value) => Parse(value.Split(Environment.NewLine));
 
@@ -190,22 +195,18 @@ public class SudokuInductionSolver
                         unavailable[i][j] = true;
                     }
 
-                    if (this.inducedColumns[col].TryGetValue(number, out var origin))
+                    if (this.inducedColumns[col].TryGetValue(number, out var origin) &&
+                        (origin.SqRow != sqRow || origin.SqCol != sqCol))
                     {
-                        if (origin.SqRow != sqRow || origin.SqCol != sqCol)
-                        {
-                            this.RemovePossibility(number, row, col);
-                            unavailable[i][j] = true;
-                        }
+                        this.RemovePossibility(number, row, col);
+                        unavailable[i][j] = true;
                     }
 
-                    if (this.inducedRows[row].TryGetValue(number, out var origin2))
+                    if (this.inducedRows[row].TryGetValue(number, out var origin2) &&
+                        (origin2.SqRow != sqRow || origin2.SqCol != sqCol))
                     {
-                        if (origin2.SqRow != sqRow || origin2.SqCol != sqCol)
-                        {
-                            this.RemovePossibility(number, row, col);
-                            unavailable[i][j] = true;
-                        }
+                        this.RemovePossibility(number, row, col);
+                        unavailable[i][j] = true;
                     }
                 }
             }
@@ -263,7 +264,7 @@ public class SudokuInductionSolver
     }
 
     private readonly Dictionary<int, int> countsSquare = [];
-    private bool CheckSinglePossibilitySquare()
+    private void CheckSinglePossibilitySquare()
     {
         for (int square = 0; square < 9; square++)
         {
@@ -305,11 +306,8 @@ public class SudokuInductionSolver
                 }
 
                 this.CellSolved(found, row, col);
-                return true;
             }
         }
-
-        return false;
     }
 
     private void RemovePossibility(int number, int row, int col)

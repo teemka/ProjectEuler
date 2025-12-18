@@ -13,8 +13,7 @@ public class Problem057 : IProblem
         var count = SqaureRootOfTwoFractionApproxMinus1()
             .Take(1000)
             .Select(x => Fraction.One + x)
-            .Where(x => x.Numerator.DigitCount() > x.Denominator.DigitCount())
-            .Count();
+            .Count(x => x.Numerator.DigitCount() > x.Denominator.DigitCount());
 
         return Task.FromResult(count.ToString());
     }

@@ -46,4 +46,4 @@ Console.WriteLine($"Command '{args[0]}' not known");
 
 Task ExecuteProblem(IProblem problem) => sp
     .GetRequiredService<ProblemExecutor>()
-    .CalculateProblem(args.Skip(1).ToArray(), problem);
+    .CalculateProblem(args[1..], problem);

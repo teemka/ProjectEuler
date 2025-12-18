@@ -84,21 +84,21 @@ public class Problem017 : IProblem
         }
     }
 
-    private class ThousandsInterpreter : Interpreter
+    private sealed class ThousandsInterpreter : Interpreter
     {
         protected override int Multiplier => 1000;
 
         protected override string MultiplierName => "thousand";
     }
 
-    private class HundredsInterpreter : Interpreter
+    private sealed class HundredsInterpreter : Interpreter
     {
         protected override int Multiplier => 100;
 
         protected override string MultiplierName => "hundred";
     }
 
-    private class TensInterpreter : Interpreter
+    private sealed class TensInterpreter : Interpreter
     {
         protected override int Multiplier => 10;
 
@@ -111,7 +111,8 @@ public class Problem017 : IProblem
             {
                 return; // do nothing
             }
-            else if (n <= 20)
+
+            if (n <= 20)
             {
                 context.AddTerm(NumberNames[n]);
             }
@@ -129,7 +130,7 @@ public class Problem017 : IProblem
         }
     }
 
-    private class Context(int number)
+    private sealed class Context(int number)
     {
         private readonly List<string> terms = [];
 
