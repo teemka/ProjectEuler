@@ -10,7 +10,7 @@ public class Problem047 : IProblem
     {
         var result = ConsecutiveNumbersToHaveDistinctPrimeFactors(1000, 1000000, 4, 4);
 
-        return Task.FromResult(result.First().ToString());
+        return Task.FromResult(result[0].ToString());
     }
 
     private static int[] ConsecutiveNumbersToHaveDistinctPrimeFactors(int start, int end, int consecutiveCount, int primeFactorsCount)

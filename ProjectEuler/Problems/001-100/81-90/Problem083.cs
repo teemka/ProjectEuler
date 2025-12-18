@@ -58,7 +58,7 @@ public class Problem083 : IProblem
 
         var root = arr[0, 0];
         var target = arr[size - 1, size - 1];
-        var (dist, prev) = Dijkstra.Calculate(graph, root);
+        var (dist, _) = Dijkstra.Calculate(graph, root);
 
         return dist[target].ToString();
     }

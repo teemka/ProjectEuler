@@ -25,7 +25,7 @@ public partial class Problem059(ILogger<Problem059> logger) : IProblem
         {
             var decrypted = Decrypt(encryptedText, possiblePassword);
 
-            this.logger.LogDebug("{decrypted}", decrypted);
+            this.logger.LogDebug("{Decrypted}", decrypted);
 
             if (WordsRegex().IsMatch(decrypted))
             {
@@ -35,7 +35,7 @@ public partial class Problem059(ILogger<Problem059> logger) : IProblem
             }
         }
 
-        this.logger.LogInformation("The password is '{password}'", password);
+        this.logger.LogInformation("The password is '{Password}'", password);
 
         return text.Select(x => (int)x).Sum().ToString();
     }

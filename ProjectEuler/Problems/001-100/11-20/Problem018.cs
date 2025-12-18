@@ -50,7 +50,6 @@ public class Problem018 : IProblem
         var graph = vertices.SelectMany(x => x).ToArray();
         var (dist, prev) = Dijkstra.Calculate(graph, root);
         var target = vertices[^1].MinBy(x => dist[x])!;
-        var maxDistance = dist[target];
 
         var path = Dijkstra.RecreatePath(prev, target).Reverse();
         var distance = path.Select(x => 100 - x.Value).Sum();

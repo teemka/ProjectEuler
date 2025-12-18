@@ -23,8 +23,8 @@ public class Problem054Tests : ProblemTestBase
     public async Task ShouldSolveExample(string[] player1, string[] player2, int expected)
     {
         // Arrange
-        var player1Hand = new Problem054.Hand(player1.Select(x => new Problem054.Card(x[0], x[1])).ToArray());
-        var player2Hand = new Problem054.Hand(player2.Select(x => new Problem054.Card(x[0], x[1])).ToArray());
+        var player1Hand = new Problem054.Hand([.. player1.Select(x => new Problem054.Card(x[0], x[1]))]);
+        var player2Hand = new Problem054.Hand([.. player2.Select(x => new Problem054.Card(x[0], x[1]))]);
 
         // Act
         var result = player1Hand.CompareTo(player2Hand);
@@ -42,10 +42,10 @@ public class Problem054Tests : ProblemTestBase
         var c = cards.Select(x => new Problem054.Card(x[0], x[1])).ToArray();
 
         // Act
-        var act = () => new Problem054.Hand(c);
+        Problem054.Hand Act() => new(c);
 
         // Assert
-        await Assert.That(act).ThrowsExactly<ArgumentException>();
+        await Assert.That(Act).ThrowsExactly<ArgumentException>();
 
     }
 }
