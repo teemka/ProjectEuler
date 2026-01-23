@@ -1,5 +1,4 @@
-﻿using Fractions;
-using System.Numerics;
+using Fractions;
 
 namespace ProjectEuler.Problems._001_100._91_100;
 
@@ -8,58 +7,32 @@ namespace ProjectEuler.Problems._001_100._91_100;
 /// </summary>
 public sealed class Problem100 : IProblem
 {
-    private static readonly Fraction Half = new(1, 2);
-
     public Task<string> CalculateAsync(string[] args)
     {
-        // tried until 707372877805
-        double x = 707106781186, y;
-        y = .5 * (Math.Sqrt((8 * x * x) - (8 * x) + 1) - (2 * x) + 1);
-
-        var b = (BigInteger)x; // 707106781186
-        var r = (BigInteger)y; // 292893218813
-
-        var outputs = new List<(BigInteger B, BigInteger R, Fraction P)>();
-        var lastP = Fraction.Zero;
-        while (true)
+        // Rearange the equation for P to get Pell's equation (2n - 1)^2 - 2(2b - 1)^2 = -1
+        // Substitute x = 2n - 1 and y = 2b - 1 to get x^2 - 2y^2 = -1
+        // Solve Pell's equation using continued fractions of sqrt(2) = [1;(2)]
+        for (var i = 0; ; i++)
         {
-            var p = P2(b, r);
-
-            if (p == Half)
+            var convergent = new Fraction(1, 2);
+            for (var j = 0; j < i; j++)
             {
-                outputs.Add((b, r, p));
-                break;
+                convergent += 2;
+                convergent = convergent.Reciprocal();
             }
 
-            if (p > Half)
-            {
-                b--;
-                r++;
-            }
+            convergent += 1;
 
-            if (p < Half)
-            {
-                b++;
-                r--;
-            }
+            var (x, y) = (convergent.Numerator, convergent.Denominator);
 
-            if (lastP > Half && p < Half)
-            {
-                b++;
-                lastP = p;
-            }
+            // Convert back to original variables
+            var n = (x + 1) / 2;
+            var b = (y + 1) / 2;
 
-            if (lastP < Half && p > Half)
+            if (n > 1_000_000_000_000)
             {
-                r++;
-                lastP = p;
+                return Task.FromResult(b.ToString());
             }
         }
-
-        static Fraction P2(BigInteger b, BigInteger r) => new Fraction(b, b + r) * new Fraction(b - 1, b + r - 1);
-
-        return Task.FromResult(outputs[^1].ToString());
     }
-
-    public static double P (double b, double r) => ((b * b) - b) / ((b * b) + (2 * b * r) + (r * r) - b - r);
 }
