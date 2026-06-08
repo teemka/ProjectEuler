@@ -9,7 +9,7 @@ public class Problem079 : IProblem
     public async Task<string> CalculateAsync(string[] args)
     {
         var textFile = await File.ReadAllTextAsync("Problems/001-100/71-80/Problem079_keylog.txt");
-        var entries = textFile.Split("\n", StringSplitOptions.RemoveEmptyEntries);
+        var entries = textFile.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         var digits = entries.SelectMany(x => x).Distinct();
         var values = digits.ToDictionary(x => x, _ => (int?)null);
         foreach (var entry in entries)
