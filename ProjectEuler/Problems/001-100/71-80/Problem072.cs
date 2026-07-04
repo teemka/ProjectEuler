@@ -1,5 +1,3 @@
-using Fractions;
-
 namespace ProjectEuler.Problems._001_100._71_80;
 
 /// <summary>
@@ -26,25 +24,43 @@ public class Problem072 : IProblem
     /// </summary>
     public static long Phi(int n)
     {
+        var totients = TotientSieve(n);
+
         var sum = 0L;
         for (var i = 1; i <= n; i++)
         {
-            sum += EulersTotient(i);
+            sum += totients[i];
         }
 
         return sum;
     }
 
-    public static int EulersTotient(int n)
+    /// <summary>
+    /// Euler's totient of every number in [0, n], via Euler's product formula
+    /// applied one prime at a time.
+    /// </summary>
+    public static int[] TotientSieve(int n)
     {
-        // Euler's product formula
-        var factors = n.PrimeFactors();
-        var product = new Fraction(n, 1);
-        foreach (var factor in factors)
+        var phi = new int[n + 1];
+        for (var i = 0; i <= n; i++)
         {
-            product *= Fraction.One - new Fraction(1, factor, false);
+            phi[i] = i;
         }
 
-        return product.ToInt32();
+        for (var p = 2; p <= n; p++)
+        {
+            if (phi[p] != p)
+            {
+                // p was already reduced by a smaller prime, so it is composite
+                continue;
+            }
+
+            for (var m = p; m <= n; m += p)
+            {
+                phi[m] -= phi[m] / p;
+            }
+        }
+
+        return phi;
     }
 }

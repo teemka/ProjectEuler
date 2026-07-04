@@ -28,7 +28,7 @@ public class Problem072Tests : ProblemTestBase
     [MethodDataSource(nameof(Eulers))]
     public async Task Should_CalculateEuler(int n, int expected)
     {
-        var result = Problem072.EulersTotient(n);
+        var result = Problem072.TotientSieve(A000010.Length)[n];
 
         await Assert.That(result).IsEqualTo(expected);
     }
