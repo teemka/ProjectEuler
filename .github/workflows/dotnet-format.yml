@@ -14,7 +14,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-    - name: Run dotnet format
-      uses: wearerequired/lint-action@v3
+    - uses: actions/setup-dotnet@v6
       with:
-        dotnet_format: true
+        global-json-file: global.json
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Check formatting
+      run: dotnet format --verify-no-changes
