@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
     paths:
       - '**.cs'
+      - '.github/workflows/dotnet-format.yml'
 
 jobs:
   run-dotnet-format:
